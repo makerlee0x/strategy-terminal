@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Strategy Coin Terminal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+    <rect width="120" height="120" fill="#8C857A"/>
+    <rect x="24" y="30" width="72" height="56" rx="8" fill="#F3F1EB"/>
+    <rect x="32" y="38" width="56" height="34" rx="4" fill="#A9BA9C"/>
+    <text x="60" y="61" font-family="monospace" font-size="14" fill="#1B3E2D" text-anchor="middle">$S</text>
+    <circle cx="60" cy="79" r="3" fill="#D9232E"/>
+  </svg>
+</template>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family:"ChicagoFLF";
+    src:url("https://db.onlinewebfonts.com/t/1a243397695904f6f56e490ffd77a9cb.woff2") format("woff2"),
+        url("https://db.onlinewebfonts.com/t/1a243397695904f6f56e490ffd77a9cb.woff") format("woff");
+    font-weight:400; font-style:normal; font-display:swap;
+  }
+  body { margin:0; background:#D8D7D3; font-family:"ChicagoFLF", "Anonymous Pro", ui-monospace, monospace; }
+  a { color:#D9232E; text-decoration:none; }
+  a:hover { color:#A5171F; }
+  body { --tv-noise: url('assets/tv-noise.png'); }
+  @keyframes blip { 0%,100%{opacity:1} 50%{opacity:.25} }
+  @keyframes noiseShift {
+    0%   { background-position: 0 0, 0 0, 0 0; }
+    25%  { background-position: -38px 22px, 17px -41px, 0 0; }
+    50%  { background-position: 41px -19px, -33px 28px, 0 0; }
+    75%  { background-position: -21px -35px, 44px 13px, 0 0; }
+    100% { background-position: 0 0, 0 0, 0 0; }
+  }
+  @keyframes rollBar { 0% { transform: translateY(-30%); } 100% { transform: translateY(130%); } }
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:64px 28px 88px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:0;
+  background:
+    radial-gradient(90% 60% at 50% 14%, rgba(255,250,240,.22) 0%, rgba(255,250,240,0) 60%),
+    radial-gradient(140% 110% at 50% 120%, rgba(38,33,28,.52) 0%, rgba(38,33,28,0) 62%),
+    linear-gradient(178deg, #8C857A 0%, #7E776C 48%, #6B655C 100%);">
+
+<div style="width:100%;max-width:1340px;position:relative;border-radius:30px;padding:0 30px;box-sizing:border-box;
+  background:
+    linear-gradient(105deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,0) 26%),
+    linear-gradient(176deg, #FBFAF6 0%, #F3F1EB 34%, #EAE7E0 66%, #D8D4CA 100%);
+  box-shadow:
+    inset 0 2px 1px rgba(255,255,255,.95),
+    inset 0 -14px 24px rgba(120,114,104,.28),
+    inset 14px 0 26px rgba(255,255,255,.32),
+    inset -16px 0 28px rgba(150,144,134,.24),
+    0 1px 0 rgba(255,255,255,.5),
+    0 10px 18px rgba(32,28,23,.30),
+    0 34px 64px rgba(32,28,23,.40),
+    0 80px 120px rgba(32,28,23,.34);">
+
+  <div style="position:absolute;inset:0;border-radius:30px;pointer-events:none;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.55), inset 0 0 0 2px rgba(168,162,151,.28);"></div>
+
+  <div style="position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;padding:26px 4px 20px;">
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="font-size:24px;letter-spacing:.2em;color:#4E4C46;line-height:1;text-shadow:0 1px 0 rgba(255,255,255,.8);">STRATEGY</div>
+      <div style="font-size:10px;letter-spacing:.24em;color:#605E58;">STRATEGY COIN &nbsp;/&nbsp; MODEL 4926</div>
+    </div>
+    <div style="display:flex;align-items:flex-end;gap:26px;">
+      <div style="display:flex;gap:14px;align-items:center;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#D9232E;box-shadow:0 0 6px rgba(217,35,46,.65);"></div>
+          <div style="font-size:9px;letter-spacing:.12em;color:#605E58;">RPC</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#C9C7C0;box-shadow:inset 0 1px 2px rgba(0,0,0,.35);"></div>
+          <div style="font-size:9px;letter-spacing:.12em;color:#605E58;">WALLET</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#C9C7C0;box-shadow:inset 0 1px 2px rgba(0,0,0,.35);"></div>
+          <div style="font-size:9px;letter-spacing:.12em;color:#605E58;">LP</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#D9232E;box-shadow:0 0 6px rgba(217,35,46,.65);animation:blip 2.6s infinite;"></div>
+          <div style="font-size:9px;letter-spacing:.12em;color:#605E58;">LIVE</div>
+        </div>
+      </div>
+      <div style="width:190px;height:34px;border-radius:3px;
+        background-image:radial-gradient(circle at 2px 2px, rgba(52,49,44,.62) 1.5px, rgba(52,49,44,0) 1.9px);
+        background-size:9px 9px;"></div>
+    </div>
+  </div>
+
+  <div style="position:relative;display:flex;gap:22px;align-items:stretch;">
+
+    <div style="flex:1;min-width:0;position:relative;border-radius:18px;padding:14px;box-sizing:border-box;
+      background:linear-gradient(180deg,#DEDAD2 0%, #F1EFE9 22%, #EAE7E0 100%);
+      box-shadow:
+        inset 0 3px 7px rgba(110,104,95,.42),
+        inset 0 -2px 0 rgba(255,255,255,.85),
+        0 1px 0 rgba(255,255,255,.75);">
+
+    <div style="position:relative;border-radius:10px;overflow:hidden;background:#242320;
+      box-shadow:inset 0 0 0 2px rgba(0,0,0,.55), inset 0 8px 26px rgba(0,0,0,.75), 0 1px 0 rgba(255,255,255,.6);">
+      <div style="position:relative;min-height:min(72vh,860px);overflow:hidden;padding:18px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;background:#FCFBF9;transition:filter .3s ease, opacity .2s ease;filter:brightness({{ lift }}) contrast(1.06) saturate(1.02);opacity:{{ screenOpacity }};">
+
+<div style="max-width:1180px;margin:0 auto;background:#DFDEDA;border-radius:10px;padding:16px;
+  border:1px solid #BFBEB8;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.45), inset 0 -3px 6px rgba(0,0,0,.18), 0 18px 40px rgba(0,0,0,.35);
+  background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, rgba(0,0,0,.02) 1px 3px);">
+
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:0 6px 12px;">
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div style="width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #F2F1EF, #B5B4AF);box-shadow:inset 0 0 2px rgba(0,0,0,.5);"></div>
+      <div style="font-size:9px;letter-spacing:.24em;color:#5A5852;">COIN TERMINAL MODEL 4926</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div style="font-size:9px;letter-spacing:.2em;color:#5A5852;">ROBINHOOD CHAIN</div>
+      <div style="width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #F2F1EF, #B5B4AF);box-shadow:inset 0 0 2px rgba(0,0,0,.5);"></div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:14px;align-items:stretch;">
+
+    <div style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:16px 18px;
+      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:54px;height:54px;flex:none;border-radius:8px;background:#D9232E;
+          border:1px solid #A5171F;box-shadow:inset 0 1px 0 rgba(255,255,255,.3), 0 2px 3px rgba(0,0,0,.25);
+          display:flex;align-items:center;justify-content:center;padding:7px;box-sizing:border-box;">
+          <img src="assets/strategy-logo-white.png" alt="Strategy Coin" style="width:100%;height:100%;object-fit:contain;display:block;">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:0;">
+          <div style="font-size:30px;font-weight:700;color:#26251F;letter-spacing:-.02em;line-height:1;">$STRATEGY COIN</div>
+          <div style="font-size:11px;color:#5A5852;letter-spacing:.04em;text-wrap:pretty;">Paired with $MSTR &middot; Backed by $BTC &middot; Tokenized on Robinhood Chain</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        <div title="0x168661c52e5922288dfb2b3f323b6cf90eb21e18" onClick="{{ copyAddress }}" style="cursor:pointer;background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:7px 10px;color:#1B3E2D;font-size:11px;letter-spacing:.06em;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ addressLabel }}</div>
+        <a href="https://robinhoodchain.blockscout.com/token/0x168661C52E5922288dFb2b3f323b6Cf90eb21e18" target="_blank" rel="noopener"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">EXPLORER</a>
+        <a href="https://app.long.xyz/tokens/0x168661c52e5922288dfb2b3f323b6cf90eb21e18" target="_blank" rel="noopener"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">LONG</a>
+        <a href="https://dexscreener.com/robinhood/0xa6975f4720a95aa9cdfa9b010a065b0e941534c93f9fa708104c08f0ac029ca0" target="_blank" rel="noopener"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">DEXSCREENER</a>
+        <a href="https://x.com/strategystock" target="_blank" rel="noopener"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">@STRATEGYSTOCK</a>
+        <a href="https://robinhood.com/rhj/stocktokens/" target="_blank" rel="noopener"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">LEARN MORE</a>
+        <div style="background:#D9232E;border:1px solid #A5171F;border-radius:3px;padding:7px 13px;
+          font-size:10px;letter-spacing:.12em;color:#FFF6F2;box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 2px 0 #A5171F;cursor:pointer;"
+          onClick="{{ openBuy }}"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">BUY NOW</div>
+      </div>
+
+    </div>
+
+    <div style="background:#E7E6E2;border:1px solid #C9C8C2;border-radius:6px;padding:14px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -2px 4px rgba(0,0,0,.15);
+      display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:9px;letter-spacing:.2em;color:#54524C;">PRICE (USD IMPLIED)</div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#D9232E;box-shadow:0 0 6px rgba(217,35,46,.7);animation:blip 1.8s infinite;"></div>
+          <div style="font-size:8px;letter-spacing:.14em;color:#54524C;">LIVE</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:5px;padding:16px 14px 13px;position:relative;overflow:hidden;box-shadow:inset 0 4px 10px rgba(24,44,32,.5), inset 0 0 0 1px rgba(24,44,32,.3), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">
+        <div style="font-size:clamp(22px,3.4vw,34px);line-height:1;white-space:nowrap;color:#1B3E2D;letter-spacing:-.01em;text-shadow:0 1px 0 rgba(255,255,255,.32);">$0.004036</div>
+        <div style="display:flex;gap:10px;align-items:baseline;margin-top:10px;">
+          <div style="font-size:15px;color:#A5171F;">1.01%</div>
+          <div style="font-size:9px;letter-spacing:.14em;color:#1B3E2D;">24H CHANGE</div>
+        </div>
+        <sc-if value="{{ scanlines }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, transparent 1px 3px);"></div>
+        </sc-if>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <div style="width:64px;height:64px;flex:none;border-radius:50%;cursor:pointer;position:relative;
+          background:radial-gradient(circle at 38% 30%, #F4F3F1, #D4D3CF 60%, #B5B4AF);
+          border:1px solid #BAB9B4;box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 3px 6px rgba(0,0,0,.3);
+          transition:transform .25s ease;transform:rotate({{ knobDeg }}deg);"
+          onClick="{{ turnKnob }}">
+          <div style="position:absolute;left:50%;top:6px;width:3px;height:20px;margin-left:-1.5px;border-radius:2px;background:#D9232E;"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:0;">
+          <div style="font-size:8px;letter-spacing:.16em;color:#54524C;">SCREEN BRIGHTNESS</div>
+          <div style="display:flex;gap:6px;">
+            <div style="flex:1;text-align:center;padding:8px 0;border-radius:3px;font-size:10px;letter-spacing:.1em;cursor:pointer;
+              background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;color:#3E3A31;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+              onClick="{{ setDim }}">DIM</div>
+            <div style="flex:1;text-align:center;padding:8px 0;border-radius:3px;font-size:10px;letter-spacing:.1em;cursor:pointer;
+              background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;color:#3E3A31;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+              onClick="{{ setNorm }}">MID</div>
+            <div style="flex:1;text-align:center;padding:8px 0;border-radius:3px;font-size:10px;letter-spacing:.1em;cursor:pointer;
+              background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;color:#3E3A31;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+              onClick="{{ setBright }}">NORM</div>
+          </div>
+          <div style="font-size:8px;letter-spacing:.14em;color:#54524C;">POSITION &nbsp;&mdash;&nbsp; {{ mode }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:9px;margin-top:14px;">
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PRICE (MSTR)</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">0.000030</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MARKET CAP</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">$4.03M</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">FDV</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">$4.03M</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">LIQUIDITY (LP TOTAL $)</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">$636.48K</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR IN LP</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">2.17K</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">CODEX &middot; 15:02:00</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR TOKENIZED</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">29.55K</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">CODEX &middot; 15:02:01</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">% MSTR IN LP</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">7.36%</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">24H VOLUME</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">$695.01K</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">CODEX &middot; 15:02:00</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">HOLDERS</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">1,839</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">CODEX &middot; 15:02:00</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PAIR ASSET</div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">MSTR</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">ROBINHOOD &middot; 15:01:58</div></sc-if>
+    </div>
+  </div>
+
+  <div style="margin-top:14px;background:#EFEEEB;border:1px solid #C6C5BF;border-radius:5px;padding:11px 14px;
+    box-shadow:inset 0 1px 0 #F8F7F5;display:flex;flex-direction:column;gap:6px;">
+    <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;">DISCLAIMER</div>
+    <div style="font-size:10px;line-height:1.5;color:#4A4842;text-wrap:pretty;">Investing in crypto is risky. Nothing here is investment advice. Values shown may be delayed or inaccurate; do your own research before transacting.</div>
+    <div style="font-size:10px;line-height:1.5;color:#4A4842;text-wrap:pretty;">Strategy Coin is not affiliated with Strategy&#8383;. Learn more about $MSTR at <a href="https://www.strategy.com/learn" target="_blank" rel="noopener">strategy.com/learn</a>, and about stock tokens at <a href="https://robinhood.com/rhj/stocktokens/" target="_blank" rel="noopener">robinhood.com/rhj/stocktokens</a>.</div>
+  </div>
+
+  <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    background:#D9D8D4;border:1px solid #BFBEB8;border-radius:5px;padding:10px 14px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 4px rgba(0,0,0,.15);">
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+      <div style="display:flex;gap:6px;align-items:center;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#D9232E;box-shadow:0 0 5px rgba(217,35,46,.7);"></div>
+        <div style="font-size:8px;letter-spacing:.16em;color:#3E3A31;">RELAY</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#D9232E;box-shadow:0 0 5px rgba(217,35,46,.7);"></div>
+        <div style="font-size:8px;letter-spacing:.16em;color:#3E3A31;">CODEX</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#E0A22E;box-shadow:0 0 5px #E0A22E;"></div>
+        <div style="font-size:8px;letter-spacing:.16em;color:#3E3A31;">UPSTREAM DELAY</div>
+      </div>
+    </div>
+    <div style="font-size:8px;letter-spacing:.16em;color:#3E3A31;white-space:nowrap;">SYNC {{ syncCount }} &middot; SESSION OK</div>
+  </div>
+</div>
+
+<sc-if value="{{ ejectOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:20px;
+    background:#15140F;" onClick="{{ closeEject }}">
+    <div style="width:min(400px,100%);background:#EFEEEB;border:1px solid #BFBEB8;border-radius:8px;padding:20px;
+      box-shadow:inset 0 1px 0 #F8F7F5, 0 18px 40px rgba(28,24,19,.45);display:flex;flex-direction:column;gap:12px;"
+      onClick="{{ stop }}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="font-size:20px;color:#26251F;letter-spacing:-.01em;">Program Coming Soon</div>
+          <div style="font-size:10px;letter-spacing:.16em;color:#5A5852;">DISK SLOT EMPTY</div>
+        </div>
+        <div style="width:24px;height:24px;flex:none;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+          background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;color:#3E3A31;font-size:12px;
+          box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" onClick="{{ closeEject }}">&times;</div>
+      </div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);border-radius:4px;padding:12px 13px;
+        color:#1B3E2D;font-size:11px;line-height:1.5;text-shadow:0 1px 0 rgba(255,255,255,.3);
+        box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5);">
+        NO PROGRAM LOADED. CHECK BACK SOON.</div>
+      <div style="display:flex;justify-content:flex-end;">
+        <div style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:4px;padding:9px 14px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+          onClick="{{ closeEject }}" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">OK</div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ buyOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:20px;
+    background:rgba(34,33,30,.55);" onClick="{{ closeBuy }}">
+    <div style="width:min(420px,100%);background:#EFEEEB;border:1px solid #BFBEB8;border-radius:8px;padding:20px;
+      box-shadow:inset 0 1px 0 #F8F7F5, 0 18px 40px rgba(28,24,19,.45);display:flex;flex-direction:column;gap:14px;"
+      onClick="{{ stop }}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="font-size:20px;color:#26251F;letter-spacing:-.01em;">Buy Now</div>
+          <div style="font-size:10px;letter-spacing:.16em;color:#5A5852;">GET $STRATEGY</div>
+        </div>
+        <div style="width:24px;height:24px;flex:none;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+          background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;color:#3E3A31;font-size:12px;
+          box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" onClick="{{ closeBuy }}">&times;</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        <a href="https://fomo.family/coin?address=0x168661c52e5922288dfb2b3f323b6cf90eb21e18&amp;chainId=4663&amp;r=0xmakerlee&amp;source=share_link"
+          target="_blank" rel="noopener"
+          style="background:#D9232E;border:1px solid #A5171F;border-radius:4px;padding:12px 14px;text-decoration:none;
+          color:#FFF6F2;font-size:12px;letter-spacing:.1em;box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 2px 0 #A5171F;
+          display:flex;justify-content:space-between;align-items:center;gap:10px;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">
+          <span>BUY ON FOMO</span><span style="opacity:.75;font-size:10px;">fomo.family</span></a>
+        <a href="https://stocktokenswap.com/" target="_blank" rel="noopener"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:4px;padding:12px 14px;
+          text-decoration:none;color:#3E3A31;font-size:12px;letter-spacing:.1em;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;
+          display:flex;justify-content:space-between;align-items:center;gap:10px;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">
+          <span>STOCK TOKEN SWAP</span><span style="opacity:.6;font-size:10px;">stocktokenswap.com</span></a>
+      </div>
+      <div style="font-size:9px;line-height:1.5;color:#5A5852;text-wrap:pretty;">Investing in crypto is risky and you may lose your entire position. This is not investment advice.</div>
+    </div>
+  </div>
+</sc-if>
+
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:none;border-radius:10px;background:#FFFEFA;mix-blend-mode:soft-light;transition:opacity .3s ease;opacity:{{ bloom }};"></div>
+      <sc-if value="{{ off }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;border-radius:10px;overflow:hidden;background:#22211E;">
+          <div style="position:absolute;inset:-40px;animation:noiseShift .22s steps(1) infinite;
+            background-image:
+              repeating-linear-gradient(37deg, rgba(255,255,255,.42) 0 1px, rgba(0,0,0,.5) 1px 3px),
+              repeating-linear-gradient(112deg, rgba(255,255,255,.34) 0 1px, rgba(0,0,0,.42) 1px 4px),
+              repeating-linear-gradient(78deg, rgba(255,255,255,.26) 0 2px, rgba(0,0,0,.34) 2px 5px);
+            background-size:13px 11px, 17px 19px, 23px 7px;opacity:.85;"></div>
+          <div style="position:absolute;inset:-40px;animation:noiseShift .18s steps(1) infinite;
+            background-image:var(--tv-noise), var(--tv-noise), repeating-linear-gradient(0deg, rgba(0,0,0,.30) 0 1px, rgba(255,255,255,.04) 1px 3px);
+            background-size:220px 220px, 150px 150px, 100% 3px;opacity:.8;"></div>
+          <div style="position:absolute;left:0;right:0;height:22%;animation:rollBar 5.5s linear infinite;
+            background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.10) 50%, rgba(255,255,255,0) 100%);"></div>
+          <div style="position:absolute;inset:0;box-shadow:inset 0 0 90px rgba(0,0,0,.7);"></div>
+          <div style="position:absolute;left:16px;bottom:14px;font-size:10px;letter-spacing:.2em;color:rgba(224,223,220,.5);">NO SIGNAL</div>
+        </div>
+      </sc-if>
+      <div style="position:absolute;inset:0;pointer-events:none;border-radius:10px;
+        background:
+          linear-gradient(118deg, rgba(255,255,255,.26) 0%, rgba(255,255,255,.06) 18%, rgba(255,255,255,0) 40%),
+          radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 55%);
+        box-shadow:inset 0 0 90px rgba(18,18,15,.45), inset 0 0 0 1px rgba(255,255,255,.10);"></div>
+    </div>
+    </div>
+
+    <div style="width:86px;flex:none;display:flex;flex-direction:column;gap:16px;align-items:center;">
+      <div style="width:100%;height:104px;border-radius:7px;box-sizing:border-box;
+        background:linear-gradient(180deg,#F8F6F1,#E2DFD7);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 -2px 5px rgba(120,114,104,.28), 0 1px 2px rgba(255,255,255,.6);
+        display:flex;align-items:center;justify-content:center;">
+        <div style="width:13px;height:74px;border-radius:3px;background:#B9B7B1;
+          box-shadow:inset 0 0 0 1px rgba(90,86,78,.5), inset 0 3px 7px rgba(0,0,0,.55);"></div>
+      </div>
+      <div style="width:56px;height:56px;border-radius:50%;cursor:pointer;position:relative;
+        background:
+          linear-gradient(150deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 45%),
+          radial-gradient(circle at 40% 28%, #3B3936 0%, #2A2825 48%, #171614 100%);
+        box-shadow:inset 0 -2px 4px rgba(0,0,0,.6), 0 4px 8px rgba(40,36,32,.45), 0 1px 0 rgba(255,255,255,.4);"
+        onClick="{{ turnKnob }}">
+        <div style="position:absolute;left:50%;top:7px;width:2px;height:15px;margin-left:-1px;border-radius:2px;background:#D9232E;box-shadow:0 0 5px rgba(217,35,46,.5);"></div>
+      </div>
+      <div style="width:34px;height:34px;border-radius:6px;background:linear-gradient(180deg,#E8362F,#BE1C25);cursor:pointer;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -3px 6px rgba(0,0,0,.3), 0 3px 0 #97141C, 0 5px 8px rgba(40,36,32,.35);"
+        onClick="{{ openEject }}" style-active="transform:translateY(2px);box-shadow:inset 0 2px 5px rgba(0,0,0,.4), 0 1px 0 #97141C"></div>
+      <div style="font-size:9px;letter-spacing:.18em;color:#605E58;">EJECT</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 4px 26px;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div style="width:28px;height:28px;border-radius:50%;cursor:pointer;
+        background:
+          linear-gradient(150deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 52%),
+          radial-gradient(circle at 38% 30%, #FBFAF8 0%, #E3E2DE 58%, #BFBDB6 100%);
+        box-shadow:inset 0 -2px 3px rgba(120,114,104,.35), 0 2px 4px rgba(48,44,38,.28), 0 1px 0 rgba(255,255,255,.7);"
+        onClick="{{ togglePower }}" style-active="box-shadow:inset 0 2px 4px rgba(80,76,68,.5), 0 1px 2px rgba(48,44,38,.3);transform:translateY(1px)"></div>
+      <div style="font-size:9px;letter-spacing:.18em;color:#605E58;">POWER &middot; {{ powerLabel }}</div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <div style="width:7px;height:7px;border-radius:50%;background:#CFCDC6;box-shadow:inset 0 1px 2px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.7);"></div>
+      <div style="width:7px;height:7px;border-radius:50%;background:#CFCDC6;box-shadow:inset 0 1px 2px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.7);"></div>
+    </div>
+  </div>
+</div>
+
+<div style="width:min(88%,1180px);height:20px;border-radius:0 0 16px 16px;
+  background:linear-gradient(180deg,#CBC7BD,#ADA89D);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4), 0 18px 30px rgba(32,28,23,.42);"></div>
+
+<div style="width:min(92%,1260px);height:70px;margin-top:-6px;
+  background:radial-gradient(ellipse at 50% 0%, rgba(28,24,19,.55) 0%, rgba(28,24,19,.20) 42%, rgba(28,24,19,0) 74%);filter:blur(2px);"></div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showSources&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Panel&quot;},&quot;scanlines&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Panel&quot;}}">
+class Component extends DCLogic {
+  state = { mode: "NORM", syncCount: 1, power: true, buyOpen: false, ejectOpen: false, copied: false };
+
+  keyRows() {
+    const rows = [
+      ["`","1","2","3","4","5","6","7","8","9","0","-","=",["DELETE",2]],
+      [["TAB",1.6],"Q","W","E","R","T","Y","U","I","O","P","[","]",["\\",1.4]],
+      [["CAPS",2],"A","S","D","F","G","H","J","K","L",";","'",["RETURN",2.2]],
+      [["SHIFT",2.6],"Z","X","C","V","B","N","M",",",".","/",["SHIFT",2.6]]
+    ];
+    return rows.map(r => ({
+      keys: r.map(k => {
+        const label = Array.isArray(k) ? k[0] : k;
+        const flex = Array.isArray(k) ? k[1] : 1;
+        const wide = flex > 1;
+        return { label, flex, align: wide ? "center" : "flex-start", justify: wide ? "center" : "flex-start" };
+      })
+    }));
+  }
+
+  renderVals() {
+    const mode = this.state.mode;
+    const order = ["DIM", "MID", "NORM"];
+    const off = !this.state.power;
+    return {
+      mode,
+      off,
+      screenOpacity: off ? 0 : 1,
+      powerLabel: off ? "OFF" : "ON",
+      togglePower: () => this.setState(st => ({ power: !st.power })),
+      buyOpen: this.state.buyOpen && !off,
+      addressLabel: this.state.copied ? "COPIED \u2713" : "0x168661\u20261e18",
+      copyAddress: () => {
+        const addr = "0x168661c52e5922288dfb2b3f323b6cf90eb21e18";
+        const done = () => {
+          this.setState({ copied: true });
+          clearTimeout(this._copyT);
+          this._copyT = setTimeout(() => this.setState({ copied: false }), 1600);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(addr).then(done, done);
+        } else {
+          const t = document.createElement("textarea");
+          t.value = addr; t.style.position = "fixed"; t.style.opacity = "0";
+          document.body.appendChild(t); t.select();
+          try { document.execCommand("copy"); } catch (e) {}
+          document.body.removeChild(t); done();
+        }
+      },
+      ejectOpen: this.state.ejectOpen && !off,
+      openEject: () => this.setState({ ejectOpen: true }),
+      closeEject: () => this.setState({ ejectOpen: false }),
+      openBuy: () => this.setState({ buyOpen: true }),
+      closeBuy: () => this.setState({ buyOpen: false }),
+      stop: e => e.stopPropagation(),
+      lift: mode === "DIM" ? 1.02 : mode === "MID" ? 1.06 : 1.10,
+      bloom: mode === "DIM" ? 0.06 : mode === "MID" ? 0.12 : 0.18,
+      knobDeg: mode === "DIM" ? -50 : mode === "MID" ? 0 : 50,
+      syncCount: String(this.state.syncCount).padStart(3, "0"),
+      showSources: this.props.showSources ?? true,
+      scanlines: this.props.scanlines ?? true,
+      setDim: () => this.setState({ mode: "DIM" }),
+      setNorm: () => this.setState({ mode: "MID" }),
+      setBright: () => this.setState({ mode: "NORM" }),
+      turnKnob: () => this.setState(st => ({ mode: order[(order.indexOf(st.mode) + 1) % 3] }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>
