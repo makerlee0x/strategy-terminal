@@ -51,19 +51,35 @@
     .term-speaker { width: min(190px, 42vw) !important; height: 28px !important; }
     .term-body { flex-direction: column !important; gap: 14px !important; }
     .term-screen { min-height: 0 !important; padding: 12px !important; }
+    .term-screen-label { font-size: 11px !important; letter-spacing: .14em !important; }
     .term-hero { grid-template-columns: 1fr !important; gap: 12px !important; }
-    .term-title { font-size: clamp(20px, 7vw, 28px) !important; }
-    .term-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    .term-title { font-size: clamp(22px, 7vw, 28px) !important; }
+    .term-actions { gap: 10px !important; }
+    .term-chip {
+      min-height: 44px !important;
+      padding: 12px 14px !important;
+      font-size: 12px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+    }
+    .term-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+    .term-metric-value { font-size: 18px !important; padding: 12px 10px !important; }
     .term-rail {
       width: 100% !important;
       flex-direction: row !important;
       justify-content: space-around !important;
       align-items: center !important;
       gap: 10px !important;
-      padding: 4px 0 8px !important;
+      padding: 8px 0 12px !important;
     }
     .term-rail-vent { width: 56px !important; height: 56px !important; }
     .term-rail-vent > div { width: 40px !important; height: 10px !important; }
+    .term-touch {
+      min-width: 48px !important;
+      min-height: 48px !important;
+    }
     .term-footer { flex-wrap: wrap !important; gap: 10px !important; }
     .term-modals { padding: 12px !important; }
   }
@@ -149,7 +165,7 @@
   <div style="display:flex;justify-content:space-between;align-items:center;padding:0 6px 12px;">
     <div style="display:flex;gap:8px;align-items:center;">
       <div style="width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #F2F1EF, #B5B4AF);box-shadow:inset 0 0 2px rgba(0,0,0,.5);"></div>
-      <div style="font-size:9px;letter-spacing:.24em;color:#5A5852;">COIN TERMINAL MODEL 4926</div>
+      <div class="term-screen-label" style="font-size:9px;letter-spacing:.24em;color:#5A5852;">COIN TERMINAL MODEL 4926</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
       <div class="term-chain-label" style="font-size:9px;letter-spacing:.2em;color:#5A5852;">ROBINHOOD CHAIN</div>
@@ -173,27 +189,27 @@
         </div>
       </div>
 
-      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
-        <div title="0x168661c52e5922288dfb2b3f323b6cf90eb21e18" onClick="{{ copyAddress }}" style="cursor:pointer;background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:7px 10px;color:#1B3E2D;font-size:11px;letter-spacing:.06em;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ addressLabel }}</div>
+      <div class="term-actions" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        <div class="term-chip" title="0x168661c52e5922288dfb2b3f323b6cf90eb21e18" onClick="{{ copyAddress }}" style="cursor:pointer;background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:7px 10px;color:#1B3E2D;font-size:11px;letter-spacing:.06em;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ addressLabel }}</div>
         <a href="https://robinhoodchain.blockscout.com/token/0x168661C52E5922288dFb2b3f323b6Cf90eb21e18" target="_blank" rel="noopener"
-          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">EXPLORER</a>
         <a href="https://app.long.xyz/tokens/0x168661c52e5922288dfb2b3f323b6cf90eb21e18" target="_blank" rel="noopener"
-          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">LONG</a>
         <a href="https://dexscreener.com/robinhood/0xa6975f4720a95aa9cdfa9b010a065b0e941534c93f9fa708104c08f0ac029ca0" target="_blank" rel="noopener"
-          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">DEXSCREENER</a>
         <a href="https://x.com/strategystock" target="_blank" rel="noopener"
-          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">@STRATEGYSTOCK</a>
         <a href="https://robinhood.com/rhj/stocktokens/" target="_blank" rel="noopener"
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">LEARN MORE</a>
-        <div style="background:#D9232E;border:1px solid #A5171F;border-radius:3px;padding:7px 13px;
+        <div class="term-chip" style="background:#D9232E;border:1px solid #A5171F;border-radius:3px;padding:7px 13px;
           font-size:10px;letter-spacing:.12em;color:#FFF6F2;box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 2px 0 #A5171F;cursor:pointer;"
           onClick="{{ openBuy }}"
-          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">BUY NOW</div>
+          class="term-chip" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">BUY NOW</div>
       </div>
 
     </div>
@@ -250,70 +266,70 @@
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PRICE (MSTR)</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ priceMstr }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ priceMstr }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MARKET CAP</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ marketCap }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ marketCap }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">FDV</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ fdv }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ fdv }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">LIQUIDITY (LP TOTAL $)</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ liquidityUsd }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ liquidityUsd }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR IN LP</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLp }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLp }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCodex }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR TOKENIZED</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrTokenized }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrTokenized }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCodex }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">% MSTR IN LP</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLpPct }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLpPct }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">24H VOLUME</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ volume24h }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ volume24h }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCodex }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">HOLDERS</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ holders }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ holders }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCodex }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PAIR ASSET</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ pairAsset }}</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ pairAsset }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcRobinhood }}</div></sc-if>
     </div>
   </div>
@@ -449,10 +465,10 @@
           linear-gradient(150deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 45%),
           radial-gradient(circle at 40% 28%, #3B3936 0%, #2A2825 48%, #171614 100%);
         box-shadow:inset 0 -2px 4px rgba(0,0,0,.6), 0 4px 8px rgba(40,36,32,.45), 0 1px 0 rgba(255,255,255,.4);"
-        onClick="{{ turnKnob }}">
+        class="term-touch" onClick="{{ turnKnob }}">
         <div style="position:absolute;left:50%;top:7px;width:2px;height:15px;margin-left:-1px;border-radius:2px;background:#D9232E;box-shadow:0 0 5px rgba(217,35,46,.5);"></div>
       </div>
-      <div style="width:34px;height:34px;border-radius:6px;background:linear-gradient(180deg,#E8362F,#BE1C25);cursor:pointer;
+      <div class="term-touch" style="width:44px;height:44px;border-radius:6px;background:linear-gradient(180deg,#E8362F,#BE1C25);cursor:pointer;
         box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -3px 6px rgba(0,0,0,.3), 0 3px 0 #97141C, 0 5px 8px rgba(40,36,32,.35);"
         onClick="{{ openEject }}" style-active="transform:translateY(2px);box-shadow:inset 0 2px 5px rgba(0,0,0,.4), 0 1px 0 #97141C"></div>
       <div style="font-size:9px;letter-spacing:.18em;color:#605E58;">EJECT</div>
