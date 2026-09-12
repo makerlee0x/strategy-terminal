@@ -85,6 +85,14 @@ Cache ~15s. Allow CORS from:
 
 Keep the Codex API key only in StockTokenSwap env — never in this public repo.
 
+## Security notes (metrics)
+
+- Codex key never lives in this repo.
+- `/api/strategy-metrics` is a **fixed-upstream** proxy (no user-controlled URL/query routing).
+- Response is field-allowlisted display strings only (no raw Codex payload passthrough).
+- Cross-origin calls require an allowlisted `Origin` (`strategycoin.io`, this project's Vercel previews, localhost). Others get `403`.
+- Site-wide `X-Content-Type-Options`, `Referrer-Policy`, and frame permissions are set in `vercel.json`.
+
 ## Deploy — GitHub Pages
 
     git init
