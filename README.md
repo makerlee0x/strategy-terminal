@@ -8,6 +8,7 @@ Static, dependency-free site for the Strategy Coin retro terminal dashboard.
 - `support.js` — runtime it loads
 - `assets/` — logo mark, CRT noise texture
 - `standalone.html` — single self-contained file (works offline, no other files needed)
+- `api/strategy-metrics.js` — Vercel serverless proxy for live metrics
 - `vercel.json` — Vercel config (static, clean URLs, asset caching)
 - `.nojekyll` — required so GitHub Pages serves all files as-is
 
@@ -21,6 +22,10 @@ No build step, no dependencies, no framework install.
     # or
     python3 -m http.server 8000
 
+For live metrics locally, use Vercel dev so `/api/strategy-metrics` is available:
+
+    npx vercel dev
+
 ## Deploy — Vercel
 
     npm i -g vercel
@@ -28,6 +33,65 @@ No build step, no dependencies, no framework install.
 
 Or import the repo at vercel.com: Framework preset **Other**, build command empty,
 output directory `.` (or `site` if you push the whole project).
+
+Custom domains that should work with the same-origin metrics proxy:
+
+- `*.vercel.app` (preview + production)
+- `strategycoin.io` / `www.strategycoin.io` (once DNS is pointed at this Vercel project)
+
+Optional env on the Vercel project:
+
+- `STRATEGY_METRICS_URL` — override upstream (default `https://stocktokenswap.com/api/strategy-metrics`)
+
+## Live metrics (StockTokenSwap)
+
+The terminal reads **display-ready** JSON from same-origin `/api/strategy-metrics`.
+On Vercel that function proxies to StockTokenSwap (where the Codex key lives). If upstream
+is down, it returns a safe fallback payload so the CRT never goes blank.
+
+### Contract for StockTokenSwap: `GET /api/strategy-metrics`
+
+Return JSON (strings already formatted for the CRT):
+
+```json
+{
+  "ok": true,
+  "asOf": "2026-09-12T15:02:00.000Z",
+  "priceUsd": "$0.004036",
+  "change24h": "1.01%",
+  "change24hPositive": true,
+  "priceMstr": "0.000030",
+  "marketCap": "$4.03M",
+  "fdv": "$4.03M",
+  "liquidityUsd": "$636.48K",
+  "mstrInLp": "2.17K",
+  "mstrTokenized": "29.55K",
+  "mstrInLpPct": "7.36%",
+  "volume24h": "$695.01K",
+  "holders": "1,839",
+  "pairAsset": "MSTR",
+  "sourceTime": "15:02:00"
+}
+```
+
+Hardcode the Strategy token/pair on the STS side — do not accept arbitrary token query params.
+Cache ~15s. Allow CORS from:
+
+- `https://strategycoin.io`
+- `https://www.strategycoin.io`
+- `https://strategy-terminal.vercel.app`
+- `https://*.vercel.app` (previews)
+- `http://localhost:3000` (dev)
+
+Keep the Codex API key only in StockTokenSwap env — never in this public repo.
+
+## Security notes (metrics)
+
+- Codex key never lives in this repo.
+- `/api/strategy-metrics` is a **fixed-upstream** proxy (no user-controlled URL/query routing).
+- Response is field-allowlisted display strings only (no raw Codex payload passthrough).
+- Cross-origin calls require an allowlisted `Origin` (`strategycoin.io`, this project's Vercel previews, localhost). Others get `403`.
+- Site-wide `X-Content-Type-Options`, `Referrer-Policy`, and frame permissions are set in `vercel.json`.
 
 ## Deploy — GitHub Pages
 
@@ -41,11 +105,13 @@ output directory `.` (or `site` if you push the whole project).
 Then Settings → Pages → Source: **Deploy from a branch**, branch `main`, folder `/ (root)`.
 If you push the whole project instead of this folder's contents, set the folder to `/site`.
 
+Note: GitHub Pages will not run the Vercel `/api` function; the terminal will show
+standby/fallback metrics unless you point it at the STS URL directly.
+
 ## Notes
 
 - Fonts (ChicagoFLF, Anonymous Pro) load from CDNs. `standalone.html` has everything inlined
   if you need it fully offline.
-- Metrics are hard-coded in `index.html`; replace the text in the readout tiles to wire up
-  live data.
+- Metrics poll `/api/strategy-metrics` every 15s (LIVE when upstream succeeds, STANDBY otherwise).
 - Interactions: POWER cuts the display to static, the knob and DIM/MID/NORM set screen
   brightness, the address chip copies the contract address, BUY NOW and EJECT open modals.
