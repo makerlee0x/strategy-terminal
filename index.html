@@ -174,13 +174,13 @@
         <div style="font-size:9px;letter-spacing:.2em;color:#54524C;">PRICE (USD IMPLIED)</div>
         <div style="display:flex;gap:6px;align-items:center;">
           <div style="width:8px;height:8px;border-radius:50%;background:#D9232E;box-shadow:0 0 6px rgba(217,35,46,.7);animation:blip 1.8s infinite;"></div>
-          <div style="font-size:8px;letter-spacing:.14em;color:#54524C;">LIVE</div>
+          <div style="font-size:8px;letter-spacing:.14em;color:#54524C;">{{ liveLabel }}</div>
         </div>
       </div>
       <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:5px;padding:16px 14px 13px;position:relative;overflow:hidden;box-shadow:inset 0 4px 10px rgba(24,44,32,.5), inset 0 0 0 1px rgba(24,44,32,.3), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">
-        <div style="font-size:clamp(22px,3.4vw,34px);line-height:1;white-space:nowrap;color:#1B3E2D;letter-spacing:-.01em;text-shadow:0 1px 0 rgba(255,255,255,.32);">$0.004036</div>
+        <div style="font-size:clamp(22px,3.4vw,34px);line-height:1;white-space:nowrap;color:#1B3E2D;letter-spacing:-.01em;text-shadow:0 1px 0 rgba(255,255,255,.32);">{{ priceUsd }}</div>
         <div style="display:flex;gap:10px;align-items:baseline;margin-top:10px;">
-          <div style="font-size:15px;color:#A5171F;">1.01%</div>
+          <div style="font-size:15px;color:{{ change24hColor }};">{{ change24h }}</div>
           <div style="font-size:9px;letter-spacing:.14em;color:#1B3E2D;">24H CHANGE</div>
         </div>
         <sc-if value="{{ scanlines }}" hint-placeholder-val="{{ true }}">
@@ -219,71 +219,71 @@
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PRICE (MSTR)</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">0.000030</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ priceMstr }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MARKET CAP</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">$4.03M</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ marketCap }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">FDV</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">$4.03M</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ fdv }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">LIQUIDITY (LP TOTAL $)</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">$636.48K</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ liquidityUsd }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR IN LP</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">2.17K</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">CODEX &middot; 15:02:00</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLp }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCodex }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR TOKENIZED</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">29.55K</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">CODEX &middot; 15:02:01</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrTokenized }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCodex }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">% MSTR IN LP</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">7.36%</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">DERIVED &middot; 15:02:00</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLpPct }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">24H VOLUME</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">$695.01K</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">CODEX &middot; 15:02:00</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ volume24h }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCodex }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">HOLDERS</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">1,839</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">CODEX &middot; 15:02:00</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ holders }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCodex }}</div></sc-if>
     </div>
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PAIR ASSET</div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">MSTR</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">ROBINHOOD &middot; 15:01:58</div></sc-if>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ pairAsset }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcRobinhood }}</div></sc-if>
     </div>
   </div>
 
@@ -456,7 +456,145 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;showSources&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Panel&quot;},&quot;scanlines&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Panel&quot;}}">
 class Component extends DCLogic {
-  state = { mode: "NORM", syncCount: 1, power: true, buyOpen: false, ejectOpen: false, copied: false };
+  // Prefer same-origin Vercel function (works on *.vercel.app + strategycoin.io).
+  // Direct STS URL is a fallback for local static servers without /api.
+  static METRICS_URLS = [
+    "/api/strategy-metrics",
+    "https://stocktokenswap.com/api/strategy-metrics"
+  ];
+  static POLL_MS = 15000;
+  static FALLBACK_METRICS = {
+    priceUsd: "$0.004036",
+    change24h: "1.01%",
+    change24hPositive: true,
+    priceMstr: "0.000030",
+    marketCap: "$4.03M",
+    fdv: "$4.03M",
+    liquidityUsd: "$636.48K",
+    mstrInLp: "2.17K",
+    mstrTokenized: "29.55K",
+    mstrInLpPct: "7.36%",
+    volume24h: "$695.01K",
+    holders: "1,839",
+    pairAsset: "MSTR",
+    sourceTime: "--:--:--",
+    source: "fallback"
+  };
+
+  state = {
+    mode: "NORM",
+    syncCount: 1,
+    power: true,
+    buyOpen: false,
+    ejectOpen: false,
+    copied: false,
+    metrics: null,
+    metricsLive: false
+  };
+
+  componentDidMount() {
+    this.refreshMetrics();
+    this._metricsTimer = setInterval(() => this.refreshMetrics(), Component.POLL_MS);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._metricsTimer);
+  }
+
+  async refreshMetrics() {
+    if (this._metricsInFlight) return;
+    this._metricsInFlight = true;
+    try {
+      const data = await this.fetchMetrics();
+      if (!data) return;
+      this.setState(st => ({
+        metrics: data,
+        metricsLive: true,
+        syncCount: (st.syncCount % 999) + 1
+      }));
+    } catch (e) {
+      // Keep last good / fallback values on the CRT.
+    } finally {
+      this._metricsInFlight = false;
+    }
+  }
+
+  async fetchMetrics() {
+    let lastErr = null;
+    for (const url of Component.METRICS_URLS) {
+      try {
+        const res = await fetch(url, {
+          method: "GET",
+          headers: { Accept: "application/json" },
+          cache: "no-store"
+        });
+        if (!res.ok) {
+          lastErr = new Error("HTTP " + res.status);
+          continue;
+        }
+        const json = await res.json();
+        const normalized = this.normalizeMetrics(json);
+        if (normalized) return normalized;
+        lastErr = new Error("invalid payload");
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    if (lastErr) throw lastErr;
+    return null;
+  }
+
+  normalizeMetrics(raw) {
+    if (!raw || typeof raw !== "object") return null;
+    const src = raw.metrics && typeof raw.metrics === "object" ? raw.metrics : raw;
+    const pick = (...keys) => {
+      for (const k of keys) {
+        const v = src[k];
+        if (v != null && String(v).trim() !== "") return String(v);
+      }
+      return null;
+    };
+    const priceUsd = pick("priceUsd", "priceUSD", "price");
+    const marketCap = pick("marketCap", "mcap");
+    if (!priceUsd && !marketCap) return null;
+
+    let change24hPositive = src.change24hPositive;
+    if (typeof change24hPositive !== "boolean") {
+      const n = parseFloat(String(pick("change24h", "change24hPct", "priceChange24h") || "0").replace(/[%+,]/g, ""));
+      change24hPositive = !(n < 0);
+    }
+
+    const sourceTime = pick("sourceTime", "asOfLocal", "updatedAtLocal") || this.formatSourceTime(pick("asOf", "updatedAt"));
+
+    return {
+      priceUsd: priceUsd || Component.FALLBACK_METRICS.priceUsd,
+      change24h: pick("change24h", "change24hPct", "priceChange24h") || Component.FALLBACK_METRICS.change24h,
+      change24hPositive,
+      priceMstr: pick("priceMstr", "priceMSTR", "mstrPrice") || Component.FALLBACK_METRICS.priceMstr,
+      marketCap: marketCap || Component.FALLBACK_METRICS.marketCap,
+      fdv: pick("fdv", "fdvUsd", "fullyDilutedValuation") || Component.FALLBACK_METRICS.fdv,
+      liquidityUsd: pick("liquidityUsd", "liquidity", "lpTotalUsd") || Component.FALLBACK_METRICS.liquidityUsd,
+      mstrInLp: pick("mstrInLp", "mstrInLP", "mstrLp") || Component.FALLBACK_METRICS.mstrInLp,
+      mstrTokenized: pick("mstrTokenized", "mstrTokenised", "tokenizedMstr") || Component.FALLBACK_METRICS.mstrTokenized,
+      mstrInLpPct: pick("mstrInLpPct", "mstrInLpPercent", "pctMstrInLp") || Component.FALLBACK_METRICS.mstrInLpPct,
+      volume24h: pick("volume24h", "volumeUsd24h", "vol24h") || Component.FALLBACK_METRICS.volume24h,
+      holders: pick("holders", "holderCount") || Component.FALLBACK_METRICS.holders,
+      pairAsset: pick("pairAsset", "pair", "quoteSymbol") || Component.FALLBACK_METRICS.pairAsset,
+      sourceTime: sourceTime || Component.FALLBACK_METRICS.sourceTime,
+      source: pick("source") || "unknown"
+    };
+  }
+
+  formatSourceTime(iso) {
+    if (!iso) return null;
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return null;
+    return d.toISOString().slice(11, 19);
+  }
+
+  sourceLine(label, time) {
+    return label + " \u00b7 " + (time || "--:--:--");
+  }
 
   keyRows() {
     const rows = [
@@ -479,6 +617,8 @@ class Component extends DCLogic {
     const mode = this.state.mode;
     const order = ["DIM", "MID", "NORM"];
     const off = !this.state.power;
+    const m = this.state.metrics || Component.FALLBACK_METRICS;
+    const t = m.sourceTime;
     return {
       mode,
       off,
@@ -497,11 +637,11 @@ class Component extends DCLogic {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(addr).then(done, done);
         } else {
-          const t = document.createElement("textarea");
-          t.value = addr; t.style.position = "fixed"; t.style.opacity = "0";
-          document.body.appendChild(t); t.select();
+          const el = document.createElement("textarea");
+          el.value = addr; el.style.position = "fixed"; el.style.opacity = "0";
+          document.body.appendChild(el); el.select();
           try { document.execCommand("copy"); } catch (e) {}
-          document.body.removeChild(t); done();
+          document.body.removeChild(el); done();
         }
       },
       ejectOpen: this.state.ejectOpen && !off,
@@ -519,7 +659,25 @@ class Component extends DCLogic {
       setDim: () => this.setState({ mode: "DIM" }),
       setNorm: () => this.setState({ mode: "MID" }),
       setBright: () => this.setState({ mode: "NORM" }),
-      turnKnob: () => this.setState(st => ({ mode: order[(order.indexOf(st.mode) + 1) % 3] }))
+      turnKnob: () => this.setState(st => ({ mode: order[(order.indexOf(st.mode) + 1) % 3] })),
+
+      liveLabel: this.state.metricsLive && m.source && m.source !== "fallback" ? "LIVE" : "STANDBY",
+      priceUsd: m.priceUsd,
+      change24h: m.change24h,
+      change24hColor: m.change24hPositive ? "#1B3E2D" : "#A5171F",
+      priceMstr: m.priceMstr,
+      marketCap: m.marketCap,
+      fdv: m.fdv,
+      liquidityUsd: m.liquidityUsd,
+      mstrInLp: m.mstrInLp,
+      mstrTokenized: m.mstrTokenized,
+      mstrInLpPct: m.mstrInLpPct,
+      volume24h: m.volume24h,
+      holders: m.holders,
+      pairAsset: m.pairAsset,
+      srcDerived: this.sourceLine("DERIVED", t),
+      srcCodex: this.sourceLine("CODEX", t),
+      srcRobinhood: this.sourceLine("ROBINHOOD", t)
     };
   }
 }
