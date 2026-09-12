@@ -564,13 +564,12 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;showSources&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Panel&quot;},&quot;scanlines&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Panel&quot;}}">
 class Component extends DCLogic {
-  // Prefer same-origin Vercel function (works on *.vercel.app + strategycoin.io).
-  // Direct STS URL is a fallback for local static servers without /api.
-  static METRICS_URLS = [
-    "/api/strategy-metrics",
-    "https://stocktokenswap.com/api/strategy-metrics"
-  ];
-  static POLL_MS = 15000;
+  // Same-origin Vercel proxy on *.vercel.app / strategycoin.io.
+  // Direct STS only on localhost when /api is missing — protects Codex credits.
+  static METRICS_URLS = ["/api/strategy-metrics"];
+  static STS_METRICS_URL = "https://stocktokenswap.com/api/strategy-metrics";
+  // Match edge cache TTL: fresh enough for a CRT, far fewer Codex pulls.
+  static POLL_MS = 60000;
   static FALLBACK_METRICS = {
     priceUsd: "$0.004036",
     change24h: "1.01%",
@@ -601,15 +600,53 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
+    this._onVisibility = () => {
+      if (typeof document !== "undefined" && document.hidden) {
+        this.stopMetricsPoll();
+        return;
+      }
+      this.refreshMetrics();
+      this.startMetricsPoll();
+    };
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", this._onVisibility);
+    }
     this.refreshMetrics();
-    this._metricsTimer = setInterval(() => this.refreshMetrics(), Component.POLL_MS);
+    this.startMetricsPoll();
   }
 
   componentWillUnmount() {
-    clearInterval(this._metricsTimer);
+    this.stopMetricsPoll();
+    if (typeof document !== "undefined" && this._onVisibility) {
+      document.removeEventListener("visibilitychange", this._onVisibility);
+    }
+  }
+
+  startMetricsPoll() {
+    this.stopMetricsPoll();
+    this._metricsTimer = setInterval(() => this.refreshMetrics(), Component.POLL_MS);
+  }
+
+  stopMetricsPoll() {
+    if (this._metricsTimer) {
+      clearInterval(this._metricsTimer);
+      this._metricsTimer = null;
+    }
+  }
+
+  metricsUrls() {
+    const urls = Component.METRICS_URLS.slice();
+    try {
+      const host = typeof location !== "undefined" ? location.hostname : "";
+      if (host === "localhost" || host === "127.0.0.1") {
+        urls.push(Component.STS_METRICS_URL);
+      }
+    } catch (_) {}
+    return urls;
   }
 
   async refreshMetrics() {
+    if (typeof document !== "undefined" && document.hidden) return;
     if (this._metricsInFlight) return;
     this._metricsInFlight = true;
     try {
@@ -629,12 +666,13 @@ class Component extends DCLogic {
 
   async fetchMetrics() {
     let lastErr = null;
-    for (const url of Component.METRICS_URLS) {
+    for (const url of this.metricsUrls()) {
       try {
         const res = await fetch(url, {
           method: "GET",
           headers: { Accept: "application/json" },
-          cache: "no-store"
+          // Allow CDN/browser reuse of the proxy response (see Cache-Control on /api).
+          cache: "default"
         });
         if (!res.ok) {
           lastErr = new Error("HTTP " + res.status);
