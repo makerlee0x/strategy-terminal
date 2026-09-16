@@ -218,14 +218,27 @@
   <div style="display:flex;justify-content:space-between;align-items:center;padding:0 6px 12px;">
     <div style="display:flex;gap:8px;align-items:center;">
       <div style="width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #F2F1EF, #B5B4AF);box-shadow:inset 0 0 2px rgba(0,0,0,.5);"></div>
-      <div class="term-screen-label" style="font-size:9px;letter-spacing:.24em;color:#5A5852;">COIN TERMINAL MODEL 4926</div>
+      <div class="term-screen-label" style="font-size:9px;letter-spacing:.24em;color:#5A5852;">{{ screenProgram }}</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
+      <sc-if value="{{ showDash }}" hint-placeholder-val="{{ true }}">
+        <div class="term-chip" onClick="{{ openCalc }}"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
+          font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">SIZE</div>
+      </sc-if>
+      <sc-if value="{{ calcOpen }}" hint-placeholder-val="{{ false }}">
+        <div class="term-chip" onClick="{{ closeCalc }}"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
+          font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">BACK</div>
+      </sc-if>
       <div class="term-chain-label" style="font-size:9px;letter-spacing:.2em;color:#5A5852;">ROBINHOOD CHAIN</div>
       <div style="width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #F2F1EF, #B5B4AF);box-shadow:inset 0 0 2px rgba(0,0,0,.5);"></div>
     </div>
   </div>
 
+  <sc-if value="{{ showDash }}" hint-placeholder-val="{{ true }}">
   <div class="term-hero" style="display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:14px;align-items:stretch;">
 
     <div class="term-brand" style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:16px 18px;
@@ -428,7 +441,61 @@
     </div>
     <div style="font-size:8px;letter-spacing:.16em;color:#3E3A31;white-space:nowrap;">SYNC {{ syncCount }} &middot; SESSION OK</div>
   </div>
-</div>
+  </sc-if>
+
+  <sc-if value="{{ calcOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="term-calc" style="display:flex;flex-direction:column;gap:14px;">
+    <div style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:16px 18px;
+      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:0;">
+          <div style="font-size:22px;font-weight:700;color:#26251F;letter-spacing:-.02em;line-height:1;">POSITION READOUT</div>
+          <div style="font-size:11px;color:#5A5852;letter-spacing:.04em;text-wrap:pretty;">Enter a $STRATEGY amount to see share of outstanding and pro-rata $MSTR.</div>
+        </div>
+        <div style="font-size:9px;letter-spacing:.14em;color:#54524C;text-align:right;">OUTSTANDING<br/><span style="color:#1B3E2D;font-size:13px;letter-spacing:.04em;">{{ totalSupply }}</span></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-size:8px;letter-spacing:.16em;color:#54524C;">$STRATEGY AMOUNT</div>
+        <input type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 10000000"
+          value="{{ calcAmount }}" onInput="{{ onCalcInput }}"
+          style="width:100%;box-sizing:border-box;border:1px solid #C4C3BE;border-radius:4px;padding:12px 14px;
+          font:inherit;font-size:18px;letter-spacing:.04em;color:#1B3E2D;background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);
+          box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28);outline:none;" />
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <div class="term-chip" onClick="{{ setCalcPreset10M }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">10M</div>
+        <div class="term-chip" onClick="{{ setCalcPreset25M }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">25M</div>
+        <div class="term-chip" onClick="{{ setCalcPreset100M }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">100M</div>
+        <div class="term-chip" onClick="{{ clearCalc }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">CLEAR</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:9px;">
+      <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">SHARE OF SUPPLY</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ calcSharePct }}</div>
+        <div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">OF {{ totalSupply }} OUTSTANDING</div>
+      </div>
+      <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PRO-RATA $MSTR</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ calcImpliedMstr }}</div>
+        <div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">VS {{ mstrTokenized }} TOKENIZED</div>
+      </div>
+      <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">USD NOTIONAL</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ calcUsdNotional }}</div>
+        <div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">AT {{ priceUsd }}</div>
+      </div>
+    </div>
+
+    <div style="background:#EFEEEB;border:1px solid #C6C5BF;border-radius:5px;padding:11px 14px;box-shadow:inset 0 1px 0 #F8F7F5;display:flex;flex-direction:column;gap:6px;">
+      <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;">NOTE</div>
+      <div style="font-size:10px;line-height:1.5;color:#4A4842;text-wrap:pretty;">Manual readout only — no wallet connect on this terminal. Pro-rata $MSTR uses tokenized float &times; your share of outstanding. Not investment advice.</div>
+    </div>
+  </div>
+  </sc-if>
 
 <sc-if value="{{ ejectOpen }}" hint-placeholder-val="{{ false }}">
   <div style="position:absolute;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:20px;
@@ -603,6 +670,8 @@ class Component extends DCLogic {
     power: true,
     buyOpen: false,
     ejectOpen: false,
+    calcOpen: false,
+    calcAmount: "",
     copied: false,
     metrics: null,
     metricsLive: false
@@ -684,7 +753,7 @@ class Component extends DCLogic {
     const resolvedPrice = priceUsd || Component.FALLBACK_METRICS.priceUsd;
     const resolvedMcap = marketCap || Component.FALLBACK_METRICS.marketCap;
     const totalSupply =
-      pick("totalSupply", "outstanding", "circulatingSupply", "supply") ||
+      pick("strategySupply", "totalSupply", "outstanding", "circulatingSupply", "supply") ||
       this.deriveTotalSupply(resolvedMcap, resolvedPrice) ||
       Component.FALLBACK_METRICS.totalSupply;
 
@@ -745,6 +814,39 @@ class Component extends DCLogic {
     return String(count);
   }
 
+  formatSharePct(n) {
+    if (!(n > 0) || !Number.isFinite(n)) return "—";
+    const pct = n * 100;
+    if (pct >= 10) return pct.toFixed(2) + "%";
+    if (pct >= 1) return pct.toFixed(3) + "%";
+    if (pct >= 0.01) return pct.toFixed(4) + "%";
+    return pct.toFixed(6) + "%";
+  }
+
+  formatUsd(n) {
+    if (!(n > 0) || !Number.isFinite(n)) return "—";
+    if (n >= 1e6) return "$" + (n / 1e6).toFixed(2).replace(/\.00$/, "") + "M";
+    if (n >= 1e3) return "$" + (n / 1e3).toFixed(2).replace(/\.00$/, "") + "K";
+    if (n >= 1) return "$" + n.toFixed(2);
+    return "$" + n.toFixed(4);
+  }
+
+  calcReadout(m) {
+    const amount = this.parseCompactNumber(this.state.calcAmount);
+    const supply = this.parseCompactNumber(m.totalSupply);
+    const tokenized = this.parseCompactNumber(m.mstrTokenized);
+    const price = this.parseCompactNumber(m.priceUsd);
+    if (!(amount > 0) || !(supply > 0)) {
+      return { sharePct: "—", impliedMstr: "—", usd: "—" };
+    }
+    const share = amount / supply;
+    return {
+      sharePct: this.formatSharePct(share),
+      impliedMstr: tokenized > 0 ? this.formatCompactCount(share * tokenized) : "—",
+      usd: price > 0 ? this.formatUsd(amount * price) : "—"
+    };
+  }
+
   formatSourceTime(iso) {
     if (!iso) return null;
     const d = new Date(iso);
@@ -779,13 +881,33 @@ class Component extends DCLogic {
     const off = !this.state.power;
     const m = this.state.metrics || Component.FALLBACK_METRICS;
     const t = m.sourceTime;
+    const calcOpen = this.state.calcOpen && !off;
+    const readout = this.calcReadout(m);
     return {
       mode,
       off,
       screenOpacity: off ? 0 : 1,
       powerLabel: off ? "OFF" : "ON",
-      togglePower: () => this.setState(st => ({ power: !st.power })),
+      togglePower: () => this.setState(st => ({ power: !st.power, calcOpen: st.power ? false : st.calcOpen })),
       buyOpen: this.state.buyOpen && !off,
+      calcOpen,
+      showDash: !calcOpen,
+      screenProgram: calcOpen ? "POSITION READOUT // SIZE" : "COIN TERMINAL MODEL 4926",
+      calcAmount: this.state.calcAmount,
+      calcSharePct: readout.sharePct,
+      calcImpliedMstr: readout.impliedMstr,
+      calcUsdNotional: readout.usd,
+      openCalc: () => this.setState({ calcOpen: true, buyOpen: false, ejectOpen: false }),
+      closeCalc: () => this.setState({ calcOpen: false }),
+      onCalcInput: (e) => {
+        const raw = e && e.target ? String(e.target.value) : "";
+        const cleaned = raw.replace(/[^0-9.,kKmMbB]/g, "").slice(0, 24);
+        this.setState({ calcAmount: cleaned });
+      },
+      setCalcPreset10M: () => this.setState({ calcAmount: "10000000" }),
+      setCalcPreset25M: () => this.setState({ calcAmount: "25000000" }),
+      setCalcPreset100M: () => this.setState({ calcAmount: "100000000" }),
+      clearCalc: () => this.setState({ calcAmount: "" }),
       addressLabel: this.state.copied ? "COPIED \u2713" : "0x168661\u20261e18",
       copyAddress: () => {
         const addr = "0x168661c52e5922288dfb2b3f323b6cf90eb21e18";

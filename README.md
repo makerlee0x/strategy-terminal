@@ -64,6 +64,7 @@ Return JSON (strings already formatted for the CRT):
   "marketCap": "$4.03M",
   "fdv": "$4.03M",
   "totalSupply": "1.00B",
+  "strategySupply": "1.00B",
   "liquidityUsd": "$636.48K",
   "mstrInLp": "2.17K",
   "mstrTokenized": "29.55K",
@@ -75,8 +76,8 @@ Return JSON (strings already formatted for the CRT):
 }
 ```
 
-`totalSupply` is Strategy Coin outstanding (not tokenized MSTR). Prefer sending it
-preformatted from STS; if omitted, the terminal derives `marketCap / priceUsd`.
+`strategySupply` / `totalSupply` is Strategy Coin outstanding (not tokenized MSTR).
+STS may send either; the terminal accepts both. If omitted, it derives `marketCap / priceUsd`.
 
 Hardcode the Strategy token/pair on the STS side — do not accept arbitrary token query params.
 Cache ~15s. Allow CORS from:

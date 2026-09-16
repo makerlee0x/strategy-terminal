@@ -28,6 +28,7 @@ const FIELD_KEYS = [
   "marketCap",
   "fdv",
   "totalSupply",
+  "strategySupply",
   "liquidityUsd",
   "mstrInLp",
   "mstrTokenized",
@@ -49,6 +50,7 @@ const FALLBACK = {
   marketCap: "$4.03M",
   fdv: "$4.03M",
   totalSupply: "1.00B",
+  strategySupply: "1.00B",
   liquidityUsd: "$636.48K",
   mstrInLp: "2.17K",
   mstrTokenized: "29.55K",
@@ -128,6 +130,9 @@ function pickPayload(raw) {
   // never trust upstream ok/source blindly for terminal semantics
   out.ok = out.ok !== false;
   out.source = asDisplayString(src.source, 32) || "stocktokenswap";
+  // STS ships strategySupply; keep totalSupply as the CRT display field
+  if (!out.totalSupply && out.strategySupply) out.totalSupply = out.strategySupply;
+  if (!out.strategySupply && out.totalSupply) out.strategySupply = out.totalSupply;
   return out;
 }
 
