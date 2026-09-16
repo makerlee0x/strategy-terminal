@@ -340,6 +340,13 @@
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">STRATEGY OUTSTANDING</div>
+      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ totalSupply }}</div>
+      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
+    </div>
+
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
+      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
       <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">FDV</div>
       <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ fdv }}</div>
       <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
@@ -578,6 +585,7 @@ class Component extends DCLogic {
     priceMstr: "0.000030",
     marketCap: "$4.03M",
     fdv: "$4.03M",
+    totalSupply: "1.00B",
     liquidityUsd: "$636.48K",
     mstrInLp: "2.17K",
     mstrTokenized: "29.55K",
@@ -673,14 +681,21 @@ class Component extends DCLogic {
     }
 
     const sourceTime = pick("sourceTime", "asOfLocal", "updatedAtLocal") || this.formatSourceTime(pick("asOf", "updatedAt"));
+    const resolvedPrice = priceUsd || Component.FALLBACK_METRICS.priceUsd;
+    const resolvedMcap = marketCap || Component.FALLBACK_METRICS.marketCap;
+    const totalSupply =
+      pick("totalSupply", "outstanding", "circulatingSupply", "supply") ||
+      this.deriveTotalSupply(resolvedMcap, resolvedPrice) ||
+      Component.FALLBACK_METRICS.totalSupply;
 
     return {
-      priceUsd: priceUsd || Component.FALLBACK_METRICS.priceUsd,
+      priceUsd: resolvedPrice,
       change24h: pick("change24h", "change24hPct", "priceChange24h") || Component.FALLBACK_METRICS.change24h,
       change24hPositive,
       priceMstr: pick("priceMstr", "priceMSTR", "mstrPrice") || Component.FALLBACK_METRICS.priceMstr,
-      marketCap: marketCap || Component.FALLBACK_METRICS.marketCap,
+      marketCap: resolvedMcap,
       fdv: pick("fdv", "fdvUsd", "fullyDilutedValuation") || Component.FALLBACK_METRICS.fdv,
+      totalSupply,
       liquidityUsd: pick("liquidityUsd", "liquidity", "lpTotalUsd") || Component.FALLBACK_METRICS.liquidityUsd,
       mstrInLp: pick("mstrInLp", "mstrInLP", "mstrLp") || Component.FALLBACK_METRICS.mstrInLp,
       mstrTokenized: pick("mstrTokenized", "mstrTokenised", "tokenizedMstr") || Component.FALLBACK_METRICS.mstrTokenized,
@@ -691,6 +706,43 @@ class Component extends DCLogic {
       sourceTime: sourceTime || Component.FALLBACK_METRICS.sourceTime,
       source: pick("source") || "unknown"
     };
+  }
+
+  // marketCap / priceUsd → CRT-friendly outstanding (e.g. "1.00B")
+  deriveTotalSupply(marketCapStr, priceUsdStr) {
+    const mcap = this.parseCompactNumber(marketCapStr);
+    const price = this.parseCompactNumber(priceUsdStr);
+    if (!(mcap > 0) || !(price > 0)) return null;
+    return this.formatCompactCount(mcap / price);
+  }
+
+  parseCompactNumber(raw) {
+    if (raw == null) return null;
+    const s = String(raw).trim().replace(/[$,\s]/g, "");
+    if (!s) return null;
+    const m = s.match(/^([+-]?\d*\.?\d+)([KMB])?$/i);
+    if (!m) {
+      const n = Number(s);
+      return Number.isFinite(n) ? n : null;
+    }
+    const base = Number(m[1]);
+    if (!Number.isFinite(base)) return null;
+    const unit = (m[2] || "").toUpperCase();
+    if (unit === "K") return base * 1e3;
+    if (unit === "M") return base * 1e6;
+    if (unit === "B") return base * 1e9;
+    return base;
+  }
+
+  formatCompactCount(n) {
+    if (!(n > 0) || !Number.isFinite(n)) return null;
+    // Round first so float noise (mcap/price ≈ 1e9) does not become "1000M".
+    const count = Math.round(n);
+    const trim = (v) => String(v).replace(/\.0+$/, "").replace(/(\.\d*?)0+$/, "$1");
+    if (count >= 1e9) return trim((count / 1e9).toFixed(2)) + "B";
+    if (count >= 1e6) return trim((count / 1e6).toFixed(2)) + "M";
+    if (count >= 1e3) return trim((count / 1e3).toFixed(2)) + "K";
+    return String(count);
   }
 
   formatSourceTime(iso) {
@@ -776,6 +828,7 @@ class Component extends DCLogic {
       priceMstr: m.priceMstr,
       marketCap: m.marketCap,
       fdv: m.fdv,
+      totalSupply: m.totalSupply,
       liquidityUsd: m.liquidityUsd,
       mstrInLp: m.mstrInLp,
       mstrTokenized: m.mstrTokenized,
