@@ -100,7 +100,9 @@ function securityHeaders() {
     "Referrer-Policy": "no-referrer",
     "X-Frame-Options": "DENY",
     "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
-    "Cache-Control": "public, s-maxage=15, stale-while-revalidate=60"
+    // Shared edge cache: many open terminals → one STS/Codex pull per minute.
+    // max-age=0 keeps browsers revalidating; SWR serves last-good while refreshing.
+    "Cache-Control": "public, max-age=0, s-maxage=60, stale-while-revalidate=300"
   };
 }
 

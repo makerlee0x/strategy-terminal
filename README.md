@@ -79,7 +79,9 @@ Return JSON (strings already formatted for the CRT):
 preformatted from STS; if omitted, the terminal derives `marketCap / priceUsd`.
 
 Hardcode the Strategy token/pair on the STS side — do not accept arbitrary token query params.
-Cache ~15s. Allow CORS from:
+Cache **~60s** (or longer) on the STS side so Codex is not hit on every browser poll.
+The terminal proxies through Vercel with `s-maxage=60` + `stale-while-revalidate=300`,
+polls once per minute, and **pauses while the tab is hidden**. Allow CORS from:
 
 - `https://strategycoin.io`
 - `https://www.strategycoin.io`
@@ -116,6 +118,8 @@ standby/fallback metrics unless you point it at the STS URL directly.
 
 - Fonts (ChicagoFLF, Anonymous Pro) load from CDNs. `standalone.html` has everything inlined
   if you need it fully offline.
-- Metrics poll `/api/strategy-metrics` every 15s (LIVE when upstream succeeds, STANDBY otherwise).
+- Metrics poll `/api/strategy-metrics` every 60s while the tab is visible (LIVE when upstream
+  succeeds, STANDBY otherwise). Hidden tabs do not poll. Edge cache is 60s so concurrent
+  viewers share one upstream fetch.
 - Interactions: POWER cuts the display to static, the knob and DIM/MID/NORM set screen
   brightness, the address chip copies the contract address, BUY NOW and EJECT open modals.
