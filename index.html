@@ -79,7 +79,7 @@
 </template>
 <style id="term-mobile-css">
 @media (max-width:900px){
-.term-page{padding:10px 6px 24px!important;width:100%!important;box-sizing:border-box!important}
+.term-page{padding:10px 6px 28px!important;width:100%!important;box-sizing:border-box!important}
 .term-shell{padding:0 8px!important;border-radius:14px!important;max-width:100%!important;width:100%!important}
 .term-topbar{flex-wrap:wrap!important;gap:8px!important;padding:12px 2px 8px!important}
 .term-topbar-right{width:100%!important}
@@ -89,6 +89,7 @@
 .term-crt{overflow:visible!important}
 .term-screen{min-height:0!important;height:auto!important;overflow:visible!important;padding:8px!important;justify-content:flex-start!important}
 .term-panel{padding:10px!important;max-width:100%!important;width:100%!important;box-sizing:border-box!important}
+.term-action-chip{min-height:36px!important;padding:8px 12px!important;font-size:11px!important;letter-spacing:.12em!important;display:inline-flex!important;align-items:center!important}
 .term-hero{display:flex!important;flex-direction:column!important;gap:8px!important;width:100%!important}
 .term-brand{display:contents!important}
 .term-brand-head{order:2!important;width:100%!important;box-sizing:border-box!important;background:#F4F3F0!important;border:1px solid #C6C5BF!important;border-radius:6px!important;padding:12px!important;gap:10px!important;align-items:center!important;box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12)!important}
@@ -105,10 +106,13 @@
 .term-bright{display:none!important}
 .term-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;width:100%!important;margin-top:8px!important}
 .term-metric-value{font-size:15px!important;padding:9px 8px!important;overflow-wrap:anywhere!important}
-.term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:center!important;gap:8px!important;padding:2px 0 8px!important}
+.term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:flex-end!important;gap:6px!important;padding:4px 0 10px!important}
 .term-rail-vent{display:none!important}
 .term-touch{min-width:48px!important;min-height:48px!important}
+.term-theme-btn{width:48px!important;height:48px!important}
 .term-footer{flex-wrap:wrap!important;gap:10px!important;padding:14px 2px 16px!important}
+.sec-bulletin{margin-top:16px!important;padding:14px!important;width:100%!important}
+.term-pedestal,.term-shadow{display:none!important}
 }
 @media (max-width:520px){
 .term-metrics{grid-template-columns:1fr 1fr!important}
@@ -116,7 +120,86 @@
 .term-chain-label{display:none!important}
 .term-screen-label{font-size:10px!important;letter-spacing:.1em!important}
 .term-tagline{display:none!important}
-.sec-bulletin{margin-top:16px!important;padding:14px!important}
+.sec-bulletin{margin-top:12px!important;padding:12px!important}
+}
+</style>
+<style id="term-theme-css">
+/* Dark CRT chassis — overrides inline light plastics */
+[data-theme="dark"] .term-page{
+  background:
+    radial-gradient(90% 60% at 50% 14%, rgba(80,120,90,.12) 0%, rgba(0,0,0,0) 60%),
+    radial-gradient(140% 110% at 50% 120%, rgba(0,0,0,.72) 0%, rgba(0,0,0,0) 62%),
+    linear-gradient(178deg, #1a1c18 0%, #121410 48%, #0b0c0a 100%)!important;
+}
+[data-theme="dark"] .term-shell{
+  background:
+    linear-gradient(105deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 26%),
+    linear-gradient(176deg, #2a2c26 0%, #1e201c 40%, #161814 70%, #10120e 100%)!important;
+  box-shadow:
+    inset 0 2px 1px rgba(255,255,255,.12),
+    inset 0 -14px 24px rgba(0,0,0,.45),
+    0 10px 18px rgba(0,0,0,.45),
+    0 34px 64px rgba(0,0,0,.55)!important;
+}
+[data-theme="dark"] .term-topbar div,
+[data-theme="dark"] .term-footer div,
+[data-theme="dark"] .term-rail > div:last-child{color:#9a9e94!important;text-shadow:none!important}
+[data-theme="dark"] .term-bezel{
+  background:linear-gradient(180deg,#1a1c18 0%, #232620 22%, #181a16 100%)!important;
+  box-shadow:inset 0 3px 7px rgba(0,0,0,.65), inset 0 -2px 0 rgba(255,255,255,.06)!important;
+}
+[data-theme="dark"] .term-crt{background:#050605!important}
+[data-theme="dark"] .term-screen{
+  background:#0b120e!important;
+}
+[data-theme="dark"] .term-panel{
+  background:#121814!important;
+  border-color:#2a322c!important;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.04), inset 0 -3px 6px rgba(0,0,0,.45), 0 18px 40px rgba(0,0,0,.55)!important;
+  background-image:repeating-linear-gradient(0deg, rgba(120,255,160,.03) 0 1px, rgba(0,0,0,.08) 1px 3px)!important;
+}
+[data-theme="dark"] .term-screen-label,
+[data-theme="dark"] .term-chain-label,
+[data-theme="dark"] .term-tagline,
+[data-theme="dark"] .term-price > div:first-child,
+[data-theme="dark"] .term-bright div{color:#8a9488!important}
+[data-theme="dark"] .term-title{color:#e8f0e4!important}
+[data-theme="dark"] .term-brand,
+[data-theme="dark"] .term-brand-head,
+[data-theme="dark"] .term-price,
+[data-theme="dark"] .term-calc > div,
+[data-theme="dark"] .term-snap > div,
+[data-theme="dark"] .term-metrics > div,
+[data-theme="dark"] .term-note,
+[data-theme="dark"] .term-sync,
+[data-theme="dark"] .sec-bulletin,
+[data-theme="dark"] .sec-bulletin > div > div{
+  background:#171c18!important;
+  border-color:#2c342e!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04), 0 1px 2px rgba(0,0,0,.35)!important;
+  color:#c8d2c4!important;
+}
+[data-theme="dark"] .term-note div,
+[data-theme="dark"] .term-sync div{color:#a8b2a4!important}
+[data-theme="dark"] .sec-bulletin h1{color:#e8f0e4!important}
+[data-theme="dark"] .sec-bulletin p{color:#a8b2a4!important}
+[data-theme="dark"] .term-chip:not(.term-cta-swap):not(.term-cta-buy):not(.term-addr){
+  background:linear-gradient(#2a2e28,#1c201c)!important;
+  border-color:#3a4238!important;
+  color:#d0dac8!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 2px 0 #0e100e!important;
+}
+[data-theme="dark"] .term-action-chip{
+  background:linear-gradient(#2f3830,#1e2620)!important;
+  border-color:#4a5a48!important;
+  color:#c8e0c0!important;
+}
+[data-theme="dark"] .term-pedestal{
+  background:linear-gradient(180deg,#1c1e18,#121410)!important;
+}
+[data-theme="dark"] .term-theme-btn.is-dark{
+  box-shadow:inset 0 1px 0 rgba(180,255,160,.25), inset 0 -3px 6px rgba(0,0,0,.5), 0 0 12px rgba(120,220,140,.35), 0 3px 0 #0a180e!important;
+  background:linear-gradient(180deg,#2a4a32,#1a3022)!important;
 }
 </style>
 </head>
@@ -198,7 +281,7 @@
 </style>
 </helmet>
 
-<div class="term-page" style="min-height:100vh;padding:64px 28px 88px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:0;
+<div class="term-page" data-theme="{{ theme }}" style="min-height:100vh;padding:40px 28px 64px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:0;
   background:
     radial-gradient(90% 60% at 50% 14%, rgba(255,250,240,.22) 0%, rgba(255,250,240,0) 60%),
     radial-gradient(140% 110% at 50% 120%, rgba(38,33,28,.52) 0%, rgba(38,33,28,0) 62%),
@@ -262,10 +345,10 @@
 
     <div class="term-crt" style="position:relative;border-radius:10px;overflow:hidden;background:#242320;
       box-shadow:inset 0 0 0 2px rgba(0,0,0,.55), inset 0 8px 26px rgba(0,0,0,.75), 0 1px 0 rgba(255,255,255,.6);">
-      <div class="term-screen" style="position:relative;min-height:min(72vh,860px);overflow:hidden;padding:18px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;background:#FCFBF9;transition:filter .3s ease, opacity .2s ease;filter:brightness({{ lift }}) contrast(1.06) saturate(1.02);opacity:{{ screenOpacity }};">
+      <div class="term-screen" style="position:relative;min-height:0;overflow:hidden;padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;background:#FCFBF9;transition:filter .3s ease, opacity .2s ease, background-color .3s ease;filter:brightness({{ lift }}) contrast(1.06) saturate(1.02);opacity:{{ screenOpacity }};">
 
-<div class="term-panel" style="max-width:1180px;margin:0 auto;background:#DFDEDA;border-radius:10px;padding:16px;
-  border:1px solid #BFBEB8;
+<div class="term-panel" style="max-width:1180px;width:100%;margin:0 auto;background:#DFDEDA;border-radius:10px;padding:16px;
+  border:1px solid #BFBEB8;box-sizing:border-box;
   box-shadow:inset 0 2px 0 rgba(255,255,255,.45), inset 0 -3px 6px rgba(0,0,0,.18), 0 18px 40px rgba(0,0,0,.35);
   background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, rgba(0,0,0,.02) 1px 3px);">
 
@@ -276,17 +359,17 @@
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
       <sc-if value="{{ showDash }}" hint-placeholder-val="{{ true }}">
-        <div class="term-chip" onClick="{{ openCalc }}"
+        <div class="term-chip term-action-chip" onClick="{{ openCalc }}"
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">SIZE</div>
-        <div class="term-chip" onClick="{{ openSnap }}"
+        <div class="term-chip term-action-chip" onClick="{{ openSnap }}"
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">SNAP</div>
       </sc-if>
       <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
-        <div class="term-chip" onClick="{{ closePanels }}"
+        <div class="term-chip term-action-chip" onClick="{{ closePanels }}"
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">BACK</div>
@@ -473,14 +556,14 @@
     </div>
   </div>
 
-  <div style="margin-top:14px;background:#EFEEEB;border:1px solid #C6C5BF;border-radius:5px;padding:11px 14px;
+  <div class="term-note" style="margin-top:14px;background:#EFEEEB;border:1px solid #C6C5BF;border-radius:5px;padding:11px 14px;
     box-shadow:inset 0 1px 0 #F8F7F5;display:flex;flex-direction:column;gap:6px;">
     <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;">DISCLAIMER</div>
     <div style="font-size:10px;line-height:1.5;color:#4A4842;text-wrap:pretty;">Investing in crypto is risky. Nothing here is investment advice. Values shown may be delayed or inaccurate; do your own research before transacting.</div>
     <div style="font-size:10px;line-height:1.5;color:#4A4842;text-wrap:pretty;">Strategy Coin is not affiliated with Strategy&#8383;. Learn more about $MSTR at <a href="https://www.strategy.com/learn" target="_blank" rel="noopener">strategy.com/learn</a>, and about stock tokens at <a href="https://robinhood.com/rhj/stocktokens/" target="_blank" rel="noopener">robinhood.com/rhj/stocktokens</a>.</div>
   </div>
 
-  <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  <div class="term-sync" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
     background:#D9D8D4;border:1px solid #BFBEB8;border-radius:5px;padding:10px 14px;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 4px rgba(0,0,0,.15);">
     <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
@@ -686,18 +769,33 @@
         <div style="width:13px;height:74px;border-radius:3px;background:#B9B7B1;
           box-shadow:inset 0 0 0 1px rgba(90,86,78,.5), inset 0 3px 7px rgba(0,0,0,.55);"></div>
       </div>
-      <div style="width:56px;height:56px;border-radius:50%;cursor:pointer;position:relative;
+      <div class="term-touch" style="width:56px;height:56px;border-radius:50%;cursor:pointer;position:relative;
         background:
           linear-gradient(150deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 45%),
           radial-gradient(circle at 40% 28%, #3B3936 0%, #2A2825 48%, #171614 100%);
         box-shadow:inset 0 -2px 4px rgba(0,0,0,.6), 0 4px 8px rgba(40,36,32,.45), 0 1px 0 rgba(255,255,255,.4);"
-        class="term-touch" onClick="{{ turnKnob }}">
+        onClick="{{ turnKnob }}">
         <div style="position:absolute;left:50%;top:7px;width:2px;height:15px;margin-left:-1px;border-radius:2px;background:#D9232E;box-shadow:0 0 5px rgba(217,35,46,.5);"></div>
       </div>
-      <div class="term-touch" style="width:44px;height:44px;border-radius:6px;background:linear-gradient(180deg,#E8362F,#BE1C25);cursor:pointer;
-        box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -3px 6px rgba(0,0,0,.3), 0 3px 0 #97141C, 0 5px 8px rgba(40,36,32,.35);"
-        onClick="{{ openEject }}" style-active="transform:translateY(2px);box-shadow:inset 0 2px 5px rgba(0,0,0,.4), 0 1px 0 #97141C"></div>
-      <div style="font-size:9px;letter-spacing:.18em;color:#605E58;">EJECT</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div class="term-touch term-theme-btn {{ themeBtnClass }}" onClick="{{ toggleTheme }}"
+          style="width:44px;height:44px;border-radius:6px;cursor:pointer;
+          background:linear-gradient(180deg,#E8E6E0,#C4C2BA);
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.7), inset 0 -3px 6px rgba(0,0,0,.25), 0 3px 0 #9A978F, 0 5px 8px rgba(40,36,32,.3);"
+          style-active="transform:translateY(2px);box-shadow:inset 0 2px 5px rgba(0,0,0,.35), 0 1px 0 #9A978F">
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+            <div style="width:14px;height:14px;border-radius:50%;border:2px solid {{ themeKnobBorder }};
+              background:{{ themeKnobFill }};box-shadow:{{ themeKnobGlow }};"></div>
+          </div>
+        </div>
+        <div style="font-size:9px;letter-spacing:.18em;color:#605E58;">{{ themeLabel }}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div class="term-touch" style="width:44px;height:44px;border-radius:6px;background:linear-gradient(180deg,#E8362F,#BE1C25);cursor:pointer;
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -3px 6px rgba(0,0,0,.3), 0 3px 0 #97141C, 0 5px 8px rgba(40,36,32,.35);"
+          onClick="{{ openEject }}" style-active="transform:translateY(2px);box-shadow:inset 0 2px 5px rgba(0,0,0,.4), 0 1px 0 #97141C"></div>
+        <div style="font-size:9px;letter-spacing:.18em;color:#605E58;">EJECT</div>
+      </div>
     </div>
   </div>
 
@@ -718,11 +816,11 @@
   </div>
 </div>
 
-<div style="width:min(88%,1180px);height:20px;border-radius:0 0 16px 16px;
+<div class="term-pedestal" style="width:min(88%,1180px);height:20px;border-radius:0 0 16px 16px;
   background:linear-gradient(180deg,#CBC7BD,#ADA89D);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.4), 0 18px 30px rgba(32,28,23,.42);"></div>
 
-<div style="width:min(92%,1260px);height:70px;margin-top:-6px;
+<div class="term-shadow" style="width:min(92%,1260px);height:70px;margin-top:-6px;
   background:radial-gradient(ellipse at 50% 0%, rgba(28,24,19,.55) 0%, rgba(28,24,19,.20) 42%, rgba(28,24,19,0) 74%);filter:blur(2px);"></div>
 
 <article class="sec-bulletin" style="width:100%;max-width:1180px;margin-top:28px;box-sizing:border-box;
@@ -807,6 +905,7 @@ class Component extends DCLogic {
     mode: "NORM",
     syncCount: 1,
     power: true,
+    theme: "light",
     buyOpen: false,
     ejectOpen: false,
     calcOpen: false,
@@ -820,6 +919,12 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
+    try {
+      const saved = localStorage.getItem("sc-theme");
+      if (saved === "dark" || saved === "light") {
+        this.setState({ theme: saved });
+      }
+    } catch (e) {}
     this.refreshMetrics();
     this._metricsTimer = setInterval(() => this.refreshMetrics(), Component.POLL_MS);
   }
@@ -1167,6 +1272,8 @@ class Component extends DCLogic {
     const mode = this.state.mode;
     const order = ["DIM", "MID", "NORM"];
     const off = !this.state.power;
+    const theme = this.state.theme === "dark" ? "dark" : "light";
+    const dark = theme === "dark";
     const m = this.state.metrics || Component.FALLBACK_METRICS;
     const t = m.sourceTime;
     const calcOpen = this.state.calcOpen && !off;
@@ -1177,6 +1284,17 @@ class Component extends DCLogic {
       : (this.state.snapDataUrl || "");
     return {
       mode,
+      theme,
+      themeLabel: dark ? "LIGHT" : "DARK",
+      themeBtnClass: dark ? "is-dark" : "",
+      themeKnobBorder: dark ? "#8FCF9A" : "#6A6860",
+      themeKnobFill: dark ? "#1B3E2D" : "#F4F3F0",
+      themeKnobGlow: dark ? "0 0 8px rgba(140,220,150,.55)" : "inset 0 1px 2px rgba(0,0,0,.25)",
+      toggleTheme: () => this.setState(st => {
+        const next = st.theme === "dark" ? "light" : "dark";
+        try { localStorage.setItem("sc-theme", next); } catch (e) {}
+        return { theme: next };
+      }),
       off,
       screenOpacity: off ? 0 : 1,
       powerLabel: off ? "OFF" : "ON",
