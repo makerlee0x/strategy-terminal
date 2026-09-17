@@ -2,19 +2,71 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Strategy Coin / Terminal</title>
+<title>Strategy Coin Terminal | Live $STRATEGY Metrics on Robinhood Chain</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <meta name="description" content="Strategy Coin - A Memecoin Backed by a Stock Backed by Bitcoin">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="canonical" href="https://strategycoin.io/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="description" content="Live Strategy Coin ($STRATEGY) CRT terminal: price, market cap, outstanding supply, and $MSTR LP metrics on Robinhood Chain. Snapshot and share the readout. Context on the SEC five-year Innovation Exemption for Tokenized Securities Venues (TSVs).">
+<meta name="keywords" content="Strategy Coin, $STRATEGY, MSTR, Bitcoin, tokenized securities, SEC Innovation Exemption, Tokenized Securities Venues, TSV, Robinhood Chain, StockTokenSwap, onchain stocks">
+<meta name="author" content="Strategy Coin">
+<meta name="theme-color" content="#8C857A">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Strategy Coin Terminal">
+<meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://strategycoin.io/">
-<meta property="og:title" content="Strategy Coin / Terminal">
-<meta property="og:description" content="Strategy Coin - A Memecoin Backed by a Stock Backed by Bitcoin">
+<meta property="og:title" content="Strategy Coin Terminal | Live $STRATEGY Metrics">
+<meta property="og:description" content="CRT terminal for Strategy Coin — a memecoin paired with $MSTR and backed by $BTC on Robinhood Chain. Live metrics, position readout, and frame capture to share.">
 <meta property="og:image" content="https://strategycoin.io/assets/og-share.png">
+<meta property="og:image:alt" content="Strategy Coin retro CRT terminal dashboard">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Strategy Coin / Terminal">
-<meta name="twitter:description" content="Strategy Coin - A Memecoin Backed by a Stock Backed by Bitcoin">
+<meta name="twitter:site" content="@strategystock">
+<meta name="twitter:title" content="Strategy Coin Terminal | Live $STRATEGY Metrics">
+<meta name="twitter:description" content="Live $STRATEGY price, outstanding supply, and $MSTR LP metrics on a CRT terminal. Snap the screen and share to X, Telegram, or Discord.">
 <meta name="twitter:image" content="https://strategycoin.io/assets/og-share.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://strategycoin.io/#website",
+      "url": "https://strategycoin.io/",
+      "name": "Strategy Coin Terminal",
+      "description": "Live Strategy Coin ($STRATEGY) metrics terminal on Robinhood Chain.",
+      "publisher": { "@id": "https://strategycoin.io/#org" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://strategycoin.io/#org",
+      "name": "Strategy Coin",
+      "url": "https://strategycoin.io/",
+      "logo": "https://strategycoin.io/assets/apple-touch-icon.png",
+      "sameAs": [
+        "https://x.com/strategystock",
+        "https://stocktokenswap.com/"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://strategycoin.io/#webpage",
+      "url": "https://strategycoin.io/",
+      "name": "Strategy Coin Terminal",
+      "isPartOf": { "@id": "https://strategycoin.io/#website" },
+      "about": {
+        "@type": "Thing",
+        "name": "SEC Innovation Exemption for Tokenized Securities Venues"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://strategycoin.io/assets/og-share.png"
+      },
+      "description": "Public CRT terminal for Strategy Coin with live metrics, position readout calculator, and shareable frame capture."
+    }
+  ]
+}
+</script>
 <script src="./support.js"></script>
 <template id="__bundler_thumbnail">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
@@ -64,6 +116,7 @@
 .term-chain-label{display:none!important}
 .term-screen-label{font-size:10px!important;letter-spacing:.1em!important}
 .term-tagline{display:none!important}
+.sec-bulletin{margin-top:16px!important;padding:14px!important}
 }
 </style>
 </head>
@@ -226,9 +279,13 @@
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">SIZE</div>
+        <div class="term-chip" onClick="{{ openSnap }}"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
+          font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">SNAP</div>
       </sc-if>
-      <sc-if value="{{ calcOpen }}" hint-placeholder-val="{{ false }}">
-        <div class="term-chip" onClick="{{ closeCalc }}"
+      <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
+        <div class="term-chip" onClick="{{ closePanels }}"
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">BACK</div>
@@ -497,6 +554,39 @@
   </div>
   </sc-if>
 
+  <sc-if value="{{ snapOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="term-snap" style="display:flex;flex-direction:column;gap:14px;">
+    <div style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:16px 18px;
+      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:0;">
+          <div style="font-size:22px;font-weight:700;color:#26251F;letter-spacing:-.02em;line-height:1;">FRAME CAPTURE</div>
+          <div style="font-size:11px;color:#5A5852;letter-spacing:.04em;text-wrap:pretty;">Snapshot the CRT readout card, then share to X, Telegram, or Discord.</div>
+        </div>
+        <div style="font-size:9px;letter-spacing:.14em;color:#54524C;text-align:right;">STATUS<br/><span style="color:#1B3E2D;font-size:13px;letter-spacing:.04em;">{{ snapStatus }}</span></div>
+      </div>
+
+      <div style="background:#E7E6E2;border:1px solid #C9C8C2;border-radius:5px;padding:10px;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -2px 4px rgba(0,0,0,.12);">
+        <img src="{{ snapDataUrl }}" alt="Strategy Coin terminal snapshot preview"
+          style="display:block;width:100%;height:auto;border-radius:3px;background:#1B3E2D;" />
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <div class="term-chip" onClick="{{ saveSnap }}" style="background:linear-gradient(180deg,#1B3E2D,#243F30);border:1px solid #0F2419;border-radius:3px;padding:9px 12px;font-size:10px;letter-spacing:.12em;color:#E8F0E4;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 2px 0 #0F2419;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">SAVE PNG</div>
+        <div class="term-chip" onClick="{{ shareX }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:9px 12px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">X / TWITTER</div>
+        <div class="term-chip" onClick="{{ shareTelegram }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:9px 12px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">TELEGRAM</div>
+        <div class="term-chip" onClick="{{ shareDiscord }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:9px 12px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">DISCORD</div>
+      </div>
+    </div>
+
+    <div style="background:#EFEEEB;border:1px solid #C6C5BF;border-radius:5px;padding:11px 14px;box-shadow:inset 0 1px 0 #F8F7F5;display:flex;flex-direction:column;gap:6px;">
+      <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;">SHARE NOTES</div>
+      <div style="font-size:10px;line-height:1.5;color:#4A4842;text-wrap:pretty;">SAVE PNG downloads the CRT card. X and Telegram open a share draft with live metrics + strategycoin.io. DISCORD copies the caption and downloads the PNG so you can paste both into a channel.</div>
+    </div>
+  </div>
+  </sc-if>
+
 <sc-if value="{{ ejectOpen }}" hint-placeholder-val="{{ false }}">
   <div style="position:absolute;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:20px;
     background:#15140F;" onClick="{{ closeEject }}">
@@ -633,6 +723,54 @@
 
 <div style="width:min(92%,1260px);height:70px;margin-top:-6px;
   background:radial-gradient(ellipse at 50% 0%, rgba(28,24,19,.55) 0%, rgba(28,24,19,.20) 42%, rgba(28,24,19,0) 74%);filter:blur(2px);"></div>
+
+<article class="sec-bulletin" style="width:100%;max-width:1180px;margin-top:28px;box-sizing:border-box;
+  background:#EFEEEB;border:1px solid #C6C5BF;border-radius:8px;padding:18px 20px 20px;
+  box-shadow:inset 0 1px 0 #F8F7F5, 0 10px 24px rgba(32,28,23,.18);display:flex;flex-direction:column;gap:14px;">
+  <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;gap:6px;min-width:0;">
+      <div style="font-size:8px;letter-spacing:.2em;color:#5A5852;">BULLETIN // MARKET STRUCTURE</div>
+      <h1 style="margin:0;font-size:clamp(18px,3vw,24px);font-weight:700;color:#26251F;letter-spacing:-.02em;line-height:1.15;">
+        SEC Innovation Exemption for Tokenized Securities Venues
+      </h1>
+      <p style="margin:0;font-size:12px;line-height:1.55;color:#4A4842;text-wrap:pretty;max-width:62ch;">
+        The U.S. Securities and Exchange Commission approved a five-year Innovation Exemption allowing qualifying Tokenized Securities Venues (TSVs) to trade tokenized U.S. stocks onchain without registering as traditional exchanges.
+      </p>
+    </div>
+    <div style="font-size:9px;letter-spacing:.14em;color:#54524C;text-align:right;">TERM<br/><span style="color:#1B3E2D;font-size:13px;letter-spacing:.04em;">5 YEARS</span></div>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:9px;">
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:11px 12px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.12);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">TEMPORARY RELIEF</div>
+      <p style="margin:0;font-size:11px;line-height:1.45;color:#3E3A31;text-wrap:pretty;">Conditional exemption lasts five years so the SEC can test blockchain market data and form permanent rules.</p>
+    </div>
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:11px 12px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.12);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">REAL OWNERSHIP ONLY</div>
+      <p style="margin:0;font-size:11px;line-height:1.45;color:#3E3A31;text-wrap:pretty;">Tokens must represent actual share ownership with full voting and dividend rights. Synthetic or derivative price-tracking tokens are excluded.</p>
+    </div>
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:11px 12px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.12);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">ISSUER VETO</div>
+      <p style="margin:0;font-size:11px;line-height:1.45;color:#3E3A31;text-wrap:pretty;">Platforms must notify public companies 30 days before listing a tokenized share; the issuer can block the listing if they object.</p>
+    </div>
+    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:11px 12px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.12);">
+      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">DEALER EXEMPTION</div>
+      <p style="margin:0;font-size:11px;line-height:1.45;color:#3E3A31;text-wrap:pretty;">Liquidity providers on approved permissioned AMMs receive temporary relief from dealer registration rules.</p>
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);border-radius:5px;padding:12px 14px;
+    color:#1B3E2D;box-shadow:inset 0 3px 7px rgba(24,44,32,.4), inset 0 0 0 1px rgba(24,44,32,.25), inset 0 -1px 0 rgba(255,255,255,.45);">
+    <div style="font-size:8px;letter-spacing:.16em;margin-bottom:6px;">MARKET BENEFITS</div>
+    <p style="margin:0;font-size:12px;line-height:1.5;text-wrap:pretty;text-shadow:0 1px 0 rgba(255,255,255,.28);">
+      24/7 trading, fractional shares, near-instant settlement, and investor self-custody — the rails Strategy Coin sits beside as a memecoin paired with tokenized $MSTR on Robinhood Chain.
+    </p>
+  </div>
+
+  <p style="margin:0;font-size:10px;line-height:1.5;color:#5A5852;text-wrap:pretty;">
+    Informational summary only — not legal advice. Strategy Coin is a memecoin and is not itself a registered security or an SEC-approved TSV listing. Always verify primary SEC releases and issuer disclosures.
+  </p>
+</article>
 </div>
 
 </x-dc>
@@ -671,6 +809,9 @@ class Component extends DCLogic {
     buyOpen: false,
     ejectOpen: false,
     calcOpen: false,
+    snapOpen: false,
+    snapDataUrl: "",
+    snapStatus: "STANDBY",
     calcAmount: "",
     copied: false,
     metrics: null,
@@ -692,11 +833,18 @@ class Component extends DCLogic {
     try {
       const data = await this.fetchMetrics();
       if (!data) return;
-      this.setState(st => ({
-        metrics: data,
-        metricsLive: true,
-        syncCount: (st.syncCount % 999) + 1
-      }));
+      this.setState(st => {
+        const next = {
+          metrics: data,
+          metricsLive: true,
+          syncCount: (st.syncCount % 999) + 1
+        };
+        if (st.snapOpen) {
+          next.snapDataUrl = this.makeSnapDataUrl(data);
+          next.snapStatus = "LIVE";
+        }
+        return next;
+      });
     } catch (e) {
       // Keep last good / fallback values on the CRT.
     } finally {
@@ -847,6 +995,145 @@ class Component extends DCLogic {
     };
   }
 
+  shareCaption(m) {
+    const live = this.state.metricsLive && m.source && m.source !== "fallback" ? "LIVE" : "STANDBY";
+    return [
+      "$STRATEGY CRT SNAP // Strategy Coin Terminal",
+      "Price " + m.priceUsd + " (" + m.change24h + " 24h) · " + live,
+      "MCap " + m.marketCap + " · Outstanding " + m.totalSupply + " · LP " + m.liquidityUsd,
+      "MSTR in LP " + m.mstrInLp + " · Tokenized " + m.mstrTokenized,
+      "https://strategycoin.io/"
+    ].join("\n");
+  }
+
+  makeSnapDataUrl(metrics) {
+    const m = metrics || this.state.metrics || Component.FALLBACK_METRICS;
+    const W = 1200;
+    const H = 675;
+    const canvas = document.createElement("canvas");
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return "";
+
+    const fillRound = (x, y, w, h, r, fill) => {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      ctx.fillStyle = fill;
+      ctx.fill();
+    };
+
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, "#8C857A");
+    g.addColorStop(0.55, "#7A7469");
+    g.addColorStop(1, "#5F5A52");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    fillRound(48, 40, W - 96, H - 80, 28, "#F3F1EB");
+    fillRound(72, 64, W - 144, H - 128, 14, "#DFDEDA");
+
+    ctx.fillStyle = "#5A5852";
+    ctx.font = "600 18px ui-monospace, monospace";
+    ctx.fillText("STRATEGY COIN  /  MODEL 4926  /  FRAME CAPTURE", 98, 108);
+
+    fillRound(98, 128, 64, 64, 10, "#D9232E");
+    ctx.fillStyle = "#FFF6F2";
+    ctx.font = "700 28px ui-monospace, monospace";
+    ctx.fillText("$S", 114, 170);
+
+    ctx.fillStyle = "#26251F";
+    ctx.font = "700 42px ui-monospace, monospace";
+    ctx.fillText("$STRATEGY COIN", 180, 158);
+    ctx.fillStyle = "#5A5852";
+    ctx.font = "400 18px ui-monospace, monospace";
+    ctx.fillText("Paired with $MSTR  ·  Backed by $BTC  ·  Robinhood Chain", 180, 186);
+
+    fillRound(98, 220, 520, 150, 10, "#1B3E2D");
+    ctx.fillStyle = "#A9BA9C";
+    ctx.font = "600 16px ui-monospace, monospace";
+    ctx.fillText("PRICE (USD IMPLIED)", 120, 252);
+    ctx.fillStyle = "#E8F0E4";
+    ctx.font = "700 56px ui-monospace, monospace";
+    ctx.fillText(String(m.priceUsd || "—"), 120, 318);
+    ctx.fillStyle = m.change24hPositive === false ? "#F2B0B4" : "#B8C8A9";
+    ctx.font = "600 22px ui-monospace, monospace";
+    ctx.fillText(String(m.change24h || "—") + "  24H", 120, 350);
+
+    const tiles = [
+      ["MARKET CAP", m.marketCap],
+      ["OUTSTANDING", m.totalSupply],
+      ["LIQUIDITY", m.liquidityUsd],
+      ["MSTR IN LP", m.mstrInLp],
+      ["TOKENIZED", m.mstrTokenized],
+      ["HOLDERS", m.holders]
+    ];
+    tiles.forEach((tile, i) => {
+      const col = i % 3;
+      const row = Math.floor(i / 3);
+      const x = 640 + col * 150;
+      const y = 220 + row * 78;
+      fillRound(x, y, 140, 68, 6, "#E4E3E0");
+      fillRound(x + 8, y + 28, 124, 30, 4, "#A9BA9C");
+      ctx.fillStyle = "#5A5852";
+      ctx.font = "600 11px ui-monospace, monospace";
+      ctx.fillText(tile[0], x + 12, y + 20);
+      ctx.fillStyle = "#1B3E2D";
+      ctx.font = "700 18px ui-monospace, monospace";
+      ctx.fillText(String(tile[1] || "—"), x + 16, y + 50);
+    });
+
+    ctx.fillStyle = "#5A5852";
+    ctx.font = "400 16px ui-monospace, monospace";
+    const stamp = (m.sourceTime || "--:--:--") + " UTC  ·  strategycoin.io";
+    ctx.fillText(stamp, 98, H - 78);
+    ctx.fillStyle = "#D9232E";
+    ctx.beginPath();
+    ctx.arc(W - 110, H - 84, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#5A5852";
+    ctx.font = "600 14px ui-monospace, monospace";
+    ctx.fillText(this.state.metricsLive ? "LIVE" : "STANDBY", W - 92, H - 79);
+
+    try {
+      return canvas.toDataURL("image/png");
+    } catch (e) {
+      return "";
+    }
+  }
+
+  downloadSnap(dataUrl) {
+    if (!dataUrl) return;
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = "strategy-coin-terminal-snap.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  copyText(text, onDone) {
+    const done = typeof onDone === "function" ? onDone : () => {};
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, done);
+      return;
+    }
+    const el = document.createElement("textarea");
+    el.value = text;
+    el.style.position = "fixed";
+    el.style.opacity = "0";
+    document.body.appendChild(el);
+    el.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(el);
+    done();
+  }
+
   formatSourceTime(iso) {
     if (!iso) return null;
     const d = new Date(iso);
@@ -882,22 +1169,50 @@ class Component extends DCLogic {
     const m = this.state.metrics || Component.FALLBACK_METRICS;
     const t = m.sourceTime;
     const calcOpen = this.state.calcOpen && !off;
+    const snapOpen = this.state.snapOpen && !off;
     const readout = this.calcReadout(m);
+    const snapDataUrl = snapOpen
+      ? (this.state.snapDataUrl || this.makeSnapDataUrl(m))
+      : (this.state.snapDataUrl || "");
     return {
       mode,
       off,
       screenOpacity: off ? 0 : 1,
       powerLabel: off ? "OFF" : "ON",
-      togglePower: () => this.setState(st => ({ power: !st.power, calcOpen: st.power ? false : st.calcOpen })),
+      togglePower: () => this.setState(st => ({
+        power: !st.power,
+        calcOpen: st.power ? false : st.calcOpen,
+        snapOpen: st.power ? false : st.snapOpen
+      })),
       buyOpen: this.state.buyOpen && !off,
       calcOpen,
-      showDash: !calcOpen,
-      screenProgram: calcOpen ? "POSITION READOUT // SIZE" : "COIN TERMINAL MODEL 4926",
+      snapOpen,
+      showDash: !calcOpen && !snapOpen,
+      showBack: calcOpen || snapOpen,
+      screenProgram: calcOpen
+        ? "POSITION READOUT // SIZE"
+        : snapOpen
+          ? "FRAME CAPTURE // SNAP"
+          : "COIN TERMINAL MODEL 4926",
       calcAmount: this.state.calcAmount,
       calcSharePct: readout.sharePct,
       calcImpliedMstr: readout.impliedMstr,
       calcUsdNotional: readout.usd,
-      openCalc: () => this.setState({ calcOpen: true, buyOpen: false, ejectOpen: false }),
+      snapDataUrl: snapDataUrl || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",
+      snapStatus: this.state.snapStatus || (snapOpen ? "READY" : "STANDBY"),
+      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, buyOpen: false, ejectOpen: false }),
+      openSnap: () => {
+        const url = this.makeSnapDataUrl(m);
+        this.setState({
+          snapOpen: true,
+          calcOpen: false,
+          buyOpen: false,
+          ejectOpen: false,
+          snapDataUrl: url,
+          snapStatus: url ? "READY" : "FAULT"
+        });
+      },
+      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, snapStatus: "STANDBY" }),
       closeCalc: () => this.setState({ calcOpen: false }),
       onCalcInput: (e) => {
         const raw = e && e.target ? String(e.target.value) : "";
@@ -908,6 +1223,42 @@ class Component extends DCLogic {
       setCalcPreset25M: () => this.setState({ calcAmount: "25000000" }),
       setCalcPreset100M: () => this.setState({ calcAmount: "100000000" }),
       clearCalc: () => this.setState({ calcAmount: "" }),
+      saveSnap: () => {
+        const url = this.makeSnapDataUrl(m);
+        this.downloadSnap(url);
+        this.setState({ snapDataUrl: url, snapStatus: "SAVED" });
+        clearTimeout(this._snapStatusT);
+        this._snapStatusT = setTimeout(() => this.setState({ snapStatus: "READY" }), 1600);
+      },
+      shareX: () => {
+        const url = this.makeSnapDataUrl(m);
+        this.setState({ snapDataUrl: url, snapStatus: "X DRAFT" });
+        const text = this.shareCaption(m);
+        const intent = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
+        window.open(intent, "_blank", "noopener,noreferrer");
+        clearTimeout(this._snapStatusT);
+        this._snapStatusT = setTimeout(() => this.setState({ snapStatus: "READY" }), 1600);
+      },
+      shareTelegram: () => {
+        const url = this.makeSnapDataUrl(m);
+        this.setState({ snapDataUrl: url, snapStatus: "TG DRAFT" });
+        const text = this.shareCaption(m);
+        const intent = "https://t.me/share/url?url=" + encodeURIComponent("https://strategycoin.io/") +
+          "&text=" + encodeURIComponent(text);
+        window.open(intent, "_blank", "noopener,noreferrer");
+        clearTimeout(this._snapStatusT);
+        this._snapStatusT = setTimeout(() => this.setState({ snapStatus: "READY" }), 1600);
+      },
+      shareDiscord: () => {
+        const url = this.makeSnapDataUrl(m);
+        const text = this.shareCaption(m);
+        this.copyText(text, () => {
+          this.downloadSnap(url);
+          this.setState({ snapDataUrl: url, snapStatus: "COPIED" });
+          clearTimeout(this._snapStatusT);
+          this._snapStatusT = setTimeout(() => this.setState({ snapStatus: "READY" }), 1800);
+        });
+      },
       addressLabel: this.state.copied ? "COPIED \u2713" : "0x168661\u20261e18",
       copyAddress: () => {
         const addr = "0x168661c52e5922288dfb2b3f323b6cf90eb21e18";
@@ -916,15 +1267,7 @@ class Component extends DCLogic {
           clearTimeout(this._copyT);
           this._copyT = setTimeout(() => this.setState({ copied: false }), 1600);
         };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(addr).then(done, done);
-        } else {
-          const el = document.createElement("textarea");
-          el.value = addr; el.style.position = "fixed"; el.style.opacity = "0";
-          document.body.appendChild(el); el.select();
-          try { document.execCommand("copy"); } catch (e) {}
-          document.body.removeChild(el); done();
-        }
+        this.copyText(addr, done);
       },
       ejectOpen: this.state.ejectOpen && !off,
       openEject: () => this.setState({ ejectOpen: true }),
