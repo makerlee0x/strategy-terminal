@@ -120,3 +120,9 @@ standby/fallback metrics unless you point it at the STS URL directly.
 - Metrics poll `/api/strategy-metrics` every 15s (LIVE when upstream succeeds, STANDBY otherwise).
 - Interactions: POWER cuts the display to static, the knob and DIM/MID/NORM set screen
   brightness, the address chip copies the contract address, BUY NOW and EJECT open modals.
+  SIZE opens the Position Readout calculator; SNAP captures a CRT metrics card and shares
+  to X / Telegram / Discord (Discord copies caption + downloads PNG).
+  Rail DARK/LIGHT button toggles CRT chassis theme (saved in localStorage).
+- Below the pedestal: SEC Innovation Exemption bulletin for Tokenized Securities Venues
+  (SEO-facing copy; not part of the CRT first viewport).
+- CRT screen hugs content (no forced 72vh bezel gap); mobile stack hides pedestal shadow.
