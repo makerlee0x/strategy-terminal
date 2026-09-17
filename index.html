@@ -78,34 +78,70 @@
   </svg>
 </template>
 <style id="term-mobile-css">
-/* Desktop: locked static CRT — no page scroll */
+/* Desktop: fixed CRT shell — rail on RIGHT, metrics never crushed */
 @media (min-width:701px){
-html,body{height:100%!important;overflow:hidden!important}
-.term-page{height:100vh!important;max-height:100vh!important;overflow:hidden!important;padding:10px 14px!important;box-sizing:border-box!important}
-.term-shell{height:100%!important;max-height:100%!important;max-width:1180px!important;display:flex!important;flex-direction:column!important;padding:0 14px!important;border-radius:20px!important;box-sizing:border-box!important}
-.term-topbar{flex:none!important;padding:10px 2px 8px!important}
-.term-body{flex:1 1 auto!important;min-height:0!important;align-items:stretch!important;gap:12px!important;flex-direction:row!important}
-.term-bezel{height:100%!important;min-height:0!important;padding:8px!important;display:flex!important;flex-direction:column!important;order:1!important;flex:1 1 auto!important}
-.term-crt{flex:1 1 auto!important;min-height:0!important;height:auto!important;display:flex!important;flex-direction:column!important}
-.term-screen{flex:1 1 auto!important;min-height:0!important;height:auto!important;overflow:hidden!important;padding:8px!important;justify-content:flex-start!important}
-.term-panel{flex:1 1 auto!important;min-height:0!important;height:100%!important;overflow-y:auto!important;overflow-x:hidden!important;display:flex!important;flex-direction:column!important;padding:10px!important;max-width:none!important;width:100%!important;box-sizing:border-box!important}
+html,body{height:100%!important;overflow:hidden!important;margin:0!important}
+x-dc{display:block!important;height:100%!important;overflow:hidden!important}
+.term-page{
+  position:fixed!important;inset:0!important;height:100%!important;width:100%!important;
+  overflow:hidden!important;padding:12px 16px!important;box-sizing:border-box!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+}
+.term-shell{
+  width:min(1180px,100%)!important;height:100%!important;max-height:100%!important;
+  display:flex!important;flex-direction:column!important;padding:0 14px!important;
+  border-radius:20px!important;box-sizing:border-box!important;
+}
+.term-topbar{flex:0 0 auto!important;padding:10px 2px 8px!important}
+.term-body{
+  flex:1 1 auto!important;min-height:0!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr) 78px!important;
+  gap:12px!important;align-items:stretch!important;
+}
+.term-bezel{
+  grid-column:1!important;min-width:0!important;min-height:0!important;height:100%!important;
+  padding:8px!important;display:flex!important;flex-direction:column!important;order:unset!important;
+}
+.term-rail{
+  grid-column:2!important;width:78px!important;min-width:78px!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:flex-start!important;gap:10px!important;padding-top:2px!important;
+  align-self:stretch!important;order:unset!important;margin:0!important;
+}
+.term-crt{flex:1 1 auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;width:100%!important}
+.term-screen{flex:1 1 auto!important;min-height:0!important;overflow:hidden!important;padding:8px!important;display:flex!important;flex-direction:column!important}
+.term-panel{
+  flex:1 1 auto!important;min-height:0!important;width:100%!important;max-width:none!important;
+  overflow-x:hidden!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;
+  padding:10px!important;box-sizing:border-box!important;
+}
 .term-hero{flex:0 0 auto!important;gap:10px!important}
 .term-brand{padding:12px 14px!important;gap:10px!important}
 .term-price{padding:10px!important;gap:8px!important}
 .term-title{font-size:24px!important}
-.term-metrics{flex:0 1 auto!important;min-height:0!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px!important;margin-top:8px!important;overflow:visible!important;align-content:start!important}
-.term-metrics > div{padding:6px 7px 5px!important;gap:4px!important;min-height:0!important;overflow:visible!important}
-.term-metric-value{font-size:13px!important;padding:5px 6px!important;line-height:1.15!important}
-.term-note{flex:0 0 auto!important;margin-top:6px!important;padding:6px 9px!important}
-.term-note > div:nth-child(n+3){display:none!important}
-.term-sync{flex:0 0 auto!important;margin-top:6px!important;padding:6px 9px!important}
-.term-rail{width:74px!important;flex:none!important;order:2!important;align-self:stretch!important;justify-content:flex-start!important;gap:10px!important;padding-top:2px!important;margin-left:0!important}
-.term-rail-vent{height:56px!important}
-.term-rail-vent > div{height:40px!important}
-.term-footer{flex:none!important;padding:10px 2px 12px!important}
-.term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
 .term-bright{display:none!important}
+.term-metrics{
+  flex:0 0 auto!important;display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:8px!important;margin-top:10px!important;overflow:visible!important;
+}
+.term-metrics > div{
+  min-height:auto!important;height:auto!important;overflow:visible!important;
+  padding:8px 9px!important;gap:6px!important;box-sizing:border-box!important;
+}
+.term-metric-value{
+  display:block!important;font-size:15px!important;line-height:1.3!important;
+  padding:8px 9px!important;min-height:2.1em!important;height:auto!important;
+  overflow:visible!important;white-space:nowrap!important;box-sizing:border-box!important;
+}
 .term-metrics > div > div:last-child:not(.term-metric-value){display:none!important}
+.term-note{flex:0 0 auto!important;margin-top:8px!important;padding:8px 10px!important}
+.term-note > div:nth-child(n+3){display:none!important}
+.term-sync{flex:0 0 auto!important;margin-top:8px!important;padding:8px 10px!important}
+.term-rail-vent{height:56px!important;width:100%!important}
+.term-rail-vent > div{height:40px!important}
+.term-footer{flex:0 0 auto!important;padding:8px 2px 10px!important}
+.term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
 .term-calc,.term-snap,.term-news{flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
 }
 @media (max-width:700px){
@@ -114,7 +150,7 @@ html,body{height:100%!important;overflow:hidden!important}
 .term-topbar{flex-wrap:wrap!important;gap:8px!important;padding:10px 2px 6px!important}
 .term-topbar-right{width:100%!important}
 .term-speaker{display:none!important}
-.term-body{flex-direction:column!important;gap:8px!important;width:100%!important;align-items:stretch!important}
+.term-body{display:flex!important;flex-direction:column!important;grid-template-columns:none!important;gap:8px!important;width:100%!important;align-items:stretch!important}
 .term-bezel{width:100%!important;padding:6px!important;box-sizing:border-box!important;height:auto!important}
 .term-crt{overflow:visible!important;height:auto!important}
 .term-screen{min-height:0!important;height:auto!important;overflow:visible!important;padding:6px!important;justify-content:flex-start!important}
@@ -135,8 +171,8 @@ html,body{height:100%!important;overflow:hidden!important}
 .term-links .term-chip:last-child:nth-child(even){grid-column:1/-1!important}
 .term-bright{display:none!important}
 .term-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;width:100%!important;margin-top:8px!important}
-.term-metric-value{font-size:14px!important;padding:8px!important;overflow-wrap:anywhere!important}
-.term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:flex-end!important;gap:6px!important;padding:6px 0 8px!important;align-self:stretch!important;order:2!important}
+.term-metric-value{font-size:14px!important;padding:8px!important;overflow:visible!important;min-height:2em!important;line-height:1.3!important;white-space:nowrap!important}
+.term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:flex-end!important;gap:6px!important;padding:6px 0 8px!important;align-self:stretch!important;grid-column:auto!important}
 .term-rail-vent{display:none!important}
 .term-rail-power{display:none!important}
 .term-footer-power{display:flex!important}
@@ -319,9 +355,9 @@ html,body{height:100%!important;overflow:hidden!important}
     </div>
   </div>
 
-  <div class="term-body" style="position:relative;display:flex;flex-direction:row;gap:16px;align-items:stretch;">
+  <div class="term-body" style="position:relative;display:grid;grid-template-columns:minmax(0,1fr) 78px;gap:16px;align-items:stretch;">
 
-    <div class="term-bezel" style="flex:1;min-width:0;order:1;position:relative;border-radius:18px;padding:10px;box-sizing:border-box;
+    <div class="term-bezel" style="min-width:0;position:relative;border-radius:18px;padding:10px;box-sizing:border-box;
       background:linear-gradient(180deg,#DEDAD2 0%, #F1EFE9 22%, #EAE7E0 100%);
       box-shadow:
         inset 0 3px 7px rgba(110,104,95,.42),
@@ -791,7 +827,7 @@ html,body{height:100%!important;overflow:hidden!important}
     </div>
     </div>
 
-    <div class="term-rail" style="width:74px;flex:none;order:2;align-self:stretch;display:flex;flex-direction:column;gap:10px;align-items:center;padding-top:2px;justify-content:flex-start;">
+    <div class="term-rail" style="width:78px;align-self:stretch;display:flex;flex-direction:column;gap:10px;align-items:center;padding-top:2px;justify-content:flex-start;">
       <div class="term-rail-vent" style="width:100%;height:56px;border-radius:7px;box-sizing:border-box;
         background:linear-gradient(180deg,#F8F6F1,#E2DFD7);
         box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 -2px 5px rgba(120,114,104,.28), 0 1px 2px rgba(255,255,255,.6);
