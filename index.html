@@ -78,49 +78,73 @@
   </svg>
 </template>
 <style id="term-mobile-css">
-@media (max-width:900px){
-.term-page{padding:10px 6px 28px!important;width:100%!important;box-sizing:border-box!important}
-.term-shell{padding:0 8px!important;border-radius:14px!important;max-width:100%!important;width:100%!important}
-.term-topbar{flex-wrap:wrap!important;gap:8px!important;padding:12px 2px 8px!important}
+/* Desktop: locked static CRT — no page scroll */
+@media (min-width:701px){
+html,body{height:100%!important;overflow:hidden!important}
+.term-page{height:100vh!important;max-height:100vh!important;overflow:hidden!important;padding:10px 14px!important;box-sizing:border-box!important}
+.term-shell{height:100%!important;max-height:100%!important;max-width:1180px!important;display:flex!important;flex-direction:column!important;padding:0 14px!important;border-radius:20px!important;box-sizing:border-box!important}
+.term-topbar{flex:none!important;padding:10px 2px 8px!important}
+.term-body{flex:1 1 auto!important;min-height:0!important;align-items:stretch!important;gap:12px!important}
+.term-bezel{height:100%!important;min-height:0!important;padding:8px!important;display:flex!important;flex-direction:column!important}
+.term-crt{flex:1 1 auto!important;min-height:0!important;height:auto!important;display:flex!important;flex-direction:column!important}
+.term-screen{flex:1 1 auto!important;min-height:0!important;height:auto!important;overflow:hidden!important;padding:8px!important;justify-content:flex-start!important}
+.term-panel{flex:1 1 auto!important;min-height:0!important;height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;padding:10px!important;max-width:none!important;width:100%!important;box-sizing:border-box!important}
+.term-hero{flex:none!important}
+.term-metrics{flex:1 1 auto!important;min-height:0!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px!important;margin-top:8px!important;overflow:hidden!important;align-content:start!important}
+.term-metrics > div{padding:7px 8px 6px!important;gap:5px!important;min-height:0!important}
+.term-metric-value{font-size:14px!important;padding:6px 7px!important}
+.term-note{flex:none!important;margin-top:8px!important;padding:7px 10px!important}
+.term-note > div:nth-child(n+3){display:none!important}
+.term-sync{flex:none!important;margin-top:8px!important;padding:7px 10px!important}
+.term-rail{width:70px!important;flex:none!important;align-self:stretch!important;justify-content:flex-start!important;gap:10px!important;padding-top:2px!important}
+.term-rail-vent{height:56px!important}
+.term-rail-vent > div{height:40px!important}
+.term-footer{flex:none!important;padding:10px 2px 12px!important}
+.term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
+.term-bright{display:none!important}
+.term-metrics > div > div:last-child:not(.term-metric-value){display:none!important}
+.term-calc,.term-snap,.term-news{flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
+}
+@media (max-width:700px){
+.term-page{padding:8px 4px 20px!important;width:100%!important;box-sizing:border-box!important;overflow:auto!important;height:auto!important;max-height:none!important}
+.term-shell{padding:0 6px!important;border-radius:12px!important;max-width:100%!important;width:100%!important;height:auto!important;max-height:none!important;display:flex!important;flex-direction:column!important}
+.term-topbar{flex-wrap:wrap!important;gap:8px!important;padding:10px 2px 6px!important}
 .term-topbar-right{width:100%!important}
 .term-speaker{display:none!important}
-.term-body{flex-direction:column!important;gap:8px!important;width:100%!important}
-.term-bezel{width:100%!important;padding:8px!important;box-sizing:border-box!important}
-.term-crt{overflow:visible!important}
-.term-screen{min-height:0!important;height:auto!important;overflow:visible!important;padding:8px!important;justify-content:flex-start!important}
-.term-panel{padding:10px!important;max-width:100%!important;width:100%!important;box-sizing:border-box!important}
-.term-action-chip{min-height:36px!important;padding:8px 12px!important;font-size:11px!important;letter-spacing:.12em!important;display:inline-flex!important;align-items:center!important}
+.term-body{flex-direction:column!important;gap:8px!important;width:100%!important;align-items:stretch!important}
+.term-bezel{width:100%!important;padding:6px!important;box-sizing:border-box!important;height:auto!important}
+.term-crt{overflow:visible!important;height:auto!important}
+.term-screen{min-height:0!important;height:auto!important;overflow:visible!important;padding:6px!important;justify-content:flex-start!important}
+.term-panel{padding:8px!important;max-width:100%!important;width:100%!important;box-sizing:border-box!important;height:auto!important;overflow:visible!important}
+.term-action-chip{min-height:34px!important;padding:7px 10px!important;font-size:10px!important;letter-spacing:.1em!important;display:inline-flex!important;align-items:center!important}
 .term-hero{display:flex!important;flex-direction:column!important;gap:8px!important;width:100%!important}
 .term-brand{display:contents!important}
-.term-brand-head{order:2!important;width:100%!important;box-sizing:border-box!important;background:#F4F3F0!important;border:1px solid #C6C5BF!important;border-radius:6px!important;padding:12px!important;gap:10px!important;align-items:center!important;box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12)!important}
-.term-logo-mark{width:44px!important;height:44px!important;padding:5px!important}
-.term-price{order:1!important;width:100%!important;box-sizing:border-box!important;padding:12px!important;gap:10px!important}
-.term-title{font-size:clamp(20px,6.5vw,26px)!important;white-space:normal!important;overflow-wrap:anywhere!important}
+.term-brand-head{order:2!important;width:100%!important;box-sizing:border-box!important;background:#F4F3F0!important;border:1px solid #C6C5BF!important;border-radius:6px!important;padding:10px!important;gap:10px!important;align-items:center!important;box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12)!important}
+.term-logo-mark{width:40px!important;height:40px!important;padding:5px!important}
+.term-price{order:1!important;width:100%!important;box-sizing:border-box!important;padding:10px!important;gap:8px!important}
+.term-title{font-size:clamp(18px,6vw,24px)!important;white-space:normal!important;overflow-wrap:anywhere!important}
 .term-tagline{font-size:10px!important;line-height:1.35!important}
 .term-cta{order:3!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;width:100%!important}
-.term-cta .term-chip{width:100%!important;min-height:48px!important;padding:14px 12px!important;font-size:13px!important;letter-spacing:.16em!important;box-sizing:border-box!important}
-.term-links{order:4!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;width:100%!important}
-.term-links .term-chip{width:100%!important;min-height:42px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;box-sizing:border-box!important;padding:10px 8px!important;font-size:11px!important}
+.term-cta .term-chip{width:100%!important;min-height:46px!important;padding:12px!important;font-size:12px!important;letter-spacing:.14em!important;box-sizing:border-box!important}
+.term-links{order:4!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important;width:100%!important}
+.term-links .term-chip{width:100%!important;min-height:40px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;box-sizing:border-box!important;padding:8px!important;font-size:10px!important}
 .term-links .term-addr{grid-column:1/-1!important}
 .term-links .term-chip:last-child:nth-child(even){grid-column:1/-1!important}
 .term-bright{display:none!important}
-.term-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;width:100%!important;margin-top:8px!important}
-.term-metric-value{font-size:15px!important;padding:9px 8px!important;overflow-wrap:anywhere!important}
-.term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:flex-end!important;gap:6px!important;padding:4px 0 10px!important}
+.term-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;width:100%!important;margin-top:8px!important}
+.term-metric-value{font-size:14px!important;padding:8px!important;overflow-wrap:anywhere!important}
+.term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:flex-end!important;gap:6px!important;padding:6px 0 8px!important;align-self:stretch!important}
 .term-rail-vent{display:none!important}
-.term-touch{min-width:48px!important;min-height:48px!important}
-.term-theme-btn{width:48px!important;height:48px!important}
-.term-footer{flex-wrap:wrap!important;gap:10px!important;padding:14px 2px 16px!important}
-.sec-bulletin{margin-top:16px!important;padding:14px!important;width:100%!important}
-.term-pedestal,.term-shadow{display:none!important}
+.term-touch{min-width:46px!important;min-height:46px!important}
+.term-theme-btn{width:46px!important;height:46px!important}
+.term-footer{flex-wrap:wrap!important;gap:8px!important;padding:10px 2px 12px!important}
+.term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
 }
 @media (max-width:520px){
-.term-metrics{grid-template-columns:1fr 1fr!important}
 .term-status-pills{display:none!important}
 .term-chain-label{display:none!important}
-.term-screen-label{font-size:10px!important;letter-spacing:.1em!important}
+.term-screen-label{font-size:9px!important;letter-spacing:.08em!important}
 .term-tagline{display:none!important}
-.sec-bulletin{margin-top:12px!important;padding:12px!important}
 }
 </style>
 <style id="term-theme-css">
@@ -231,63 +255,18 @@
   @keyframes rollBar { 0% { transform: translateY(-30%); } 100% { transform: translateY(130%); } }
 
 
-  /* Mobile / narrow viewport — stacked CRT layout */
-  @media (max-width: 900px) {
-    .term-page { padding: 10px 6px 24px !important; width: 100% !important; box-sizing: border-box !important; }
-    .term-shell { padding: 0 8px !important; border-radius: 14px !important; max-width: 100% !important; width: 100% !important; }
-    .term-topbar { flex-wrap: wrap !important; gap: 8px !important; padding: 12px 2px 8px !important; }
-    .term-topbar-right { width: 100% !important; justify-content: flex-start !important; gap: 12px !important; }
-    .term-speaker { display: none !important; }
-    .term-body { flex-direction: column !important; gap: 8px !important; width: 100% !important; }
-    .term-bezel { width: 100% !important; padding: 8px !important; box-sizing: border-box !important; }
-    .term-crt { overflow: visible !important; }
-    .term-screen { min-height: 0 !important; height: auto !important; overflow: visible !important; padding: 8px !important; justify-content: flex-start !important; }
-    .term-panel { padding: 10px !important; max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; }
-    .term-hero { display: flex !important; flex-direction: column !important; gap: 8px !important; width: 100% !important; }
-    .term-brand { display: contents !important; }
-    .term-brand-head {
-      order: 2 !important; width: 100% !important; box-sizing: border-box !important;
-      background: #F4F3F0 !important; border: 1px solid #C6C5BF !important; border-radius: 6px !important;
-      padding: 12px !important; gap: 10px !important; align-items: center !important;
-      box-shadow: inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12) !important;
-    }
-    .term-logo-mark { width: 44px !important; height: 44px !important; padding: 5px !important; }
-    .term-price { order: 1 !important; width: 100% !important; box-sizing: border-box !important; padding: 12px !important; gap: 10px !important; }
-    .term-title { font-size: clamp(20px, 6.5vw, 26px) !important; white-space: normal !important; overflow-wrap: anywhere !important; }
-    .term-tagline { font-size: 10px !important; line-height: 1.35 !important; }
-    .term-cta { order: 3 !important; display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; width: 100% !important; }
-    .term-cta .term-chip { width: 100% !important; min-height: 48px !important; padding: 14px 12px !important; font-size: 13px !important; letter-spacing: .16em !important; box-sizing: border-box !important; }
-    .term-links { order: 4 !important; display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; width: 100% !important; }
-    .term-links .term-chip { width: 100% !important; min-height: 42px !important; display: flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; box-sizing: border-box !important; padding: 10px 8px !important; font-size: 11px !important; }
-    .term-links .term-addr { grid-column: 1 / -1 !important; }
-    .term-links .term-chip:last-child:nth-child(even) { grid-column: 1 / -1 !important; }
-    .term-bright { display: none !important; }
-    .term-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px !important; width: 100% !important; margin-top: 8px !important; }
-    .term-metric-value { font-size: 15px !important; padding: 9px 8px !important; overflow-wrap: anywhere !important; }
-    .term-rail { width: 100% !important; flex-direction: row !important; justify-content: space-around !important; align-items: center !important; gap: 8px !important; padding: 2px 0 8px !important; }
-    .term-rail-vent { display: none !important; }
-    .term-touch { min-width: 48px !important; min-height: 48px !important; }
-    .term-footer { flex-wrap: wrap !important; gap: 10px !important; padding: 14px 2px 16px !important; }
-  }
-  @media (max-width: 520px) {
-    .term-metrics { grid-template-columns: 1fr 1fr !important; }
-    .term-status-pills { display: none !important; }
-    .term-chain-label { display: none !important; }
-    .term-screen-label { font-size: 10px !important; letter-spacing: .1em !important; }
-    .term-tagline { display: none !important; }
-    .sec-bulletin { margin-top: 16px !important; padding: 14px !important; }
-  }
+  /* responsive rules live in #term-mobile-css */
 
 </style>
 </helmet>
 
-<div class="term-page" data-theme="{{ theme }}" style="min-height:100vh;padding:40px 28px 64px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:0;
+<div class="term-page" data-theme="{{ theme }}" style="min-height:100vh;padding:28px 16px 48px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:0;
   background:
     radial-gradient(90% 60% at 50% 14%, rgba(255,250,240,.22) 0%, rgba(255,250,240,0) 60%),
     radial-gradient(140% 110% at 50% 120%, rgba(38,33,28,.52) 0%, rgba(38,33,28,0) 62%),
     linear-gradient(178deg, #8C857A 0%, #7E776C 48%, #6B655C 100%);">
 
-<div class="term-shell" style="width:100%;max-width:1340px;position:relative;border-radius:30px;padding:0 30px;box-sizing:border-box;
+<div class="term-shell" style="width:100%;max-width:1100px;position:relative;border-radius:24px;padding:0 18px;box-sizing:border-box;
   background:
     linear-gradient(105deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,0) 26%),
     linear-gradient(176deg, #FBFAF6 0%, #F3F1EB 34%, #EAE7E0 66%, #D8D4CA 100%);
@@ -304,7 +283,7 @@
   <div style="position:absolute;inset:0;border-radius:30px;pointer-events:none;
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.55), inset 0 0 0 2px rgba(168,162,151,.28);"></div>
 
-  <div class="term-topbar" style="position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;padding:26px 4px 20px;">
+  <div class="term-topbar" style="position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:16px 2px 12px;">
     <div style="display:flex;flex-direction:column;gap:6px;">
       <div style="font-size:24px;letter-spacing:.2em;color:#4E4C46;line-height:1;text-shadow:0 1px 0 rgba(255,255,255,.8);">STRATEGY</div>
       <div style="font-size:10px;letter-spacing:.24em;color:#605E58;">STRATEGY COIN &nbsp;/&nbsp; MODEL 4926</div>
@@ -334,20 +313,20 @@
     </div>
   </div>
 
-  <div class="term-body" style="position:relative;display:flex;gap:22px;align-items:stretch;">
+  <div class="term-body" style="position:relative;display:flex;gap:16px;align-items:flex-start;">
 
-    <div class="term-bezel" style="flex:1;min-width:0;position:relative;border-radius:18px;padding:14px;box-sizing:border-box;
+    <div class="term-bezel" style="flex:1;min-width:0;position:relative;border-radius:18px;padding:10px;box-sizing:border-box;
       background:linear-gradient(180deg,#DEDAD2 0%, #F1EFE9 22%, #EAE7E0 100%);
       box-shadow:
         inset 0 3px 7px rgba(110,104,95,.42),
         inset 0 -2px 0 rgba(255,255,255,.85),
         0 1px 0 rgba(255,255,255,.75);">
 
-    <div class="term-crt" style="position:relative;border-radius:10px;overflow:hidden;background:#242320;
+    <div class="term-crt" style="position:relative;border-radius:10px;overflow:hidden;background:#242320;width:100%;
       box-shadow:inset 0 0 0 2px rgba(0,0,0,.55), inset 0 8px 26px rgba(0,0,0,.75), 0 1px 0 rgba(255,255,255,.6);">
-      <div class="term-screen" style="position:relative;min-height:0;overflow:hidden;padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;background:#FCFBF9;transition:filter .3s ease, opacity .2s ease, background-color .3s ease;filter:brightness({{ lift }}) contrast(1.06) saturate(1.02);opacity:{{ screenOpacity }};">
+      <div class="term-screen" style="position:relative;width:100%;min-height:0;height:auto;overflow:hidden;padding:10px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;background:#FCFBF9;transition:filter .3s ease, opacity .2s ease, background-color .3s ease;filter:brightness({{ lift }}) contrast(1.06) saturate(1.02);opacity:{{ screenOpacity }};">
 
-<div class="term-panel" style="max-width:1180px;width:100%;margin:0 auto;background:#DFDEDA;border-radius:10px;padding:16px;
+<div class="term-panel" style="width:100%;max-width:none;margin:0;background:#DFDEDA;border-radius:10px;padding:12px;
   border:1px solid #BFBEB8;box-sizing:border-box;
   box-shadow:inset 0 2px 0 rgba(255,255,255,.45), inset 0 -3px 6px rgba(0,0,0,.18), 0 18px 40px rgba(0,0,0,.35);
   background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, rgba(0,0,0,.02) 1px 3px);">
@@ -362,11 +341,15 @@
         <div class="term-chip term-action-chip" onClick="{{ openCalc }}"
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
-          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">SIZE</div>
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">CALCULATOR</div>
         <div class="term-chip term-action-chip" onClick="{{ openSnap }}"
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">SNAP</div>
+        <div class="term-chip term-action-chip" onClick="{{ openNews }}"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
+          font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">NEWS</div>
       </sc-if>
       <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
         <div class="term-chip term-action-chip" onClick="{{ closePanels }}"
@@ -476,7 +459,7 @@
     </div>
   </div>
 
-  <div class="term-metrics" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:9px;margin-top:14px;">
+  <div class="term-metrics" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px;">
 
     <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
       box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
@@ -671,6 +654,47 @@
   </div>
   </sc-if>
 
+  <sc-if value="{{ newsOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="term-news" style="display:flex;flex-direction:column;gap:10px;min-height:0;">
+    <div style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:14px 16px;
+      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:0;">
+          <div style="font-size:8px;letter-spacing:.2em;color:#5A5852;">BULLETIN // MARKET STRUCTURE</div>
+          <div style="font-size:20px;font-weight:700;color:#26251F;letter-spacing:-.02em;line-height:1.15;">SEC Innovation Exemption for Tokenized Securities Venues</div>
+          <div style="font-size:11px;color:#5A5852;letter-spacing:.04em;text-wrap:pretty;">Five-year SEC relief for qualifying Tokenized Securities Venues (TSVs) to trade tokenized U.S. stocks onchain without registering as traditional exchanges.</div>
+        </div>
+        <div style="font-size:9px;letter-spacing:.14em;color:#54524C;text-align:right;">TERM<br/><span style="color:#1B3E2D;font-size:13px;letter-spacing:.04em;">5 YEARS</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
+        <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
+          <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">TEMPORARY RELIEF</div>
+          <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Conditional exemption lasts five years so the SEC can test blockchain market data and form permanent rules.</div>
+        </div>
+        <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
+          <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">REAL OWNERSHIP ONLY</div>
+          <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Tokens must represent actual share ownership with voting and dividend rights. Synthetic price-tracking tokens are excluded.</div>
+        </div>
+        <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
+          <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">ISSUER VETO</div>
+          <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Platforms must notify public companies 30 days before listing; the issuer can block the listing if they object.</div>
+        </div>
+        <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
+          <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">DEALER EXEMPTION</div>
+          <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Liquidity providers on approved permissioned AMMs receive temporary relief from dealer registration rules.</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);border-radius:5px;padding:11px 12px;color:#1B3E2D;
+        box-shadow:inset 0 3px 7px rgba(24,44,32,.4), inset 0 0 0 1px rgba(24,44,32,.25);">
+        <div style="font-size:8px;letter-spacing:.16em;margin-bottom:5px;">MARKET BENEFITS</div>
+        <div style="font-size:11px;line-height:1.45;text-wrap:pretty;">24/7 trading, fractional shares, near-instant settlement, and investor self-custody — rails Strategy Coin sits beside as a memecoin paired with tokenized $MSTR on Robinhood Chain.</div>
+      </div>
+      <div style="font-size:10px;line-height:1.45;color:#5A5852;text-wrap:pretty;">Informational only — not legal advice. Strategy Coin is a memecoin, not a registered security or SEC-approved TSV listing.</div>
+    </div>
+  </div>
+  </sc-if>
+
+
 <sc-if value="{{ ejectOpen }}" hint-placeholder-val="{{ false }}">
   <div style="position:absolute;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:20px;
     background:#15140F;" onClick="{{ closeEject }}">
@@ -761,12 +785,12 @@
     </div>
     </div>
 
-    <div class="term-rail" style="width:86px;flex:none;display:flex;flex-direction:column;gap:16px;align-items:center;">
-      <div class="term-rail-vent" style="width:100%;height:104px;border-radius:7px;box-sizing:border-box;
+    <div class="term-rail" style="width:70px;flex:none;align-self:stretch;display:flex;flex-direction:column;gap:10px;align-items:center;padding-top:2px;justify-content:flex-start;">
+      <div class="term-rail-vent" style="width:100%;height:56px;border-radius:7px;box-sizing:border-box;
         background:linear-gradient(180deg,#F8F6F1,#E2DFD7);
         box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 -2px 5px rgba(120,114,104,.28), 0 1px 2px rgba(255,255,255,.6);
         display:flex;align-items:center;justify-content:center;">
-        <div style="width:13px;height:74px;border-radius:3px;background:#B9B7B1;
+        <div style="width:13px;height:40px;border-radius:3px;background:#B9B7B1;
           box-shadow:inset 0 0 0 1px rgba(90,86,78,.5), inset 0 3px 7px rgba(0,0,0,.55);"></div>
       </div>
       <div class="term-touch" style="width:56px;height:56px;border-radius:50%;cursor:pointer;position:relative;
@@ -799,7 +823,7 @@
     </div>
   </div>
 
-  <div class="term-footer" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 4px 26px;">
+  <div class="term-footer" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 2px 16px;">
     <div style="display:flex;align-items:center;gap:14px;">
       <div style="width:28px;height:28px;border-radius:50%;cursor:pointer;
         background:
@@ -823,52 +847,9 @@
 <div class="term-shadow" style="width:min(92%,1260px);height:70px;margin-top:-6px;
   background:radial-gradient(ellipse at 50% 0%, rgba(28,24,19,.55) 0%, rgba(28,24,19,.20) 42%, rgba(28,24,19,0) 74%);filter:blur(2px);"></div>
 
-<article class="sec-bulletin" style="width:100%;max-width:1180px;margin-top:28px;box-sizing:border-box;
-  background:#EFEEEB;border:1px solid #C6C5BF;border-radius:8px;padding:18px 20px 20px;
-  box-shadow:inset 0 1px 0 #F8F7F5, 0 10px 24px rgba(32,28,23,.18);display:flex;flex-direction:column;gap:14px;">
-  <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
-    <div style="display:flex;flex-direction:column;gap:6px;min-width:0;">
-      <div style="font-size:8px;letter-spacing:.2em;color:#5A5852;">BULLETIN // MARKET STRUCTURE</div>
-      <h1 style="margin:0;font-size:clamp(18px,3vw,24px);font-weight:700;color:#26251F;letter-spacing:-.02em;line-height:1.15;">
-        SEC Innovation Exemption for Tokenized Securities Venues
-      </h1>
-      <p style="margin:0;font-size:12px;line-height:1.55;color:#4A4842;text-wrap:pretty;max-width:62ch;">
-        The U.S. Securities and Exchange Commission approved a five-year Innovation Exemption allowing qualifying Tokenized Securities Venues (TSVs) to trade tokenized U.S. stocks onchain without registering as traditional exchanges.
-      </p>
-    </div>
-    <div style="font-size:9px;letter-spacing:.14em;color:#54524C;text-align:right;">TERM<br/><span style="color:#1B3E2D;font-size:13px;letter-spacing:.04em;">5 YEARS</span></div>
-  </header>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:9px;">
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:11px 12px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.12);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">TEMPORARY RELIEF</div>
-      <p style="margin:0;font-size:11px;line-height:1.45;color:#3E3A31;text-wrap:pretty;">Conditional exemption lasts five years so the SEC can test blockchain market data and form permanent rules.</p>
-    </div>
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:11px 12px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.12);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">REAL OWNERSHIP ONLY</div>
-      <p style="margin:0;font-size:11px;line-height:1.45;color:#3E3A31;text-wrap:pretty;">Tokens must represent actual share ownership with full voting and dividend rights. Synthetic or derivative price-tracking tokens are excluded.</p>
-    </div>
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:11px 12px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.12);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">ISSUER VETO</div>
-      <p style="margin:0;font-size:11px;line-height:1.45;color:#3E3A31;text-wrap:pretty;">Platforms must notify public companies 30 days before listing a tokenized share; the issuer can block the listing if they object.</p>
-    </div>
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:11px 12px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.12);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">DEALER EXEMPTION</div>
-      <p style="margin:0;font-size:11px;line-height:1.45;color:#3E3A31;text-wrap:pretty;">Liquidity providers on approved permissioned AMMs receive temporary relief from dealer registration rules.</p>
-    </div>
-  </div>
-
-  <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);border-radius:5px;padding:12px 14px;
-    color:#1B3E2D;box-shadow:inset 0 3px 7px rgba(24,44,32,.4), inset 0 0 0 1px rgba(24,44,32,.25), inset 0 -1px 0 rgba(255,255,255,.45);">
-    <div style="font-size:8px;letter-spacing:.16em;margin-bottom:6px;">MARKET BENEFITS</div>
-    <p style="margin:0;font-size:12px;line-height:1.5;text-wrap:pretty;text-shadow:0 1px 0 rgba(255,255,255,.28);">
-      24/7 trading, fractional shares, near-instant settlement, and investor self-custody — the rails Strategy Coin sits beside as a memecoin paired with tokenized $MSTR on Robinhood Chain.
-    </p>
-  </div>
-
-  <p style="margin:0;font-size:10px;line-height:1.5;color:#5A5852;text-wrap:pretty;">
-    Informational summary only — not legal advice. Strategy Coin is a memecoin and is not itself a registered security or an SEC-approved TSV listing. Always verify primary SEC releases and issuer disclosures.
-  </p>
+<article class="sec-bulletin-external" aria-hidden="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+  <h2>SEC Innovation Exemption for Tokenized Securities Venues</h2>
+  <p>The U.S. Securities and Exchange Commission approved a five-year Innovation Exemption allowing qualifying Tokenized Securities Venues (TSVs) to trade tokenized U.S. stocks onchain without registering as traditional exchanges. Temporary relief lasts five years. Tokens must represent real share ownership with voting and dividend rights. Issuer veto requires 30-day notice. Dealer exemption covers liquidity providers on approved permissioned AMMs. Market benefits include 24/7 trading, fractional shares, near-instant settlement, and investor self-custody.</p>
 </article>
 </div>
 
@@ -910,6 +891,7 @@ class Component extends DCLogic {
     ejectOpen: false,
     calcOpen: false,
     snapOpen: false,
+    newsOpen: false,
     snapDataUrl: "",
     snapStatus: "STANDBY",
     calcAmount: "",
@@ -1278,6 +1260,7 @@ class Component extends DCLogic {
     const t = m.sourceTime;
     const calcOpen = this.state.calcOpen && !off;
     const snapOpen = this.state.snapOpen && !off;
+    const newsOpen = this.state.newsOpen && !off;
     const readout = this.calcReadout(m);
     const snapDataUrl = snapOpen
       ? (this.state.snapDataUrl || this.makeSnapDataUrl(m))
@@ -1301,37 +1284,43 @@ class Component extends DCLogic {
       togglePower: () => this.setState(st => ({
         power: !st.power,
         calcOpen: st.power ? false : st.calcOpen,
-        snapOpen: st.power ? false : st.snapOpen
+        snapOpen: st.power ? false : st.snapOpen,
+        newsOpen: st.power ? false : st.newsOpen
       })),
       buyOpen: this.state.buyOpen && !off,
       calcOpen,
       snapOpen,
-      showDash: !calcOpen && !snapOpen,
-      showBack: calcOpen || snapOpen,
+      newsOpen,
+      showDash: !calcOpen && !snapOpen && !newsOpen,
+      showBack: calcOpen || snapOpen || newsOpen,
       screenProgram: calcOpen
-        ? "POSITION READOUT // SIZE"
+        ? "POSITION READOUT // CALCULATOR"
         : snapOpen
           ? "FRAME CAPTURE // SNAP"
-          : "COIN TERMINAL MODEL 4926",
+          : newsOpen
+            ? "BULLETIN // NEWS"
+            : "COIN TERMINAL MODEL 4926",
       calcAmount: this.state.calcAmount,
       calcSharePct: readout.sharePct,
       calcImpliedMstr: readout.impliedMstr,
       calcUsdNotional: readout.usd,
       snapDataUrl: snapDataUrl || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",
       snapStatus: this.state.snapStatus || (snapOpen ? "READY" : "STANDBY"),
-      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, buyOpen: false, ejectOpen: false }),
+      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, buyOpen: false, ejectOpen: false }),
       openSnap: () => {
         const url = this.makeSnapDataUrl(m);
         this.setState({
           snapOpen: true,
           calcOpen: false,
+          newsOpen: false,
           buyOpen: false,
           ejectOpen: false,
           snapDataUrl: url,
           snapStatus: url ? "READY" : "FAULT"
         });
       },
-      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, snapStatus: "STANDBY" }),
+      openNews: () => this.setState({ newsOpen: true, calcOpen: false, snapOpen: false, buyOpen: false, ejectOpen: false }),
+      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, snapStatus: "STANDBY" }),
       closeCalc: () => this.setState({ calcOpen: false }),
       onCalcInput: (e) => {
         const raw = e && e.target ? String(e.target.value) : "";
