@@ -1,6 +1,6 @@
 // Vercel serverless proxy for Strategy Coin terminal metrics.
-// Same-origin on this site; Codex key stays on StockTokenSwap only.
-// This is NOT a generic Codex proxy — fixed upstream URL, allowlisted fields.
+// Same-origin on this site; CoinGecko key stays on StockTokenSwap only.
+// This is NOT a generic market-data proxy — fixed upstream URL, allowlisted fields.
 
 const UPSTREAM =
   process.env.STRATEGY_METRICS_URL ||
