@@ -84,19 +84,22 @@ html,body{height:100%!important;overflow:hidden!important}
 .term-page{height:100vh!important;max-height:100vh!important;overflow:hidden!important;padding:10px 14px!important;box-sizing:border-box!important}
 .term-shell{height:100%!important;max-height:100%!important;max-width:1180px!important;display:flex!important;flex-direction:column!important;padding:0 14px!important;border-radius:20px!important;box-sizing:border-box!important}
 .term-topbar{flex:none!important;padding:10px 2px 8px!important}
-.term-body{flex:1 1 auto!important;min-height:0!important;align-items:stretch!important;gap:12px!important}
-.term-bezel{height:100%!important;min-height:0!important;padding:8px!important;display:flex!important;flex-direction:column!important}
+.term-body{flex:1 1 auto!important;min-height:0!important;align-items:stretch!important;gap:12px!important;flex-direction:row!important}
+.term-bezel{height:100%!important;min-height:0!important;padding:8px!important;display:flex!important;flex-direction:column!important;order:1!important;flex:1 1 auto!important}
 .term-crt{flex:1 1 auto!important;min-height:0!important;height:auto!important;display:flex!important;flex-direction:column!important}
 .term-screen{flex:1 1 auto!important;min-height:0!important;height:auto!important;overflow:hidden!important;padding:8px!important;justify-content:flex-start!important}
-.term-panel{flex:1 1 auto!important;min-height:0!important;height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;padding:10px!important;max-width:none!important;width:100%!important;box-sizing:border-box!important}
-.term-hero{flex:none!important}
-.term-metrics{flex:1 1 auto!important;min-height:0!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px!important;margin-top:8px!important;overflow:hidden!important;align-content:start!important}
-.term-metrics > div{padding:7px 8px 6px!important;gap:5px!important;min-height:0!important}
-.term-metric-value{font-size:14px!important;padding:6px 7px!important}
-.term-note{flex:none!important;margin-top:8px!important;padding:7px 10px!important}
+.term-panel{flex:1 1 auto!important;min-height:0!important;height:100%!important;overflow-y:auto!important;overflow-x:hidden!important;display:flex!important;flex-direction:column!important;padding:10px!important;max-width:none!important;width:100%!important;box-sizing:border-box!important}
+.term-hero{flex:0 0 auto!important;gap:10px!important}
+.term-brand{padding:12px 14px!important;gap:10px!important}
+.term-price{padding:10px!important;gap:8px!important}
+.term-title{font-size:24px!important}
+.term-metrics{flex:0 1 auto!important;min-height:0!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px!important;margin-top:8px!important;overflow:visible!important;align-content:start!important}
+.term-metrics > div{padding:6px 7px 5px!important;gap:4px!important;min-height:0!important;overflow:visible!important}
+.term-metric-value{font-size:13px!important;padding:5px 6px!important;line-height:1.15!important}
+.term-note{flex:0 0 auto!important;margin-top:6px!important;padding:6px 9px!important}
 .term-note > div:nth-child(n+3){display:none!important}
-.term-sync{flex:none!important;margin-top:8px!important;padding:7px 10px!important}
-.term-rail{width:70px!important;flex:none!important;align-self:stretch!important;justify-content:flex-start!important;gap:10px!important;padding-top:2px!important}
+.term-sync{flex:0 0 auto!important;margin-top:6px!important;padding:6px 9px!important}
+.term-rail{width:74px!important;flex:none!important;order:2!important;align-self:stretch!important;justify-content:flex-start!important;gap:10px!important;padding-top:2px!important;margin-left:0!important}
 .term-rail-vent{height:56px!important}
 .term-rail-vent > div{height:40px!important}
 .term-footer{flex:none!important;padding:10px 2px 12px!important}
@@ -133,8 +136,10 @@ html,body{height:100%!important;overflow:hidden!important}
 .term-bright{display:none!important}
 .term-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;width:100%!important;margin-top:8px!important}
 .term-metric-value{font-size:14px!important;padding:8px!important;overflow-wrap:anywhere!important}
-.term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:flex-end!important;gap:6px!important;padding:6px 0 8px!important;align-self:stretch!important}
+.term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:flex-end!important;gap:6px!important;padding:6px 0 8px!important;align-self:stretch!important;order:2!important}
 .term-rail-vent{display:none!important}
+.term-rail-power{display:none!important}
+.term-footer-power{display:flex!important}
 .term-touch{min-width:46px!important;min-height:46px!important}
 .term-theme-btn{width:46px!important;height:46px!important}
 .term-footer{flex-wrap:wrap!important;gap:8px!important;padding:10px 2px 12px!important}
@@ -314,9 +319,9 @@ html,body{height:100%!important;overflow:hidden!important}
     </div>
   </div>
 
-  <div class="term-body" style="position:relative;display:flex;gap:16px;align-items:flex-start;">
+  <div class="term-body" style="position:relative;display:flex;flex-direction:row;gap:16px;align-items:stretch;">
 
-    <div class="term-bezel" style="flex:1;min-width:0;position:relative;border-radius:18px;padding:10px;box-sizing:border-box;
+    <div class="term-bezel" style="flex:1;min-width:0;order:1;position:relative;border-radius:18px;padding:10px;box-sizing:border-box;
       background:linear-gradient(180deg,#DEDAD2 0%, #F1EFE9 22%, #EAE7E0 100%);
       box-shadow:
         inset 0 3px 7px rgba(110,104,95,.42),
@@ -786,7 +791,7 @@ html,body{height:100%!important;overflow:hidden!important}
     </div>
     </div>
 
-    <div class="term-rail" style="width:70px;flex:none;align-self:stretch;display:flex;flex-direction:column;gap:10px;align-items:center;padding-top:2px;justify-content:flex-start;">
+    <div class="term-rail" style="width:74px;flex:none;order:2;align-self:stretch;display:flex;flex-direction:column;gap:10px;align-items:center;padding-top:2px;justify-content:flex-start;">
       <div class="term-rail-vent" style="width:100%;height:56px;border-radius:7px;box-sizing:border-box;
         background:linear-gradient(180deg,#F8F6F1,#E2DFD7);
         box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 -2px 5px rgba(120,114,104,.28), 0 1px 2px rgba(255,255,255,.6);
@@ -821,11 +826,20 @@ html,body{height:100%!important;overflow:hidden!important}
           onClick="{{ openEject }}" style-active="transform:translateY(2px);box-shadow:inset 0 2px 5px rgba(0,0,0,.4), 0 1px 0 #97141C"></div>
         <div style="font-size:9px;letter-spacing:.18em;color:#605E58;">EJECT</div>
       </div>
+      <div class="term-rail-power" style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:auto;padding-bottom:4px;">
+        <div style="width:28px;height:28px;border-radius:50%;cursor:pointer;
+          background:
+            linear-gradient(150deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 52%),
+            radial-gradient(circle at 38% 30%, #FBFAF8 0%, #E3E2DE 58%, #BFBDB6 100%);
+          box-shadow:inset 0 -2px 3px rgba(120,114,104,.35), 0 2px 4px rgba(48,44,38,.28), 0 1px 0 rgba(255,255,255,.7);"
+          onClick="{{ togglePower }}" style-active="box-shadow:inset 0 2px 4px rgba(80,76,68,.5), 0 1px 2px rgba(48,44,38,.3);transform:translateY(1px)"></div>
+        <div style="font-size:8px;letter-spacing:.14em;color:#605E58;text-align:center;line-height:1.2;">POWER<br/>{{ powerLabel }}</div>
+      </div>
     </div>
   </div>
 
-  <div class="term-footer" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 2px 16px;">
-    <div style="display:flex;align-items:center;gap:14px;">
+  <div class="term-footer" style="display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:14px 2px 16px;">
+    <div class="term-footer-power" style="display:none;align-items:center;gap:14px;">
       <div style="width:28px;height:28px;border-radius:50%;cursor:pointer;
         background:
           linear-gradient(150deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 52%),
