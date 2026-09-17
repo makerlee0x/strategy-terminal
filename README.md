@@ -46,7 +46,7 @@ Optional env on the Vercel project:
 ## Live metrics (StockTokenSwap)
 
 The terminal reads **display-ready** JSON from same-origin `/api/strategy-metrics`.
-On Vercel that function proxies to StockTokenSwap (where the Codex key lives). If upstream
+On Vercel that function proxies to StockTokenSwap (where the CoinGecko key lives). If upstream
 is down, it returns a safe fallback payload so the CRT never goes blank.
 
 ### Contract for StockTokenSwap: `GET /api/strategy-metrics`
@@ -87,13 +87,13 @@ Cache ~15s. Allow CORS from:
 - `https://*.vercel.app` (previews)
 - `http://localhost:3000` (dev)
 
-Keep the Codex API key only in StockTokenSwap env — never in this public repo.
+Keep the CoinGecko API key only in StockTokenSwap env — never in this public repo.
 
 ## Security notes (metrics)
 
-- Codex key never lives in this repo.
+- CoinGecko key never lives in this repo.
 - `/api/strategy-metrics` is a **fixed-upstream** proxy (no user-controlled URL/query routing).
-- Response is field-allowlisted display strings only (no raw Codex payload passthrough).
+- Response is field-allowlisted display strings only (no raw market-data payload passthrough).
 - Cross-origin calls require an allowlisted `Origin` (`strategycoin.io`, this project's Vercel previews, localhost). Others get `403`.
 - Site-wide `X-Content-Type-Options`, `Referrer-Policy`, and frame permissions are set in `vercel.json`.
 
