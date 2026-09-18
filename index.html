@@ -520,11 +520,11 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
       </div>
 
       <div class="term-cta" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;">
-        <a href="https://stocktokenswap.com/" target="_blank" rel="noopener"
-          class="term-chip term-cta-swap" style="background:linear-gradient(180deg,#1B3E2D,#243F30);border:1px solid #0F2419;border-radius:3px;padding:10px 12px;
-          font-size:11px;letter-spacing:.14em;color:#E8F0E4;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;
+        <div class="term-chip term-cta-swap" style="background:linear-gradient(180deg,#1B3E2D,#243F30);border:1px solid #0F2419;border-radius:3px;padding:10px 12px;
+          font-size:11px;letter-spacing:.14em;color:#E8F0E4;text-align:center;display:flex;align-items:center;justify-content:center;
           box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 2px 0 #0F2419;cursor:pointer;"
-          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">SWAP</a>
+          onClick="{{ openSwap }}"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">SWAP</div>
         <div class="term-chip term-cta-buy" style="background:#D9232E;border:1px solid #A5171F;border-radius:3px;padding:10px 12px;
           font-size:11px;letter-spacing:.14em;color:#FFF6F2;text-align:center;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 2px 0 #A5171F;cursor:pointer;"
           onClick="{{ openBuy }}"
@@ -922,6 +922,69 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   </div>
 </sc-if>
 
+<sc-if value="{{ swapOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="term-swap-overlay" style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:16px;
+    background:rgba(34,33,30,.58);" onClick="{{ closeSwap }}">
+    <div class="term-swap-sheet" style="width:min(440px,100%);background:#EFEEEB;border:1px solid #BFBEB8;border-radius:8px;padding:16px;
+      box-shadow:inset 0 1px 0 #F8F7F5, 0 18px 40px rgba(28,24,19,.45);display:flex;flex-direction:column;gap:12px;"
+      onClick="{{ stop }}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+          <div style="font-size:18px;color:#26251F;letter-spacing:-.01em;">Swap Widget</div>
+          <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;">STOCKTOKENSWAP · $STRATEGY</div>
+        </div>
+        <div style="width:24px;height:24px;flex:none;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+          background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;color:#3E3A31;font-size:12px;
+          box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" onClick="{{ closeSwap }}">&times;</div>
+      </div>
+
+      <div style="background:#171c18;border:1px solid #2c342e;border-radius:6px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px;
+        box-shadow:inset 0 2px 6px rgba(0,0,0,.45);">
+        <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+          <div style="font-size:9px;letter-spacing:.16em;color:#8a9488;">WIDGET // RELAY SWAP</div>
+          <div style="font-size:9px;letter-spacing:.12em;color:#b8d4b0;">{{ swapWidgetStatus }}</div>
+        </div>
+        <div style="font-size:12px;line-height:1.45;color:#c8d2c4;text-wrap:pretty;">
+          Opens the StockTokenSwap Relay flow top-level (wallets hate iframes). App fee stays on your STS config.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="background:#121814;border:1px solid #2a322c;border-radius:4px;padding:10px;">
+            <div style="font-size:8px;letter-spacing:.14em;color:#8a9488;margin-bottom:6px;">YOU PAY</div>
+            <div style="font-size:14px;color:#e8f0e4;letter-spacing:.02em;">ETH / USDC</div>
+          </div>
+          <div style="background:#121814;border:1px solid #2a322c;border-radius:4px;padding:10px;">
+            <div style="font-size:8px;letter-spacing:.14em;color:#8a9488;margin-bottom:6px;">YOU RECEIVE</div>
+            <div style="font-size:14px;color:#e8f0e4;letter-spacing:.02em;">$STRATEGY</div>
+          </div>
+        </div>
+        <div style="font-size:9px;letter-spacing:.08em;color:#8a9488;">CHAIN · ROBINHOOD · 4663</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div onClick="{{ launchSwapWidget }}"
+          style="background:linear-gradient(180deg,#1B3E2D,#243F30);border:1px solid #0F2419;border-radius:4px;padding:12px 14px;
+          color:#E8F0E4;font-size:12px;letter-spacing:.1em;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 2px 0 #0F2419;
+          display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">
+          <span>LAUNCH SWAP WIDGET</span><span style="opacity:.7;font-size:10px;">POPUP</span>
+        </div>
+        <a href="{{ stsSwapUrl }}" target="_blank" rel="noopener"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:4px;padding:12px 14px;text-decoration:none;
+          color:#3E3A31;font-size:12px;letter-spacing:.1em;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;
+          display:flex;justify-content:space-between;align-items:center;gap:10px;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">
+          <span>OPEN FULL SITE</span><span style="opacity:.7;font-size:10px;">stocktokenswap.com</span>
+        </a>
+      </div>
+
+      <sc-if value="{{ swapPopupBlocked }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:10px;line-height:1.45;color:#8a3a32;text-wrap:pretty;">Popup blocked — use OPEN FULL SITE, or allow popups for strategycoin.io and try LAUNCH again.</div>
+      </sc-if>
+      <div style="font-size:9px;line-height:1.5;color:#5A5852;text-wrap:pretty;">Investing in crypto is risky. Swaps run on StockTokenSwap; this terminal does not custody funds.</div>
+    </div>
+  </div>
+</sc-if>
+
 <sc-if value="{{ buyOpen }}" hint-placeholder-val="{{ false }}">
   <div style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:20px;
     background:rgba(34,33,30,.55);" onClick="{{ closeBuy }}">
@@ -938,12 +1001,12 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
           box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" onClick="{{ closeBuy }}">&times;</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:9px;">
-        <a href="https://stocktokenswap.com/" target="_blank" rel="noopener"
+        <div onClick="{{ openSwapFromBuy }}"
           style="background:linear-gradient(180deg,#1B3E2D,#243F30);border:1px solid #0F2419;border-radius:4px;padding:12px 14px;
-          text-decoration:none;color:#E8F0E4;font-size:12px;letter-spacing:.1em;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 2px 0 #0F2419;
-          display:flex;justify-content:space-between;align-items:center;gap:10px;"
+          color:#E8F0E4;font-size:12px;letter-spacing:.1em;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 2px 0 #0F2419;
+          display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">
-          <span>SWAP ON STOCKTOKENSWAP</span><span style="opacity:.7;font-size:10px;">stocktokenswap.com</span></a>
+          <span>SWAP ON STOCKTOKENSWAP</span><span style="opacity:.7;font-size:10px;">WIDGET</span></div>
         <a href="https://fomo.family/coin?address=0x168661c52e5922288dfb2b3f323b6cf90eb21e18&amp;chainId=4663&amp;r=0xmakerlee&amp;source=share_link"
           target="_blank" rel="noopener"
           style="background:#D9232E;border:1px solid #A5171F;border-radius:4px;padding:12px 14px;text-decoration:none;
@@ -1085,6 +1148,9 @@ class Component extends DCLogic {
     } catch (e) {}
     return [local, sts];
   })();
+  static STS_SWAP_URL =
+    "https://stocktokenswap.com/token/0x168661c52e5922288dfb2b3f323b6cf90eb21e18?from=strategycoin";
+  static STS_HOME_URL = "https://stocktokenswap.com/?from=strategycoin";
   static POLL_MS = 60000;
   static TICKER_QUOTES = [
     "A memecoin backed by a stock backed by Bitcoin",
@@ -1123,6 +1189,9 @@ class Component extends DCLogic {
     power: true,
     theme: "light",
     buyOpen: false,
+    swapOpen: false,
+    swapPopupBlocked: false,
+    swapWidgetLaunched: false,
     ejectOpen: false,
     calcOpen: false,
     snapOpen: false,
@@ -1574,6 +1643,45 @@ class Component extends DCLogic {
     done();
   }
 
+  launchSwapWidget() {
+    const url = Component.STS_SWAP_URL;
+    let win = null;
+    try {
+      // Top-level only — wallets reject iframe embeds.
+      const w = 440;
+      const h = 780;
+      const sw = (window.screen && window.screen.availWidth) || window.innerWidth || 1200;
+      const sh = (window.screen && window.screen.availHeight) || window.innerHeight || 900;
+      const left = Math.max(0, Math.floor((sw - w) / 2));
+      const top = Math.max(0, Math.floor((sh - h) / 2));
+      win = window.open(
+        url,
+        "sts-strategy-swap",
+        "popup=yes,noopener,noreferrer,width=" +
+          w +
+          ",height=" +
+          h +
+          ",left=" +
+          left +
+          ",top=" +
+          top +
+          ",resizable=yes,scrollbars=yes"
+      );
+    } catch (e) {
+      win = null;
+    }
+    const blocked = !win || win.closed;
+    this.setState({
+      swapPopupBlocked: blocked,
+      swapWidgetLaunched: !blocked
+    });
+    if (!blocked) {
+      try {
+        win.focus();
+      } catch (e) {}
+    }
+  }
+
   formatSourceTime(iso) {
     if (!iso) return null;
     const d = new Date(iso);
@@ -1639,9 +1747,20 @@ class Component extends DCLogic {
         snapOpen: st.power ? false : st.snapOpen,
         newsOpen: st.power ? false : st.newsOpen,
         bulletinOpen: st.power ? false : st.bulletinOpen,
-        pressOpen: st.power ? false : st.pressOpen
+        pressOpen: st.power ? false : st.pressOpen,
+        buyOpen: false,
+        swapOpen: false,
+        ejectOpen: false
       })),
       buyOpen: this.state.buyOpen && !off,
+      swapOpen: this.state.swapOpen && !off,
+      swapPopupBlocked: !!this.state.swapPopupBlocked,
+      swapWidgetStatus: this.state.swapWidgetLaunched
+        ? "WIDGET OPEN"
+        : this.state.swapPopupBlocked
+          ? "POPUP BLOCKED"
+          : "READY",
+      stsSwapUrl: Component.STS_SWAP_URL,
       calcOpen,
       snapOpen,
       newsOpen,
@@ -1665,7 +1784,7 @@ class Component extends DCLogic {
       calcUsdNotional: readout.usd,
       snapDataUrl: snapDataUrl || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",
       snapStatus: this.state.snapStatus || (snapOpen ? "READY" : "STANDBY"),
-      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, ejectOpen: false }),
+      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, swapOpen: false, ejectOpen: false }),
       openSnap: () => {
         const url = this.makeSnapDataUrl(m);
         this.setState({
@@ -1675,6 +1794,7 @@ class Component extends DCLogic {
           bulletinOpen: false,
           pressOpen: false,
           buyOpen: false,
+          swapOpen: false,
           ejectOpen: false,
           snapDataUrl: url,
           snapStatus: url ? "READY" : "FAULT"
@@ -1694,6 +1814,7 @@ class Component extends DCLogic {
             calcOpen: false,
             snapOpen: false,
             buyOpen: false,
+            swapOpen: false,
             ejectOpen: false,
             tickerSeed: (this.state.tickerSeed || 0) + 1 + Math.floor(Math.random() * 7)
           },
@@ -1762,8 +1883,24 @@ class Component extends DCLogic {
       ejectOpen: this.state.ejectOpen && !off,
       openEject: () => this.setState({ ejectOpen: true }),
       closeEject: () => this.setState({ ejectOpen: false }),
-      openBuy: () => this.setState({ buyOpen: true }),
+      openBuy: () => this.setState({ buyOpen: true, swapOpen: false, ejectOpen: false }),
       closeBuy: () => this.setState({ buyOpen: false }),
+      openSwap: () =>
+        this.setState({
+          swapOpen: true,
+          buyOpen: false,
+          ejectOpen: false,
+          swapPopupBlocked: false
+        }),
+      openSwapFromBuy: () =>
+        this.setState({
+          buyOpen: false,
+          swapOpen: true,
+          ejectOpen: false,
+          swapPopupBlocked: false
+        }),
+      closeSwap: () => this.setState({ swapOpen: false }),
+      launchSwapWidget: () => this.launchSwapWidget(),
       stop: e => e.stopPropagation(),
       lift: mode === "DIM" ? 1.02 : mode === "MID" ? 1.06 : 1.10,
       bloom: mode === "DIM" ? 0.06 : mode === "MID" ? 0.12 : 0.18,
