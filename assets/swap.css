@@ -30,6 +30,7 @@
 .sc-swap-meta{
   display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:10px;color:#5A5852;
 }
+.sc-swap-meta a{color:inherit}
 .sc-swap-meta span{display:block;letter-spacing:.1em;font-size:8px;margin-bottom:2px}
 .sc-swap-meta strong{color:#26251F;font-weight:700}
 .sc-swap-go{
@@ -43,6 +44,7 @@
 .sc-swap-status[data-kind="ok"]{color:#1B3E2D}
 .sc-swap-status[data-kind="working"]{color:#5A5852}
 .sc-swap-legal{font-size:9px;line-height:1.45;color:#6A6860;text-wrap:pretty}
+.sc-swap-legal a{color:#1B3E2D}
 
 [data-theme="dark"] .sc-swap-kicker,
 [data-theme="dark"] .sc-swap-chain,

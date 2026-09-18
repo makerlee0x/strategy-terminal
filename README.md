@@ -8,7 +8,7 @@ Static, dependency-free site for the Strategy Coin retro terminal dashboard.
 - `support.js` — runtime it loads
 - `assets/` — logo mark, CRT noise texture, swap widget bundle
 - `swap/src/` — source for the CRT swap widget (viem)
-- `api/` — Vercel serverless (metrics, X feed, swap quote/execute/status)
+- `api/` — Vercel serverless (metrics, X feed)
 - `vercel.json` — Vercel config (static, clean URLs, asset caching)
 - `.nojekyll` — required so GitHub Pages serves all files as-is
 

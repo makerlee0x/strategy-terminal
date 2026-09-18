@@ -1,6 +1,6 @@
 /**
- * Strategy Coin CRT swap — noncustodial Relay flow via same-origin APIs.
- * Quotes never include client fee fields; server injects them.
+ * Strategy Coin CRT swap — browser calls StockTokenSwap /api/swap/*.
+ * Fee injection stays on STS; this client never sends appFees.
  */
 import {
   createWalletClient,
@@ -8,29 +8,29 @@ import {
   custom,
   http,
   parseEther,
-  formatEther,
   formatUnits
 } from "viem";
 
+const STS_API = "https://stocktokenswap.com";
 const STRATEGY = "0x168661c52e5922288dfb2b3f323b6cf90eb21e18";
 const NATIVE = "0x0000000000000000000000000000000000000000";
 const CHAIN_ID = 4663;
+const WC_PROJECT_ID = "91bdc56e17b546c17c0695c4feea812e";
+const RH_RPC = "https://rpc.mainnet.chain.robinhood.com";
 
 const robinhood = {
   id: CHAIN_ID,
   name: "Robinhood Chain",
   nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
-  rpcUrls: {
-    default: { http: ["https://rpc.mainnet.chain.robinhood.com"] }
-  }
+  rpcUrls: { default: { http: [RH_RPC] } }
 };
 
 function $(root, sel) {
   return root.querySelector(sel);
 }
 
-async function api(path, opts = {}) {
-  const res = await fetch(path, {
+async function sts(path, opts = {}) {
+  const res = await fetch(STS_API + path, {
     ...opts,
     headers: {
       Accept: "application/json",
@@ -39,8 +39,10 @@ async function api(path, opts = {}) {
     }
   });
   const json = await res.json().catch(() => ({}));
-  if (!res.ok || json.ok === false) {
-    const err = new Error(json.error || json.detail || "request_failed");
+  if (!res.ok) {
+    const err = new Error(
+      (json && (json.error || json.message || json.note)) || "request_failed"
+    );
     err.status = res.status;
     err.payload = json;
     throw err;
@@ -61,48 +63,38 @@ function shortAddr(a) {
   return a.slice(0, 6) + "…" + a.slice(-4);
 }
 
-function impactPct(details) {
-  try {
-    const v = details && (details.totalImpact || details.swapImpact || details.impact);
-    if (v == null) return null;
-    const n = Number(v);
-    if (!Number.isFinite(n)) return String(v);
-    return (n * (Math.abs(n) <= 1 ? 100 : 1)).toFixed(2) + "%";
-  } catch (_) {
-    return null;
-  }
+function fmtAmt(v) {
+  if (v == null || v === "") return "—";
+  const n = Number(v);
+  if (!Number.isFinite(n)) return String(v);
+  if (n >= 1000) return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  if (n >= 1) return n.toLocaleString(undefined, { maximumFractionDigits: 4 });
+  return n.toLocaleString(undefined, { maximumFractionDigits: 6 });
 }
 
-function receiveAmount(details) {
-  const out = details && details.currencyOut;
-  if (!out) return "—";
-  if (out.amountFormatted) return out.amountFormatted;
-  if (out.amount && out.currency && out.currency.decimals != null) {
-    return formatUnits(BigInt(out.amount), out.currency.decimals);
-  }
-  return "—";
+function sanitizeTxData(data) {
+  if (!data || typeof data !== "object") return data;
+  const clean = { ...data };
+  delete clean.nonce;
+  delete clean.gasPrice;
+  delete clean.maxFeePerGas;
+  delete clean.maxPriorityFeePerGas;
+  return clean;
 }
 
-function routeLabel(details) {
-  const hops = details && (details.route || details.steps || details.path);
-  if (typeof hops === "string") return hops;
-  return "Relay · Robinhood Chain";
-}
-
-export function mountStrategySwap(host, options = {}) {
+export function mountStrategySwap(host) {
   if (!host) return { unmount() {} };
   host.innerHTML = "";
   host.classList.add("sc-swap-root");
 
   const state = {
-    config: null,
     account: null,
     walletClient: null,
-    publicClient: null,
+    publicClient: createPublicClient({ chain: robinhood, transport: http(RH_RPC) }),
     amountEth: "",
     quote: null,
+    envelope: null,
     status: "idle",
-    error: "",
     requestId: null
   };
 
@@ -135,42 +127,52 @@ export function mountStrategySwap(host, options = {}) {
     <div class="sc-swap-meta">
       <div><span>Route</span><strong data-role="route">—</strong></div>
       <div><span>Impact</span><strong data-role="impact">—</strong></div>
+      <div><span>Network</span><strong data-role="gas">—</strong></div>
+      <div><span>Interface</span><strong data-role="iface">—</strong></div>
     </div>
     <button type="button" class="sc-swap-go" data-act="swap" disabled>ENTER AMOUNT</button>
     <div class="sc-swap-status" data-role="status"></div>
-    <div class="sc-swap-legal">Swaps are noncustodial. Strategy Coin is not affiliated with Robinhood, Strategy Inc., or third-party protocols. Crypto is risky.</div>
+    <div class="sc-swap-legal">
+      Independent noncustodial interface — not affiliated with Robinhood, Strategy Inc., LONG, or Relay.
+      Not a broker, exchange, or advisor. Not investment advice. Robinhood Stock Tokens are restricted in
+      US, CA, GB, CH and other issuer jurisdictions; you are responsible for eligibility.
+      <a href="https://docs.robinhood.com/rhj/restricted-jurisdictions/" target="_blank" rel="noopener">Restricted jurisdictions</a>
+      · <a href="https://stocktokenswap.com/disclaimer" target="_blank" rel="noopener">Disclaimer</a>
+    </div>
   `;
   host.appendChild(ui);
 
   const elOut = $(ui, "[data-role=out]");
   const elRoute = $(ui, "[data-role=route]");
   const elImpact = $(ui, "[data-role=impact]");
+  const elGas = $(ui, "[data-role=gas]");
+  const elIface = $(ui, "[data-role=iface]");
   const elStatus = $(ui, "[data-role=status]");
   const elGo = $(ui, "[data-act=swap]");
   const elWallet = $(ui, "[data-act=wallet]");
   const elAmount = $(ui, "[data-act=amount]");
 
   function setStatus(text, kind) {
-    state.status = kind || state.status;
     elStatus.textContent = text || "";
     elStatus.dataset.kind = kind || "";
   }
 
   function paintWallet() {
-    if (state.account) {
-      elWallet.textContent = shortAddr(state.account);
-      elWallet.dataset.connected = "1";
-    } else {
-      elWallet.textContent = "CONNECT";
-      elWallet.dataset.connected = "0";
-    }
+    elWallet.textContent = state.account ? shortAddr(state.account) : "CONNECT";
+    elWallet.dataset.connected = state.account ? "1" : "0";
   }
 
   function paintQuote() {
-    const d = state.quote && state.quote.details;
-    elOut.textContent = d ? receiveAmount(d) : "—";
-    elRoute.textContent = d ? routeLabel(d) : "—";
-    elImpact.textContent = d ? impactPct(d) || "—" : "—";
+    const q = state.quote;
+    elOut.textContent = q ? fmtAmt(q.receiveAmount) : "—";
+    const labels = q && Array.isArray(q.routeLabels) ? q.routeLabels.filter(Boolean) : [];
+    elRoute.textContent = labels.length ? labels.join(" · ") : q ? "Relay" : "—";
+    const fees = (q && q.fees) || {};
+    elImpact.textContent = fees.totalImpactPct != null ? fees.totalImpactPct + "%" : "—";
+    elGas.textContent = fees.gasUsd != null ? "$" + fees.gasUsd : "—";
+    elIface.textContent =
+      fees.interfaceFeeUsd != null ? "$" + fees.interfaceFeeUsd : "—";
+
     const ready = !!(state.account && state.quote && state.amountEth);
     elGo.disabled = !ready || state.status === "working";
     if (!state.amountEth) elGo.textContent = "ENTER AMOUNT";
@@ -179,22 +181,21 @@ export function mountStrategySwap(host, options = {}) {
     else elGo.textContent = "SWAP";
   }
 
-  async function ensureConfig() {
-    if (state.config) return state.config;
-    const cfg = await api("/api/swap/config");
-    state.config = cfg;
-    const rpc = cfg.rpcUrl || robinhood.rpcUrls.default.http[0];
-    robinhood.rpcUrls.default.http = [rpc];
-    state.publicClient = createPublicClient({
-      chain: robinhood,
-      transport: http(rpc)
-    });
-    return cfg;
+  function quoteBody(wei) {
+    return {
+      user: state.account,
+      originChainId: CHAIN_ID,
+      destinationChainId: CHAIN_ID,
+      originCurrency: NATIVE,
+      destinationCurrency: STRATEGY,
+      amount: wei,
+      tradeType: "EXACT_INPUT",
+      slippageTolerance: 1
+    };
   }
 
   async function connect() {
     setStatus("Connecting…", "working");
-    await ensureConfig();
     const eth = typeof window !== "undefined" ? window.ethereum : null;
     if (!eth) {
       setStatus("No wallet found — install a browser wallet.", "error");
@@ -206,7 +207,6 @@ export function mountStrategySwap(host, options = {}) {
       setStatus("Wallet connection cancelled.", "error");
       return;
     }
-    // Switch / add Robinhood Chain
     try {
       await eth.request({
         method: "wallet_switchEthereumChain",
@@ -221,7 +221,7 @@ export function mountStrategySwap(host, options = {}) {
               chainId: "0x" + CHAIN_ID.toString(16),
               chainName: "Robinhood Chain",
               nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
-              rpcUrls: [state.config.rpcUrl || "https://rpc.mainnet.chain.robinhood.com"],
+              rpcUrls: [RH_RPC],
               blockExplorerUrls: ["https://robinhoodchain.blockscout.com"]
             }
           ]
@@ -243,6 +243,7 @@ export function mountStrategySwap(host, options = {}) {
 
   async function refreshQuote() {
     state.quote = null;
+    state.envelope = null;
     paintQuote();
     const raw = String(state.amountEth || "").trim();
     if (!raw || !state.account) return;
@@ -255,21 +256,17 @@ export function mountStrategySwap(host, options = {}) {
     }
     setStatus("Fetching quote…", "working");
     try {
-      await ensureConfig();
-      const res = await api("/api/swap/quote", {
+      const res = await sts("/api/swap/quote", {
         method: "POST",
-        body: JSON.stringify({
-          user: state.account,
-          originChainId: CHAIN_ID,
-          destinationChainId: CHAIN_ID,
-          originCurrency: NATIVE,
-          destinationCurrency: STRATEGY,
-          amount: wei,
-          tradeType: "EXACT_INPUT"
-        })
+        body: JSON.stringify(quoteBody(wei))
       });
+      if (res.swapsEnabled === false) {
+        setStatus(res.note || "Swaps temporarily unavailable.", "error");
+        return;
+      }
+      state.envelope = res;
       state.quote = res.quote;
-      setStatus("Quote ready.", "ok");
+      setStatus(res.note || "Quote ready.", "ok");
       paintQuote();
     } catch (e) {
       state.quote = null;
@@ -278,41 +275,43 @@ export function mountStrategySwap(host, options = {}) {
     }
   }
 
-  const debouncedQuote = debounce(() => {
-    refreshQuote();
-  }, 450);
+  const debouncedQuote = debounce(() => refreshQuote(), 450);
 
   async function pollStatus(requestId) {
     for (let i = 0; i < 90; i++) {
       await new Promise((r) => setTimeout(r, 2000));
       try {
-        const res = await api(
-          "/api/swap/status?requestId=" + encodeURIComponent(requestId)
+        const st = await sts(
+          "/api/swap/intent-status?requestId=" + encodeURIComponent(requestId)
         );
-        const st = res.status || {};
-        const status = String(st.status || st.state || "").toLowerCase();
+        const status = String(st.status || "").toLowerCase();
         if (
           status === "success" ||
           status === "completed" ||
           status === "complete" ||
-          status === "filled"
+          status === "filled" ||
+          status === "successfull" ||
+          status === "successful"
         ) {
           return "success";
         }
-        if (status === "failure" || status === "failed" || status === "refunded") {
+        if (
+          status === "failure" ||
+          status === "failed" ||
+          status === "refunded" ||
+          status === "error"
+        ) {
           return "failed";
         }
         setStatus("Confirming… (" + (status || "pending") + ")", "working");
-      } catch (_) {
-        // keep polling
-      }
+      } catch (_) {}
     }
     return "timeout";
   }
 
   async function sendTxItem(item) {
-    const data = item && item.data;
-    if (!data) return null;
+    const data = sanitizeTxData(item && item.data);
+    if (!data || !data.to) return null;
     const hash = await state.walletClient.sendTransaction({
       account: state.account,
       to: data.to,
@@ -340,36 +339,54 @@ export function mountStrategySwap(host, options = {}) {
     state.status = "working";
     elGo.disabled = true;
     setStatus("Preparing…", "working");
+    let lastHash = null;
     try {
-      const exec = await api("/api/swap/execute", {
+      const exec = await sts("/api/swap/execute", {
         method: "POST",
-        body: JSON.stringify({
-          user: state.account,
-          originChainId: CHAIN_ID,
-          destinationChainId: CHAIN_ID,
-          originCurrency: NATIVE,
-          destinationCurrency: STRATEGY,
-          amount: wei,
-          tradeType: "EXACT_INPUT"
-        })
+        body: JSON.stringify(quoteBody(wei))
       });
-      state.requestId = exec.requestId;
-      const steps = exec.steps || [];
+      if (!exec.executionAllowed && exec.swapsEnabled === false) {
+        setStatus(exec.note || "Swaps disabled.", "error");
+        return;
+      }
+      const quote = exec.quote || exec;
+      state.requestId = quote.requestId || exec.requestId;
+      const steps = quote.steps || exec.steps || [];
       for (const step of steps) {
-        const items = step.items || [];
-        for (const item of items) {
+        for (const item of step.items || []) {
           if (item.status === "complete" || item.status === "completed") continue;
           setStatus("Confirm in wallet…", "working");
-          await sendTxItem(item);
+          lastHash = await sendTxItem(item);
           setStatus("Confirming…", "working");
         }
       }
+      if (state.requestId && lastHash) {
+        try {
+          await sts("/api/swap/status", {
+            method: "POST",
+            body: JSON.stringify({
+              requestId: state.requestId,
+              wallet: state.account,
+              originChainId: CHAIN_ID,
+              destinationChainId: CHAIN_ID,
+              inputToken: NATIVE,
+              outputToken: STRATEGY,
+              inputAmount: wei,
+              estimatedOutput: state.quote && state.quote.receiveAmount,
+              txHash: lastHash,
+              status: "submitted"
+            })
+          });
+        } catch (_) {
+          // optional reconcile
+        }
+      }
       if (state.requestId) {
-        setStatus("Bridging / settling…", "working");
+        setStatus("Settling…", "working");
         const final = await pollStatus(state.requestId);
-        if (final === "success") setStatus("Success — $STRATEGY on the way.", "ok");
+        if (final === "success") setStatus("Success — $STRATEGY received.", "ok");
         else if (final === "failed") setStatus("Swap failed.", "error");
-        else setStatus("Submitted — check your wallet / explorer.", "ok");
+        else setStatus("Submitted — check wallet / explorer.", "ok");
       } else {
         setStatus("Submitted.", "ok");
       }
@@ -391,27 +408,20 @@ export function mountStrategySwap(host, options = {}) {
   elWallet.addEventListener("click", () => {
     connect().catch((e) => setStatus(e.message || "Connect failed.", "error"));
   });
-  elGo.addEventListener("click", () => {
-    executeSwap();
-  });
+  elGo.addEventListener("click", () => executeSwap());
 
-  ensureConfig().catch(() => {});
   paintWallet();
   paintQuote();
   setStatus("");
-
-  if (typeof options.onReady === "function") options.onReady();
+  void WC_PROJECT_ID; // reserved for Reown/WC upgrade; injected wallets work today
 
   return {
     unmount() {
       host.innerHTML = "";
-    },
-    connect,
-    refreshQuote
+    }
   };
 }
 
-// IIFE global for CRT shell
 if (typeof window !== "undefined") {
   window.StrategySwap = { mountStrategySwap };
 }
