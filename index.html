@@ -170,10 +170,25 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 }
 .term-x-embed iframe{width:100%!important;max-width:100%!important}
 .term-x-feed{flex:1 1 auto!important;min-height:0!important}
-.term-bulletin{flex:0 0 auto!important}
-.term-links .term-addr{
-  flex:1 1 100%!important;width:100%!important;max-width:100%!important;
-  box-sizing:border-box!important;justify-content:flex-start!important;
+.term-bulletin,.term-press,.term-ticker{flex:0 0 auto!important}
+.term-ticker{
+  overflow:hidden!important;position:relative!important;
+  border:1px solid #C6C5BF!important;border-radius:4px!important;
+  background:linear-gradient(180deg,#1B3E2D,#243F30)!important;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.35)!important;
+}
+.term-ticker-track{
+  display:flex!important;width:max-content!important;gap:0!important;
+  animation:termTicker 48s linear infinite!important;
+  will-change:transform!important;
+}
+.term-ticker-track span{
+  flex:none!important;padding:7px 0!important;font-size:11px!important;letter-spacing:.08em!important;
+  color:#D7E8D2!important;text-shadow:0 0 6px rgba(140,220,150,.25)!important;white-space:nowrap!important;
+}
+@keyframes termTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+.term-ticker-track{animation:none!important;transform:none!important;flex-wrap:wrap!important;width:100%!important;justify-content:center!important}
 }
 }
 @media (max-width:700px){
@@ -267,7 +282,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 [data-theme="dark"] .term-price,
 [data-theme="dark"] .term-calc > div,
 [data-theme="dark"] .term-snap > div,
-[data-theme="dark"] .term-news > div:not(.term-x-embed),
+[data-theme="dark"] .term-news > div:not(.term-x-embed):not(.term-ticker),
 [data-theme="dark"] .term-metrics > div,
 [data-theme="dark"] .term-note,
 [data-theme="dark"] .term-sync,
@@ -278,6 +293,11 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04), 0 1px 2px rgba(0,0,0,.35)!important;
   color:#c8d2c4!important;
 }
+[data-theme="dark"] .term-ticker{
+  background:linear-gradient(180deg,#0f1a12,#162218)!important;
+  border-color:#2c342e!important;
+}
+[data-theme="dark"] .term-ticker-track span{color:#b8d4b0!important}
 [data-theme="dark"] .term-note div,
 [data-theme="dark"] .term-sync div{color:#a8b2a4!important}
 [data-theme="dark"] .sec-bulletin h1{color:#e8f0e4!important}
@@ -735,6 +755,13 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 
   <sc-if value="{{ newsOpen }}" hint-placeholder-val="{{ false }}">
   <div class="term-news" style="display:flex;flex-direction:column;gap:8px;min-height:0;flex:1 1 auto;">
+    <div class="term-ticker" aria-hidden="true">
+      <div class="term-ticker-track">
+        <span>{{ tickerText }}&nbsp;&nbsp;//&nbsp;&nbsp;</span>
+        <span>{{ tickerText }}&nbsp;&nbsp;//&nbsp;&nbsp;</span>
+      </div>
+    </div>
+
     <div class="term-bulletin" style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;
       box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;flex:0 0 auto;">
       <div onClick="{{ toggleBulletin }}"
@@ -777,6 +804,29 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
           <div style="font-size:11px;line-height:1.45;text-wrap:pretty;">24/7 trading, fractional shares, near-instant settlement, and investor self-custody — rails Strategy Coin sits beside as a memecoin paired with tokenized $MSTR on Robinhood Chain.</div>
         </div>
         <div style="font-size:10px;line-height:1.45;color:#5A5852;text-wrap:pretty;">Informational only — not legal advice. Strategy Coin is a memecoin, not a registered security or SEC-approved TSV listing.</div>
+      </div>
+      </sc-if>
+    </div>
+
+    <div class="term-press" style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;
+      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;flex:0 0 auto;">
+      <div onClick="{{ togglePress }}"
+        style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;cursor:pointer;user-select:none;"
+        style-active="background:rgba(0,0,0,.03)">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;">
+          <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;flex:none;">PRESS</div>
+          <div style="font-size:12px;font-weight:700;color:#26251F;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">Bitcoin.com · Strategy memecoin on tokenized $MSTR</div>
+        </div>
+        <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;flex:none;">{{ pressToggleLabel }}</div>
+      </div>
+      <sc-if value="{{ pressOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:10px;padding:0 12px 12px;border-top:1px solid #D4D3CE;">
+        <div style="font-size:13px;font-weight:700;color:#26251F;letter-spacing:-.01em;padding-top:10px;line-height:1.3;">A $7M Memecoin Named After Saylor's Strategy Runs on Tokenized MSTR</div>
+        <div style="font-size:11px;color:#5A5852;line-height:1.45;text-wrap:pretty;">Bitcoin.com covered $STRATEGY on Robinhood Chain — a memecoin paired with tokenized $MSTR shares, riding the BTC → MSTR → $STRATEGY stack.</div>
+        <a href="https://news.bitcoin.com/crypto-news/strategy-memecoin-robinhood-chain-tokenized-mstr/" target="_blank" rel="noopener"
+          style="align-self:flex-start;background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:8px 12px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">READ ON BITCOIN.COM</a>
       </div>
       </sc-if>
     </div>
@@ -981,6 +1031,18 @@ class Component extends DCLogic {
     "https://stocktokenswap.com/api/strategy-metrics"
   ];
   static POLL_MS = 15000;
+  static TICKER_QUOTES = [
+    "A memecoin backed by a stock backed by Bitcoin",
+    "BTC \u2192 MSTR \u2192 $STRATEGY",
+    "Liquidity creates demand. Demand creates liquidity.",
+    "The world will build on Bitcoin. \u2014 Michael Saylor",
+    "Paired with $MSTR · Backed by $BTC",
+    "Tokenized stock coins on Robinhood Chain",
+    "$STRATEGY · Strategy Coin Terminal",
+    "Saylor Strategy \uD83C\uDF4A\u20BF",
+    "Real $MSTR in the LP · Real $BTC underneath",
+    "CA 0x168661c52e5922288dfb2b3f323b6cf90eb21e18"
+  ];
   static FALLBACK_METRICS = {
     priceUsd: "$0.004036",
     change24h: "1.01%",
@@ -1011,6 +1073,8 @@ class Component extends DCLogic {
     snapOpen: false,
     newsOpen: false,
     bulletinOpen: false,
+    pressOpen: false,
+    tickerSeed: 0,
     snapDataUrl: "",
     snapStatus: "STANDBY",
     calcAmount: "",
@@ -1036,6 +1100,14 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     clearInterval(this._metricsTimer);
+  }
+
+  tickerText() {
+    const quotes = Component.TICKER_QUOTES.slice();
+    let seed = (this.state.tickerSeed || 0) % quotes.length;
+    // rotate order from seed so each NEWS open feels shuffled
+    const rotated = quotes.slice(seed).concat(quotes.slice(0, seed));
+    return rotated.join("   ···   ");
   }
 
   ensureXFeed() {
@@ -1500,12 +1572,18 @@ class Component extends DCLogic {
         calcOpen: st.power ? false : st.calcOpen,
         snapOpen: st.power ? false : st.snapOpen,
         newsOpen: st.power ? false : st.newsOpen,
-        bulletinOpen: st.power ? false : st.bulletinOpen
+        bulletinOpen: st.power ? false : st.bulletinOpen,
+        pressOpen: st.power ? false : st.pressOpen
       })),
       buyOpen: this.state.buyOpen && !off,
       calcOpen,
       snapOpen,
       newsOpen,
+      bulletinOpen: !!this.state.bulletinOpen,
+      bulletinToggleLabel: this.state.bulletinOpen ? "COLLAPSE ▴" : "EXPAND ▾",
+      pressOpen: !!this.state.pressOpen,
+      pressToggleLabel: this.state.pressOpen ? "COLLAPSE ▴" : "EXPAND ▾",
+      tickerText: this.tickerText(),
       showDash: !calcOpen && !snapOpen && !newsOpen,
       showBack: calcOpen || snapOpen || newsOpen,
       screenProgram: calcOpen
@@ -1521,13 +1599,15 @@ class Component extends DCLogic {
       calcUsdNotional: readout.usd,
       snapDataUrl: snapDataUrl || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",
       snapStatus: this.state.snapStatus || (snapOpen ? "READY" : "STANDBY"),
-      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, buyOpen: false, ejectOpen: false }),
+      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, ejectOpen: false }),
       openSnap: () => {
         const url = this.makeSnapDataUrl(m);
         this.setState({
           snapOpen: true,
           calcOpen: false,
           newsOpen: false,
+          bulletinOpen: false,
+          pressOpen: false,
           buyOpen: false,
           ejectOpen: false,
           snapDataUrl: url,
@@ -1541,11 +1621,22 @@ class Component extends DCLogic {
           host.dataset.xLoading = "0";
         }
         this.setState(
-          { newsOpen: true, calcOpen: false, snapOpen: false, buyOpen: false, ejectOpen: false },
+          {
+            newsOpen: true,
+            bulletinOpen: false,
+            pressOpen: false,
+            calcOpen: false,
+            snapOpen: false,
+            buyOpen: false,
+            ejectOpen: false,
+            tickerSeed: (this.state.tickerSeed || 0) + 1 + Math.floor(Math.random() * 7)
+          },
           () => this.ensureXFeed()
         );
       },
-      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, snapStatus: "STANDBY" }),
+      toggleBulletin: () => this.setState(st => ({ bulletinOpen: !st.bulletinOpen })),
+      togglePress: () => this.setState(st => ({ pressOpen: !st.pressOpen })),
+      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, bulletinOpen: false, pressOpen: false, snapStatus: "STANDBY" }),
       closeCalc: () => this.setState({ calcOpen: false }),
       onCalcInput: (e) => {
         const raw = e && e.target ? String(e.target.value) : "";
