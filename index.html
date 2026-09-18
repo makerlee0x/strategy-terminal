@@ -773,15 +773,11 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">OPEN ON X</a>
       </div>
-      <div id="term-x-embed" class="term-x-embed" style="background:#FFFFFF;border:1px solid #C6C5BF;border-radius:4px;
-        min-height:280px;max-height:380px;overflow:auto;box-shadow:inset 0 1px 0 #F5F4F2;">
-        <a class="twitter-timeline"
-          href="https://x.com/strategystock"
-          data-height="360"
-          data-chrome="noheader nofooter noborders transparent"
-          data-tweet-limit="6">Loading @strategystock posts…</a>
+      <div id="term-x-embed" class="term-x-embed" style="background:#EDECE8;border:1px solid #C6C5BF;border-radius:4px;
+        min-height:220px;max-height:380px;overflow:auto;box-shadow:inset 0 1px 0 #F5F4F2;padding:8px;">
+        <div style="font-size:11px;color:#5A5852;padding:14px 8px;">Loading @strategystock posts…</div>
       </div>
-      <div style="font-size:9px;line-height:1.45;color:#5A5852;text-wrap:pretty;">Newest posts from the Strategy Coin X account. If the feed is blocked by your browser, use OPEN ON X.</div>
+      <div style="font-size:9px;line-height:1.45;color:#5A5852;text-wrap:pretty;">Newest posts from the Strategy Coin X account. If the feed is empty, use OPEN ON X.</div>
     </div>
   </div>
   </sc-if>
@@ -1024,50 +1020,91 @@ class Component extends DCLogic {
   ensureXFeed() {
     const host = typeof document !== "undefined" ? document.getElementById("term-x-embed") : null;
     if (!host) return;
-    const theme = this.state.theme === "dark" ? "dark" : "light";
-    if (host.dataset.xReady === "1" && host.dataset.xTheme === theme) return;
+    if (host.dataset.xReady === "1" && host.dataset.xLoading !== "1") return;
+    if (host.dataset.xLoading === "1") return;
+    host.dataset.xLoading = "1";
+    host.innerHTML =
+      '<div style="font-size:11px;color:#5A5852;padding:14px 8px;">Loading @strategystock posts…</div>';
 
-    if (host.dataset.xTheme !== theme || !host.querySelector("a.twitter-timeline, iframe")) {
-      host.dataset.xTheme = theme;
-      host.dataset.xReady = "0";
-      host.innerHTML =
-        '<a class="twitter-timeline" href="https://x.com/strategystock"' +
-        ' data-theme="' + theme + '"' +
-        ' data-height="360"' +
-        ' data-chrome="noheader nofooter noborders transparent"' +
-        ' data-tweet-limit="6">Loading @strategystock posts…</a>';
-    }
+    const esc = (s) =>
+      String(s == null ? "" : s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
 
-    const boot = () => {
-      if (!host.isConnected) return;
-      if (!window.twttr || !window.twttr.widgets || typeof window.twttr.widgets.load !== "function") return;
+    const fmtWhen = (s) => {
+      const t = Date.parse(s);
+      if (!Number.isFinite(t)) return "";
       try {
-        const p = window.twttr.widgets.load(host);
-        if (p && typeof p.then === "function") {
-          p.then(() => { host.dataset.xReady = "1"; }).catch(() => {});
-        } else {
-          host.dataset.xReady = "1";
-        }
-      } catch (e) {}
+        return new Date(t).toLocaleString(undefined, {
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+      } catch (e) {
+        return "";
+      }
     };
 
-    if (window.twttr && window.twttr.widgets) {
-      boot();
-      return;
-    }
-    if (document.getElementById("x-platform-widgets")) {
-      if (window.twttr && typeof window.twttr.ready === "function") window.twttr.ready(boot);
-      return;
-    }
-    const s = document.createElement("script");
-    s.id = "x-platform-widgets";
-    s.src = "https://platform.twitter.com/widgets.js";
-    s.async = true;
-    s.onload = () => {
-      if (window.twttr && typeof window.twttr.ready === "function") window.twttr.ready(boot);
-      else boot();
+    const render = (data) => {
+      const posts = data && Array.isArray(data.posts) ? data.posts : [];
+      if (!posts.length) {
+        host.innerHTML =
+          '<div style="display:flex;flex-direction:column;gap:10px;padding:12px 8px;">' +
+          '<div style="font-size:12px;color:#3E3A31;line-height:1.45;">Feed temporarily unavailable.</div>' +
+          '<a href="https://x.com/strategystock" target="_blank" rel="noopener" ' +
+          'style="color:#1B3E2D;font-size:11px;letter-spacing:.08em;">OPEN @STRATEGYSTOCK ON X →</a></div>';
+        host.dataset.xReady = "1";
+        host.dataset.xLoading = "0";
+        return;
+      }
+      const cards = posts
+        .map((p) => {
+          const when = fmtWhen(p.createdAt);
+          return (
+            '<a href="' +
+            esc(p.url) +
+            '" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;' +
+            "background:#F4F3F0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px;" +
+            'box-shadow:inset 0 1px 0 #F5F4F2;">' +
+            '<div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:6px;">' +
+            '<div style="font-size:8px;letter-spacing:.16em;color:#5A5852;">@STRATEGYSTOCK</div>' +
+            (when
+              ? '<div style="font-size:9px;color:#6A6860;letter-spacing:.04em;">' + esc(when) + "</div>"
+              : "") +
+            "</div>" +
+            '<div style="font-size:12px;line-height:1.45;color:#26251F;white-space:pre-wrap;text-wrap:pretty;">' +
+            esc(p.text) +
+            "</div></a>"
+          );
+        })
+        .join("");
+      host.innerHTML =
+        '<div style="display:flex;flex-direction:column;gap:8px;">' + cards + "</div>";
+      host.dataset.xReady = "1";
+      host.dataset.xLoading = "0";
     };
-    document.body.appendChild(s);
+
+    const urls = ["/api/x-feed"];
+    const tryFetch = async () => {
+      let lastErr = null;
+      for (const url of urls) {
+        try {
+          const r = await fetch(url, { headers: { Accept: "application/json" } });
+          if (!r.ok) throw new Error("http_" + r.status);
+          const data = await r.json();
+          render(data);
+          return;
+        } catch (e) {
+          lastErr = e;
+        }
+      }
+      render({ posts: [] });
+      void lastErr;
+    };
+    tryFetch();
   }
 
   async refreshMetrics() {
@@ -1433,10 +1470,6 @@ class Component extends DCLogic {
         const next = st.theme === "dark" ? "light" : "dark";
         try { localStorage.setItem("sc-theme", next); } catch (e) {}
         return { theme: next };
-      }, () => {
-        const host = document.getElementById("term-x-embed");
-        if (host) host.dataset.xReady = "0";
-        if (this.state.newsOpen) this.ensureXFeed();
       }),
       off,
       screenOpacity: off ? 0 : 1,
@@ -1479,10 +1512,17 @@ class Component extends DCLogic {
           snapStatus: url ? "READY" : "FAULT"
         });
       },
-      openNews: () => this.setState(
-        { newsOpen: true, calcOpen: false, snapOpen: false, buyOpen: false, ejectOpen: false },
-        () => this.ensureXFeed()
-      ),
+      openNews: () => {
+        const host = typeof document !== "undefined" ? document.getElementById("term-x-embed") : null;
+        if (host) {
+          host.dataset.xReady = "0";
+          host.dataset.xLoading = "0";
+        }
+        this.setState(
+          { newsOpen: true, calcOpen: false, snapOpen: false, buyOpen: false, ejectOpen: false },
+          () => this.ensureXFeed()
+        );
+      },
       closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, snapStatus: "STANDBY" }),
       closeCalc: () => this.setState({ calcOpen: false }),
       onCalcInput: (e) => {
