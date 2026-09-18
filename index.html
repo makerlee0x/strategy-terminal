@@ -257,6 +257,57 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-metrics .term-metric-label{font-size:8px!important;letter-spacing:.12em!important}
 .term-metric-value{font-size:14px!important;padding:8px!important;overflow:hidden!important;min-height:0!important;line-height:1.25!important;white-space:nowrap!important}
 .term-metric-group:last-child .term-metric-tile:last-child{grid-column:1/-1!important}
+.term-market{margin-top:12px!important;display:flex!important;flex-direction:column!important;gap:10px!important;width:100%!important}
+.term-market-card{
+  background:#EFEEEB!important;border:1px solid #C6C5BF!important;border-radius:6px!important;
+  padding:12px 14px!important;box-shadow:inset 0 1px 0 #F8F7F5, 0 1px 2px rgba(0,0,0,.08)!important;
+}
+.term-market-head{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:10px!important;flex-wrap:wrap!important}
+.term-market-kicker{font-size:9px!important;letter-spacing:.18em!important;color:#5A5852!important}
+.term-market-sub{font-size:10px!important;color:#6A6860!important;margin-top:3px!important}
+.term-market-ranges{display:flex!important;gap:5px!important;flex-wrap:wrap!important}
+.term-market-range{
+  border-radius:3px!important;padding:6px 9px!important;font-size:9px!important;letter-spacing:.12em!important;
+  background:linear-gradient(#FFFFFF,#E9E8E4)!important;border:1px solid #C4C3BE!important;color:#3E3A31!important;
+  box-shadow:inset 0 1px 0 #F8F7F5, 0 1px 0 #BEBDB8!important;cursor:pointer!important;
+}
+.term-market-range[data-on="1"]{
+  background:linear-gradient(180deg,#1B3E2D,#243F30)!important;border-color:#0F2419!important;color:#E8F0E4!important;
+}
+.term-market-canvas-wrap{
+  position:relative!important;margin-top:10px!important;height:220px!important;background:#E7E6E2!important;
+  border:1px solid #C9C8C2!important;border-radius:4px!important;overflow:hidden!important;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.12)!important;
+}
+.term-market-canvas-wrap canvas{width:100%!important;height:100%!important;display:block!important}
+.term-market-foot{margin-top:8px!important;font-size:9px!important;letter-spacing:.04em!important;color:#6A6860!important}
+.term-pools-table{width:100%!important;border-collapse:collapse!important;margin-top:10px!important;font-size:11px!important}
+.term-pools-table th{
+  text-align:left!important;font-size:8px!important;letter-spacing:.14em!important;color:#7A7870!important;
+  font-weight:400!important;padding:0 8px 8px 0!important;border-bottom:1px solid #D5D4CF!important;
+}
+.term-pools-table td{
+  padding:10px 8px 10px 0!important;border-bottom:1px solid #E0DFDA!important;color:#26251F!important;
+  vertical-align:top!important;
+}
+.term-pools-table tr:last-child td{border-bottom:0!important}
+.term-pools-name{font-weight:700!important}
+.term-pools-pair{display:block!important;font-size:9px!important;color:#6A6860!important;font-weight:400!important;margin-top:2px!important}
+.term-pools-primary{
+  display:inline-block!important;margin-left:6px!important;padding:1px 6px!important;border-radius:999px!important;
+  background:#D9232E!important;color:#fff!important;font-size:8px!important;letter-spacing:.08em!important;vertical-align:middle!important;
+}
+.term-pools-link{color:#1B3E2D!important;text-decoration:none!important;letter-spacing:.08em!important;font-size:10px!important;white-space:nowrap!important}
+.term-pools-note{margin-top:8px!important;font-size:9px!important;line-height:1.45!important;color:#6A6860!important}
+[data-theme="dark"] .term-market-card{background:#151a16!important;border-color:#2c342e!important;box-shadow:none!important}
+[data-theme="dark"] .term-market-kicker,
+[data-theme="dark"] .term-market-sub,
+[data-theme="dark"] .term-market-foot,
+[data-theme="dark"] .term-pools-note,
+[data-theme="dark"] .term-pools-pair,
+[data-theme="dark"] .term-pools-table th{color:#8a9488!important}
+[data-theme="dark"] .term-pools-table td{color:#e8f0e4!important;border-bottom-color:#2c342e!important}
+[data-theme="dark"] .term-market-canvas-wrap{background:#101410!important;border-color:#2c342e!important}
 .term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:flex-end!important;gap:6px!important;padding:6px 0 8px!important;align-self:stretch!important;grid-column:auto!important}
 .term-rail-vent{display:none!important}
 .term-rail-power{display:none!important}
@@ -398,7 +449,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   /* responsive rules live in #term-mobile-css */
 
 </style>
-<link rel="stylesheet" href="/assets/swap.css?v=2">
+<link rel="stylesheet" href="/assets/swap.css?v=4">
 </helmet>
 
 <div class="term-page" data-theme="{{ theme }}" style="min-height:100vh;padding:28px 16px 48px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:0;
@@ -676,6 +727,37 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
         <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ pairAsset }}</div>
         <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcRobinhood }}</div></sc-if>
       </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="term-market" id="term-market">
+    <div class="term-market-card term-market-chart">
+      <div class="term-market-head">
+        <div>
+          <div class="term-market-kicker">PRICE CHART</div>
+          <div class="term-market-sub">CoinGecko · STRATEGY / MSTR · via StockTokenSwap</div>
+        </div>
+        <div class="term-market-ranges">
+          <div class="term-market-range" data-range="1D" onClick="{{ setChart1D }}" data-on="{{ chartOn1D }}">1D</div>
+          <div class="term-market-range" data-range="7D" onClick="{{ setChart7D }}" data-on="{{ chartOn7D }}">7D</div>
+          <div class="term-market-range" data-range="30D" onClick="{{ setChart30D }}" data-on="{{ chartOn30D }}">30D</div>
+        </div>
+      </div>
+      <div class="term-market-canvas-wrap">
+        <canvas id="term-chart-canvas" width="900" height="280" aria-label="STRATEGY price chart"></canvas>
+      </div>
+      <div class="term-market-foot" id="term-chart-foot">Loading chart…</div>
+    </div>
+    <div class="term-market-card term-market-pools">
+      <div class="term-market-head">
+        <div>
+          <div class="term-market-kicker">POOLS</div>
+          <div class="term-market-sub">Best liquidity for STRATEGY / MSTR · CoinGecko onchain</div>
+        </div>
+      </div>
+      <div id="term-pools-body">
+        <div class="term-market-foot">Loading pools…</div>
       </div>
     </div>
   </div>
@@ -1158,7 +1240,8 @@ class Component extends DCLogic {
     calcAmount: "",
     copied: false,
     metrics: null,
-    metricsLive: false
+    metricsLive: false,
+    chartRange: "7D"
   };
 
   componentDidMount() {
@@ -1171,12 +1254,17 @@ class Component extends DCLogic {
     this._onVisibility = () => {
       if (typeof document !== "undefined" && document.hidden) return;
       this.refreshMetrics();
+      this.refreshMarketPanels();
     };
     if (typeof document !== "undefined") {
       document.addEventListener("visibilitychange", this._onVisibility);
     }
     this.refreshMetrics();
-    this._metricsTimer = setInterval(() => this.refreshMetrics(), Component.POLL_MS);
+    this.refreshMarketPanels();
+    this._metricsTimer = setInterval(() => {
+      this.refreshMetrics();
+      this.refreshMarketPanels();
+    }, Component.POLL_MS);
   }
 
   componentDidUpdate() {
@@ -1316,6 +1404,202 @@ class Component extends DCLogic {
     } finally {
       this._metricsInFlight = false;
     }
+  }
+
+  chartRangeConfig(range) {
+    const map = {
+      "1D": { days: 1, resolution: "15" },
+      "7D": { days: 7, resolution: "60" },
+      "30D": { days: 30, resolution: "240" }
+    };
+    return map[range] || map["7D"];
+  }
+
+  async refreshMarketPanels() {
+    if (typeof document !== "undefined" && document.hidden) return;
+    if (this._marketInFlight) return;
+    this._marketInFlight = true;
+    try {
+      await Promise.all([this.loadChart(), this.loadPools()]);
+    } catch (e) {
+    } finally {
+      this._marketInFlight = false;
+    }
+  }
+
+  async loadChart() {
+    const cfg = this.chartRangeConfig(this.state.chartRange || "7D");
+    const foot = typeof document !== "undefined" ? document.getElementById("term-chart-foot") : null;
+    const url =
+      "/api/charts?token=0x168661c52e5922288dfb2b3f323b6cf90eb21e18" +
+      "&pairId=0xa6975f4720a95aa9cdfa9b010a065b0e941534c93f9fa708104c08f0ac029ca0" +
+      "&resolution=" +
+      encodeURIComponent(cfg.resolution) +
+      "&rangeDays=" +
+      encodeURIComponent(String(cfg.days));
+    try {
+      const res = await fetch(url, { headers: { Accept: "application/json" }, cache: "no-store" });
+      const json = await res.json();
+      const candles = json && Array.isArray(json.candles) ? json.candles : [];
+      this._chartCandles = candles;
+      this.drawChart(candles);
+      if (foot) {
+        const asOf = json && json.observedAt ? new Date(json.observedAt).toLocaleString() : "";
+        foot.textContent =
+          "StockTokenSwap chart · CoinGecko data" +
+          (asOf ? " · as of " + asOf : "") +
+          " · " +
+          (this.state.chartRange || "7D");
+      }
+    } catch (e) {
+      if (foot) foot.textContent = "Chart unavailable right now.";
+    }
+  }
+
+  drawChart(candles) {
+    const canvas = typeof document !== "undefined" ? document.getElementById("term-chart-canvas") : null;
+    if (!canvas || !canvas.getContext) return;
+    const wrap = canvas.parentElement;
+    const cssW = (wrap && wrap.clientWidth) || 640;
+    const cssH = (wrap && wrap.clientHeight) || 220;
+    const dpr = (typeof window !== "undefined" && window.devicePixelRatio) || 1;
+    canvas.width = Math.floor(cssW * dpr);
+    canvas.height = Math.floor(cssH * dpr);
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, cssW, cssH);
+    ctx.fillStyle = "#E7E6E2";
+    ctx.fillRect(0, 0, cssW, cssH);
+    if (!candles || candles.length < 2) {
+      ctx.fillStyle = "#5A5852";
+      ctx.font = "11px Anonymous Pro, monospace";
+      ctx.fillText("Waiting for candles…", 14, 24);
+      return;
+    }
+    const padL = 10;
+    const padR = 54;
+    const padT = 12;
+    const padB = 22;
+    let min = Infinity;
+    let max = -Infinity;
+    for (const c of candles) {
+      if (c.low < min) min = c.low;
+      if (c.high > max) max = c.high;
+    }
+    if (!(max > min)) {
+      min *= 0.99;
+      max *= 1.01;
+    }
+    const span = max - min || 1;
+    const plotW = cssW - padL - padR;
+    const plotH = cssH - padT - padB;
+    const n = candles.length;
+    const slot = plotW / n;
+    const yFor = (v) => padT + ((max - v) / span) * plotH;
+
+    ctx.strokeStyle = "rgba(90,88,82,.25)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 4; i++) {
+      const y = padT + (plotH * i) / 3;
+      ctx.beginPath();
+      ctx.moveTo(padL, y);
+      ctx.lineTo(cssW - padR, y);
+      ctx.stroke();
+      const val = max - (span * i) / 3;
+      ctx.fillStyle = "#5A5852";
+      ctx.font = "9px Anonymous Pro, monospace";
+      ctx.fillText(val.toFixed(4), cssW - padR + 6, y + 3);
+    }
+
+    for (let i = 0; i < n; i++) {
+      const c = candles[i];
+      const x = padL + i * slot + slot / 2;
+      const up = c.close >= c.open;
+      ctx.strokeStyle = up ? "#1B3E2D" : "#D9232E";
+      ctx.fillStyle = up ? "#1B3E2D" : "#D9232E";
+      ctx.beginPath();
+      ctx.moveTo(x, yFor(c.high));
+      ctx.lineTo(x, yFor(c.low));
+      ctx.stroke();
+      const y1 = yFor(c.open);
+      const y2 = yFor(c.close);
+      const top = Math.min(y1, y2);
+      const h = Math.max(1, Math.abs(y2 - y1));
+      ctx.fillRect(x - Math.max(1, slot * 0.28), top, Math.max(2, slot * 0.56), h);
+    }
+
+    const last = candles[candles.length - 1];
+    const ly = yFor(last.close);
+    ctx.fillStyle = "#1B3E2D";
+    ctx.fillRect(cssW - padR + 4, ly - 8, 48, 16);
+    ctx.fillStyle = "#E8F0E4";
+    ctx.font = "9px Anonymous Pro, monospace";
+    ctx.fillText(Number(last.close).toFixed(5), cssW - padR + 7, ly + 3);
+  }
+
+  async loadPools() {
+    const host = typeof document !== "undefined" ? document.getElementById("term-pools-body") : null;
+    if (!host) return;
+    try {
+      const res = await fetch("/api/pools", { headers: { Accept: "application/json" }, cache: "no-store" });
+      const json = await res.json();
+      const pools = json && Array.isArray(json.pools) ? json.pools : [];
+      if (!pools.length) {
+        host.innerHTML = '<div class="term-market-foot">Pool list unavailable right now.</div>';
+        return;
+      }
+      const rows = pools
+        .map((p) => {
+          const primary = p.primary
+            ? '<span class="term-pools-primary">PRIMARY</span>'
+            : "";
+          return (
+            "<tr>" +
+            '<td><div class="term-pools-name">' +
+            this.escapeHtml(p.dex || "Pool") +
+            primary +
+            '</div><span class="term-pools-pair">' +
+            this.escapeHtml(p.pair || "") +
+            "</span></td>" +
+            "<td>" +
+            this.escapeHtml(p.liquidityUsd || "—") +
+            "</td>" +
+            "<td>" +
+            this.escapeHtml(p.volume24h || "—") +
+            "</td>" +
+            "<td>" +
+            this.escapeHtml(p.fee || "—") +
+            "</td>" +
+            '<td><a class="term-pools-link" href="' +
+            this.escapeHtml(p.url || "#") +
+            '" target="_blank" rel="noopener">Pool ↗</a></td>' +
+            "</tr>"
+          );
+        })
+        .join("");
+      host.innerHTML =
+        '<table class="term-pools-table"><thead><tr>' +
+        "<th>POOL / DEX</th><th>LIQUIDITY</th><th>VOL 24H</th><th>FEE</th><th></th>" +
+        "</tr></thead><tbody>" +
+        rows +
+        "</tbody></table>" +
+        '<div class="term-pools-note">' +
+        this.escapeHtml(
+          (json && json.note) ||
+            "Fee % shown only when the pool name reports it — we never invent APR."
+        ) +
+        "</div>";
+    } catch (e) {
+      host.innerHTML = '<div class="term-market-foot">Pool list unavailable right now.</div>';
+    }
+  }
+
+  escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
   async fetchMetrics() {
@@ -1835,6 +2119,12 @@ class Component extends DCLogic {
         this._swapHandle = null;
         this.setState({ swapOpen: false });
       },
+      chartOn1D: this.state.chartRange === "1D" ? "1" : "0",
+      chartOn7D: this.state.chartRange === "7D" ? "1" : "0",
+      chartOn30D: this.state.chartRange === "30D" ? "1" : "0",
+      setChart1D: () => this.setState({ chartRange: "1D" }, () => this.loadChart()),
+      setChart7D: () => this.setState({ chartRange: "7D" }, () => this.loadChart()),
+      setChart30D: () => this.setState({ chartRange: "30D" }, () => this.loadChart()),
       stop: e => e.stopPropagation(),
       lift: mode === "DIM" ? 1.02 : mode === "MID" ? 1.06 : 1.10,
       bloom: mode === "DIM" ? 0.06 : mode === "MID" ? 0.12 : 0.18,
@@ -1870,6 +2160,6 @@ class Component extends DCLogic {
 }
 
 </script>
-<script src="/assets/swap.js?v=2" defer></script>
+<script src="/assets/swap.js?v=4" defer></script>
 </body>
 </html>
