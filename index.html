@@ -398,6 +398,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   /* responsive rules live in #term-mobile-css */
 
 </style>
+<link rel="stylesheet" href="/assets/swap.css">
 </helmet>
 
 <div class="term-page" data-theme="{{ theme }}" style="min-height:100vh;padding:28px 16px 48px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:0;
@@ -520,11 +521,11 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
       </div>
 
       <div class="term-cta" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;">
-        <a href="https://stocktokenswap.com/" target="_blank" rel="noopener"
-          class="term-chip term-cta-swap" style="background:linear-gradient(180deg,#1B3E2D,#243F30);border:1px solid #0F2419;border-radius:3px;padding:10px 12px;
-          font-size:11px;letter-spacing:.14em;color:#E8F0E4;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;
+        <div class="term-chip term-cta-swap" style="background:linear-gradient(180deg,#1B3E2D,#243F30);border:1px solid #0F2419;border-radius:3px;padding:10px 12px;
+          font-size:11px;letter-spacing:.14em;color:#E8F0E4;text-align:center;display:flex;align-items:center;justify-content:center;
           box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 2px 0 #0F2419;cursor:pointer;"
-          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">SWAP</a>
+          onClick="{{ openSwap }}"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">SWAP</div>
         <div class="term-chip term-cta-buy" style="background:#D9232E;border:1px solid #A5171F;border-radius:3px;padding:10px 12px;
           font-size:11px;letter-spacing:.14em;color:#FFF6F2;text-align:center;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 2px 0 #A5171F;cursor:pointer;"
           onClick="{{ openBuy }}"
@@ -922,6 +923,27 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   </div>
 </sc-if>
 
+
+<sc-if value="{{ swapOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:16px;
+    background:rgba(34,33,30,.58);" onClick="{{ closeSwap }}">
+    <div style="width:min(440px,100%);max-height:min(92%,780px);overflow:auto;background:#EFEEEB;border:1px solid #BFBEB8;border-radius:8px;padding:16px;
+      box-shadow:inset 0 1px 0 #F8F7F5, 0 18px 40px rgba(28,24,19,.45);display:flex;flex-direction:column;gap:12px;"
+      onClick="{{ stop }}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+          <div style="font-size:18px;color:#26251F;letter-spacing:-.01em;">Swap</div>
+          <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;">$STRATEGY · ROBINHOOD CHAIN</div>
+        </div>
+        <div style="width:24px;height:24px;flex:none;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+          background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;color:#3E3A31;font-size:12px;
+          box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" onClick="{{ closeSwap }}">&times;</div>
+      </div>
+      <div id="strategy-swap-root"></div>
+    </div>
+  </div>
+</sc-if>
+
 <sc-if value="{{ buyOpen }}" hint-placeholder-val="{{ false }}">
   <div style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:20px;
     background:rgba(34,33,30,.55);" onClick="{{ closeBuy }}">
@@ -938,12 +960,12 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
           box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" onClick="{{ closeBuy }}">&times;</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:9px;">
-        <a href="https://stocktokenswap.com/" target="_blank" rel="noopener"
+        <div onClick="{{ openSwapFromBuy }}"
           style="background:linear-gradient(180deg,#1B3E2D,#243F30);border:1px solid #0F2419;border-radius:4px;padding:12px 14px;
-          text-decoration:none;color:#E8F0E4;font-size:12px;letter-spacing:.1em;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 2px 0 #0F2419;
-          display:flex;justify-content:space-between;align-items:center;gap:10px;"
+          color:#E8F0E4;font-size:12px;letter-spacing:.1em;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 2px 0 #0F2419;
+          display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">
-          <span>SWAP ON STOCKTOKENSWAP</span><span style="opacity:.7;font-size:10px;">stocktokenswap.com</span></a>
+          <span>SWAP $STRATEGY</span><span style="opacity:.7;font-size:10px;">IN TERMINAL</span></div>
         <a href="https://fomo.family/coin?address=0x168661c52e5922288dfb2b3f323b6cf90eb21e18&amp;chainId=4663&amp;r=0xmakerlee&amp;source=share_link"
           target="_blank" rel="noopener"
           style="background:#D9232E;border:1px solid #A5171F;border-radius:4px;padding:12px 14px;text-decoration:none;
@@ -1123,6 +1145,7 @@ class Component extends DCLogic {
     power: true,
     theme: "light",
     buyOpen: false,
+    swapOpen: false,
     ejectOpen: false,
     calcOpen: false,
     snapOpen: false,
@@ -1158,6 +1181,10 @@ class Component extends DCLogic {
 
   componentDidUpdate() {
     if (this.state.newsOpen && this.state.power) this.ensureXFeed();
+    if (this.state.swapOpen && this.state.power) {
+      // defer until modal DOM exists
+      setTimeout(() => this.ensureSwapMounted(), 0);
+    }
   }
 
   componentWillUnmount() {
@@ -1574,6 +1601,35 @@ class Component extends DCLogic {
     done();
   }
 
+
+  ensureSwapMounted() {
+    const host = typeof document !== "undefined" ? document.getElementById("strategy-swap-root") : null;
+    if (!host) return;
+    const api = typeof window !== "undefined" ? window.StrategySwap : null;
+    const mount =
+      (api && api.mountStrategySwap) ||
+      (api && api.default && api.default.mountStrategySwap) ||
+      (api && typeof api === "function" ? api : null);
+    if (!mount) {
+      host.innerHTML =
+        '<div style="font-size:11px;color:#5A5852;padding:8px 0;">Loading swap…</div>';
+      // Script may still be loading (defer)
+      if (!this._swapLoadRetry) {
+        this._swapLoadRetry = setTimeout(() => {
+          this._swapLoadRetry = null;
+          this.ensureSwapMounted();
+        }, 200);
+      }
+      return;
+    }
+    if (this._swapHandle && this._swapHandle.unmount) {
+      try {
+        this._swapHandle.unmount();
+      } catch (e) {}
+    }
+    this._swapHandle = mount(host);
+  }
+
   formatSourceTime(iso) {
     if (!iso) return null;
     const d = new Date(iso);
@@ -1639,7 +1695,10 @@ class Component extends DCLogic {
         snapOpen: st.power ? false : st.snapOpen,
         newsOpen: st.power ? false : st.newsOpen,
         bulletinOpen: st.power ? false : st.bulletinOpen,
-        pressOpen: st.power ? false : st.pressOpen
+        pressOpen: st.power ? false : st.pressOpen,
+        buyOpen: false,
+        swapOpen: false,
+        ejectOpen: false
       })),
       buyOpen: this.state.buyOpen && !off,
       calcOpen,
@@ -1665,7 +1724,7 @@ class Component extends DCLogic {
       calcUsdNotional: readout.usd,
       snapDataUrl: snapDataUrl || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",
       snapStatus: this.state.snapStatus || (snapOpen ? "READY" : "STANDBY"),
-      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, ejectOpen: false }),
+      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, swapOpen: false, ejectOpen: false }),
       openSnap: () => {
         const url = this.makeSnapDataUrl(m);
         this.setState({
@@ -1675,6 +1734,7 @@ class Component extends DCLogic {
           bulletinOpen: false,
           pressOpen: false,
           buyOpen: false,
+          swapOpen: false,
           ejectOpen: false,
           snapDataUrl: url,
           snapStatus: url ? "READY" : "FAULT"
@@ -1694,6 +1754,7 @@ class Component extends DCLogic {
             calcOpen: false,
             snapOpen: false,
             buyOpen: false,
+            swapOpen: false,
             ejectOpen: false,
             tickerSeed: (this.state.tickerSeed || 0) + 1 + Math.floor(Math.random() * 7)
           },
@@ -1762,8 +1823,18 @@ class Component extends DCLogic {
       ejectOpen: this.state.ejectOpen && !off,
       openEject: () => this.setState({ ejectOpen: true }),
       closeEject: () => this.setState({ ejectOpen: false }),
-      openBuy: () => this.setState({ buyOpen: true }),
+      swapOpen: this.state.swapOpen && !off,
+      openBuy: () => this.setState({ buyOpen: true, swapOpen: false, ejectOpen: false }),
       closeBuy: () => this.setState({ buyOpen: false }),
+      openSwap: () => this.setState({ swapOpen: true, buyOpen: false, ejectOpen: false }, () => this.ensureSwapMounted()),
+      openSwapFromBuy: () => this.setState({ buyOpen: false, swapOpen: true, ejectOpen: false }, () => this.ensureSwapMounted()),
+      closeSwap: () => {
+        if (this._swapHandle && this._swapHandle.unmount) {
+          try { this._swapHandle.unmount(); } catch (e) {}
+        }
+        this._swapHandle = null;
+        this.setState({ swapOpen: false });
+      },
       stop: e => e.stopPropagation(),
       lift: mode === "DIM" ? 1.02 : mode === "MID" ? 1.06 : 1.10,
       bloom: mode === "DIM" ? 0.06 : mode === "MID" ? 0.12 : 0.18,
@@ -1799,5 +1870,6 @@ class Component extends DCLogic {
 }
 
 </script>
+<script src="/assets/swap.js" defer></script>
 </body>
 </html>

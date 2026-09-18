@@ -6,13 +6,20 @@ Static, dependency-free site for the Strategy Coin retro terminal dashboard.
 
 - `index.html` — the site
 - `support.js` — runtime it loads
-- `assets/` — logo mark, CRT noise texture
-- `standalone.html` — single self-contained file (works offline, no other files needed)
-- `api/strategy-metrics.js` — Vercel serverless proxy for live metrics
+- `assets/` — logo mark, CRT noise texture, swap widget bundle
+- `swap/src/` — source for the CRT swap widget (viem)
+- `api/` — Vercel serverless (metrics, X feed, swap quote/execute/status)
 - `vercel.json` — Vercel config (static, clean URLs, asset caching)
 - `.nojekyll` — required so GitHub Pages serves all files as-is
 
-No build step, no dependencies, no framework install.
+## Build
+
+Swap widget bundle (required after editing `swap/src`):
+
+    npm install
+    npm run build
+
+Vercel runs `npm run build` automatically when `package.json` is present.
 
 ## Run locally
 
@@ -22,7 +29,7 @@ No build step, no dependencies, no framework install.
     # or
     python3 -m http.server 8000
 
-For live metrics locally, use Vercel dev so `/api/strategy-metrics` is available:
+For live APIs locally:
 
     npx vercel dev
 
@@ -42,6 +49,12 @@ Custom domains that should work with the same-origin metrics proxy:
 Optional env on the Vercel project:
 
 - `STRATEGY_METRICS_URL` — override upstream (default `https://stocktokenswap.com/api/strategy-metrics`)
+- `RELAY_API_BASE_URL` / `RELAY_API_KEY` — Relay API for same-origin swap
+- `RELAY_APP_FEE_BPS` / `RELAY_APP_FEE_RECIPIENT` — server-only swap app fee
+- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` — optional WC project id (allowlist strategycoin.io)
+- `NEXT_PUBLIC_ROBINHOOD_CHAIN_RPC_URL` — Robinhood Chain RPC for the swap widget
+
+See `.env.example`.
 
 ## Live metrics (StockTokenSwap)
 
