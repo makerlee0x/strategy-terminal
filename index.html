@@ -182,7 +182,10 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-rail-vent > div{height:40px!important}
 .term-footer{flex:0 0 auto!important;padding:8px 2px 10px!important}
 .term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
-.term-calc,.term-snap,.term-news{flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
+.term-calc,.term-snap,.term-news,.term-market-view{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important}
+.term-market{margin-top:0!important;min-height:0!important;flex:0 0 auto!important}
+.term-market-card{flex:0 0 auto!important}
+.term-market-canvas-wrap{height:180px!important;max-height:22vh!important;flex:0 0 auto!important}
 .term-x-feed{flex:0 0 auto!important}
 .term-x-embed{
   width:100%!important;max-width:100%!important;min-height:280px!important;
@@ -257,11 +260,19 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-metrics .term-metric-label{font-size:8px!important;letter-spacing:.12em!important}
 .term-metric-value{font-size:14px!important;padding:8px!important;overflow:hidden!important;min-height:0!important;line-height:1.25!important;white-space:nowrap!important}
 .term-metric-group:last-child .term-metric-tile:last-child{grid-column:1/-1!important}
-.term-market{margin-top:12px!important;display:flex!important;flex-direction:column!important;gap:10px!important;width:100%!important}
+.term-market{margin-top:0!important;display:flex!important;flex-direction:column!important;gap:10px!important;width:100%!important;min-height:0!important;flex:0 0 auto!important}
+.term-market-view{display:flex!important;flex-direction:column!important;gap:10px!important;min-height:0!important;flex:1 1 auto!important;overflow:auto!important;width:100%!important;-webkit-overflow-scrolling:touch!important}
 .term-market-card{
   background:#EFEEEB!important;border:1px solid #C6C5BF!important;border-radius:6px!important;
   padding:12px 14px!important;box-shadow:inset 0 1px 0 #F8F7F5, 0 1px 2px rgba(0,0,0,.08)!important;
+  flex:0 0 auto!important;
 }
+.term-market-pools{padding:0!important}
+.term-market-pools-toggle{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
+  padding:9px 12px!important;cursor:pointer!important;user-select:none!important;
+}
+.term-market-pools-body{padding:0 12px 12px!important;border-top:1px solid #D4D3CE!important}
 .term-market-head{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:10px!important;flex-wrap:wrap!important}
 .term-market-kicker{font-size:9px!important;letter-spacing:.18em!important;color:#5A5852!important}
 .term-market-sub{font-size:10px!important;color:#6A6860!important;margin-top:3px!important}
@@ -275,16 +286,17 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   background:linear-gradient(180deg,#1B3E2D,#243F30)!important;border-color:#0F2419!important;color:#E8F0E4!important;
 }
 .term-market-canvas-wrap{
-  position:relative!important;margin-top:10px!important;width:100%!important;height:260px!important;
+  position:relative!important;margin-top:10px!important;width:100%!important;height:200px!important;max-height:28vh!important;
   background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%)!important;
   background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px)!important;
-  border-radius:5px!important;overflow:hidden!important;box-sizing:border-box!important;
+  border-radius:5px!important;overflow:hidden!important;box-sizing:border-box!important;flex:0 0 auto!important;
   box-shadow:inset 0 4px 10px rgba(24,44,32,.5), inset 0 0 0 1px rgba(24,44,32,.3), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75)!important;
 }
 .term-market-canvas-wrap canvas{
   position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
-  display:block!important;max-width:none!important;
+  display:block!important;max-width:none!important;pointer-events:none!important;
 }
+[data-theme="dark"] .term-market-pools-body{border-top-color:#2c342e!important}
 .term-market-foot{margin-top:8px!important;font-size:9px!important;letter-spacing:.04em!important;color:#6A6860!important}
 .term-pools-table{width:100%!important;border-collapse:collapse!important;margin-top:10px!important;font-size:11px!important}
 .term-pools-table th{
@@ -454,7 +466,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   /* responsive rules live in #term-mobile-css */
 
 </style>
-<link rel="stylesheet" href="/assets/swap.css?v=5">
+<link rel="stylesheet" href="/assets/swap.css?v=6">
 </helmet>
 
 <div class="term-page" data-theme="{{ theme }}" style="min-height:100vh;padding:28px 16px 48px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:0;
@@ -772,7 +784,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   </sc-if>
 
   <sc-if value="{{ marketOpen }}" hint-placeholder-val="{{ false }}">
-  <div class="term-market-view" style="display:flex;flex-direction:column;gap:10px;min-height:0;flex:1 1 auto;">
+  <div class="term-market-view" style="display:flex;flex-direction:column;gap:10px;min-height:0;flex:1 1 auto;overflow:auto;">
     <div class="term-market" id="term-market">
       <div class="term-market-card term-market-chart">
         <div class="term-market-head">
@@ -792,15 +804,19 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
         <div class="term-market-foot" id="term-chart-foot">Loading chart…</div>
       </div>
       <div class="term-market-card term-market-pools">
-        <div class="term-market-head">
-          <div>
-            <div class="term-market-kicker">POOLS</div>
-            <div class="term-market-sub">Best liquidity for STRATEGY / MSTR · CoinGecko onchain</div>
+        <div class="term-market-pools-toggle" onClick="{{ togglePools }}"
+          style-active="background:rgba(0,0,0,.03)">
+          <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;">
+            <div class="term-market-kicker" style="flex:none;">POOLS</div>
+            <div style="font-size:12px;font-weight:700;color:#26251F;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">Best liquidity · CoinGecko onchain</div>
           </div>
+          <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;flex:none;">{{ poolsToggleLabel }}</div>
         </div>
-        <div id="term-pools-body">
+        <sc-if value="{{ poolsOpen }}" hint-placeholder-val="{{ false }}">
+        <div class="term-market-pools-body" id="term-pools-body">
           <div class="term-market-foot">Loading pools…</div>
         </div>
+        </sc-if>
       </div>
     </div>
   </div>
@@ -1249,6 +1265,7 @@ class Component extends DCLogic {
     snapOpen: false,
     newsOpen: false,
     marketOpen: false,
+    poolsOpen: false,
     bulletinOpen: false,
     pressOpen: false,
     tickerSeed: 0,
@@ -1443,7 +1460,9 @@ class Component extends DCLogic {
     if (this._marketInFlight) return;
     this._marketInFlight = true;
     try {
-      await Promise.all([this.loadChart(), this.loadPools()]);
+      const jobs = [this.loadChart()];
+      if (this.state.poolsOpen) jobs.push(this.loadPools());
+      await Promise.all(jobs);
     } catch (e) {
     } finally {
       this._marketInFlight = false;
@@ -1488,7 +1507,12 @@ class Component extends DCLogic {
     const wrap = document.getElementById("term-chart-wrap");
     if (!wrap) return;
     this._chartRo = new ResizeObserver(() => {
-      if (this._chartCandles && this._chartCandles.length) this.drawChart(this._chartCandles);
+      if (this._chartDrawPending) return;
+      this._chartDrawPending = true;
+      requestAnimationFrame(() => {
+        this._chartDrawPending = false;
+        if (this._chartCandles && this._chartCandles.length) this.drawChart(this._chartCandles);
+      });
     });
     this._chartRo.observe(wrap);
   }
@@ -1498,14 +1522,20 @@ class Component extends DCLogic {
     const wrap = typeof document !== "undefined" ? document.getElementById("term-chart-wrap") : null;
     if (!canvas || !canvas.getContext || !wrap) return;
 
-    const cssW = Math.max(280, Math.floor(wrap.clientWidth || wrap.getBoundingClientRect().width || 640));
-    const cssH = Math.max(180, Math.floor(wrap.clientHeight || wrap.getBoundingClientRect().height || 260));
+    const cssW = Math.max(120, Math.floor(wrap.clientWidth || wrap.getBoundingClientRect().width || 640));
+    const cssH = Math.max(100, Math.floor(wrap.clientHeight || wrap.getBoundingClientRect().height || 200));
     const dpr = Math.min(2.5, (typeof window !== "undefined" && window.devicePixelRatio) || 1);
-
-    canvas.style.width = cssW + "px";
-    canvas.style.height = cssH + "px";
-    canvas.width = Math.floor(cssW * dpr);
-    canvas.height = Math.floor(cssH * dpr);
+    const nextW = Math.floor(cssW * dpr);
+    const nextH = Math.floor(cssH * dpr);
+    // Never write canvas.style — absolute CSS fills the wrap. Style writes + RO = expand loop.
+    if (canvas.width !== nextW) canvas.width = nextW;
+    if (canvas.height !== nextH) canvas.height = nextH;
+    if (this._chartSizeKey === nextW + "x" + nextH && this._chartDrawn && candles === this._chartLastDrawn) {
+      return;
+    }
+    this._chartSizeKey = nextW + "x" + nextH;
+    this._chartLastDrawn = candles;
+    this._chartDrawn = true;
 
     const ctx = canvas.getContext("2d");
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -2053,6 +2083,7 @@ class Component extends DCLogic {
         snapOpen: st.power ? false : st.snapOpen,
         newsOpen: st.power ? false : st.newsOpen,
         marketOpen: st.power ? false : st.marketOpen,
+        poolsOpen: st.power ? false : st.poolsOpen,
         bulletinOpen: st.power ? false : st.bulletinOpen,
         pressOpen: st.power ? false : st.pressOpen,
         buyOpen: false,
@@ -2066,6 +2097,8 @@ class Component extends DCLogic {
       marketOpen,
       bulletinOpen: !!this.state.bulletinOpen,
       bulletinToggleLabel: this.state.bulletinOpen ? "COLLAPSE ▴" : "EXPAND ▾",
+      poolsOpen: !!this.state.poolsOpen,
+      poolsToggleLabel: this.state.poolsOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       pressOpen: !!this.state.pressOpen,
       pressToggleLabel: this.state.pressOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       tickerText: this.tickerText(),
@@ -2086,7 +2119,7 @@ class Component extends DCLogic {
       calcUsdNotional: readout.usd,
       snapDataUrl: snapDataUrl || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",
       snapStatus: this.state.snapStatus || (snapOpen ? "READY" : "STANDBY"),
-      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, marketOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, swapOpen: false, ejectOpen: false }),
+      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, marketOpen: false, poolsOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, swapOpen: false, ejectOpen: false }),
       openSnap: () => {
         const url = this.makeSnapDataUrl(m);
         this.setState({
@@ -2094,6 +2127,7 @@ class Component extends DCLogic {
           calcOpen: false,
           newsOpen: false,
           marketOpen: false,
+          poolsOpen: false,
           bulletinOpen: false,
           pressOpen: false,
           buyOpen: false,
@@ -2113,6 +2147,7 @@ class Component extends DCLogic {
           {
             newsOpen: true,
             marketOpen: false,
+            poolsOpen: false,
             bulletinOpen: false,
             pressOpen: false,
             calcOpen: false,
@@ -2129,6 +2164,7 @@ class Component extends DCLogic {
         this._marketPainted = false;
         this.setState({
           marketOpen: true,
+          poolsOpen: false,
           newsOpen: false,
           bulletinOpen: false,
           pressOpen: false,
@@ -2141,7 +2177,11 @@ class Component extends DCLogic {
       },
       toggleBulletin: () => this.setState(st => ({ bulletinOpen: !st.bulletinOpen })),
       togglePress: () => this.setState(st => ({ pressOpen: !st.pressOpen })),
-      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, marketOpen: false, bulletinOpen: false, pressOpen: false, snapStatus: "STANDBY" }),
+      togglePools: () =>
+        this.setState(st => ({ poolsOpen: !st.poolsOpen }), () => {
+          if (this.state.poolsOpen) setTimeout(() => this.loadPools(), 0);
+        }),
+      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, marketOpen: false, poolsOpen: false, bulletinOpen: false, pressOpen: false, snapStatus: "STANDBY" }),
       closeCalc: () => this.setState({ calcOpen: false }),
       onCalcInput: (e) => {
         const raw = e && e.target ? String(e.target.value) : "";
@@ -2254,6 +2294,6 @@ class Component extends DCLogic {
 }
 
 </script>
-<script src="/assets/swap.js?v=5" defer></script>
+<script src="/assets/swap.js?v=6" defer></script>
 </body>
 </html>
