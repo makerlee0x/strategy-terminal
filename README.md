@@ -14,12 +14,11 @@ Static, dependency-free site for the Strategy Coin retro terminal dashboard.
 
 ## Build
 
-Swap widget bundle (required after editing `swap/src`):
+Swap widget bundle (required after editing `swap/src`). Prebuilt output lives in `assets/swap.js` and is what Vercel serves — the root project stays static (no root `package.json`) so deploys do not run a Node build.
 
+    cd swap
     npm install
     npm run build
-
-Vercel runs `npm run build` automatically when `package.json` is present.
 
 ## Run locally
 
