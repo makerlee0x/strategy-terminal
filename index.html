@@ -195,6 +195,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-x-embed iframe{width:100%!important;max-width:100%!important}
 .term-x-feed{flex:1 1 auto!important;min-height:0!important}
 .term-bulletin,.term-press{flex:0 0 auto!important}
+.term-dash-tools{flex:0 0 auto!important;margin-top:10px!important;display:flex!important;flex-direction:column!important;gap:8px!important;width:100%!important}
 }
 /* NEWS ticker — all viewports (was wrongly locked to desktop media query) */
 .term-ticker{
@@ -375,6 +376,41 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 [data-theme="dark"] .term-pools-link{
   background:linear-gradient(#2a2e28,#1c201c)!important;border-color:#3a4238!important;color:#c8d2c4!important;box-shadow:none!important;
 }
+/* Homepage slim tools — chart + pools, collapsed like NEWS */
+.term-dash-tools{
+  display:flex!important;flex-direction:column!important;gap:8px!important;
+  width:100%!important;margin-top:12px!important;flex:0 0 auto!important;
+}
+.term-dash-strip{
+  background:#F4F3F0!important;border:1px solid #C6C5BF!important;border-radius:6px!important;
+  box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12)!important;
+  display:flex!important;flex-direction:column!important;flex:0 0 auto!important;
+}
+.term-dash-strip-toggle{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
+  padding:9px 12px!important;cursor:pointer!important;user-select:none!important;
+}
+.term-dash-strip-body{
+  padding:0 12px 12px!important;border-top:1px solid #D4D3CE!important;
+  display:flex!important;flex-direction:column!important;gap:8px!important;
+}
+.term-dash-chart-wrap{
+  position:relative!important;width:100%!important;height:220px!important;max-height:28vh!important;
+  background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%)!important;
+  background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px)!important;
+  border-radius:5px!important;overflow:hidden!important;box-sizing:border-box!important;
+  box-shadow:inset 0 4px 10px rgba(24,44,32,.5), inset 0 0 0 1px rgba(24,44,32,.3), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75)!important;
+}
+.term-dash-chart-wrap canvas{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  display:block!important;pointer-events:none!important;
+}
+.term-dash-pools-body{
+  max-height:min(200px,28vh)!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important;
+}
+[data-theme="dark"] .term-dash-strip{background:#151a16!important;border-color:#2c342e!important;box-shadow:none!important}
+[data-theme="dark"] .term-dash-strip-body{border-top-color:#2c342e!important}
+[data-theme="dark"] .term-dash-chart-wrap{background:#101410!important;border-color:#2c342e!important}
 </style>
 <style id="term-theme-css">
 /* Dark CRT chassis — overrides inline light plastics */
@@ -810,6 +846,48 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
       </div>
     </div>
     <div style="font-size:8px;letter-spacing:.16em;color:#3E3A31;white-space:nowrap;">SYNC {{ syncCount }} &middot; SESSION OK</div>
+  </div>
+
+  <div class="term-dash-tools">
+    <div class="term-dash-strip">
+      <div class="term-dash-strip-toggle" onClick="{{ toggleDashChart }}"
+        style-active="background:rgba(0,0,0,.03)">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;">
+          <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;flex:none;">CHART</div>
+          <div style="font-size:12px;font-weight:700;color:#26251F;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">STRATEGY / MSTR · CoinGecko</div>
+        </div>
+        <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;flex:none;">{{ dashChartToggleLabel }}</div>
+      </div>
+      <sc-if value="{{ dashChartOpen }}" hint-placeholder-val="{{ false }}">
+      <div class="term-dash-strip-body">
+        <div class="term-market-ranges" style="justify-content:flex-end;">
+          <div class="term-market-range" data-range="1D" onClick="{{ setChart1D }}" data-on="{{ chartOn1D }}">1D</div>
+          <div class="term-market-range" data-range="7D" onClick="{{ setChart7D }}" data-on="{{ chartOn7D }}">7D</div>
+          <div class="term-market-range" data-range="30D" onClick="{{ setChart30D }}" data-on="{{ chartOn30D }}">30D</div>
+        </div>
+        <div class="term-dash-chart-wrap" id="dash-chart-wrap">
+          <canvas id="dash-chart-canvas" aria-label="STRATEGY price chart"></canvas>
+        </div>
+        <div class="term-market-foot" id="dash-chart-foot">Loading chart…</div>
+      </div>
+      </sc-if>
+    </div>
+
+    <div class="term-dash-strip">
+      <div class="term-dash-strip-toggle" onClick="{{ toggleDashPools }}"
+        style-active="background:rgba(0,0,0,.03)">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;">
+          <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;flex:none;">POOLS</div>
+          <div style="font-size:12px;font-weight:700;color:#26251F;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">Top liquidity · CoinGecko onchain</div>
+        </div>
+        <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;flex:none;">{{ dashPoolsToggleLabel }}</div>
+      </div>
+      <sc-if value="{{ dashPoolsOpen }}" hint-placeholder-val="{{ false }}">
+      <div class="term-dash-strip-body term-dash-pools-body" id="dash-pools-body">
+        <div class="term-market-foot">Loading pools…</div>
+      </div>
+      </sc-if>
+    </div>
   </div>
   </sc-if>
 
@@ -1296,6 +1374,8 @@ class Component extends DCLogic {
     newsOpen: false,
     marketOpen: false,
     poolsOpen: false,
+    dashChartOpen: false,
+    dashPoolsOpen: false,
     bulletinOpen: false,
     pressOpen: false,
     tickerSeed: 0,
@@ -1490,8 +1570,8 @@ class Component extends DCLogic {
     if (this._marketInFlight) return;
     this._marketInFlight = true;
     try {
-      const jobs = [this.loadChart()];
-      if (this.state.poolsOpen) jobs.push(this.loadPools());
+      const jobs = [this.loadChart("term")];
+      if (this.state.poolsOpen) jobs.push(this.loadPools("term-pools-body"));
       await Promise.all(jobs);
     } catch (e) {
     } finally {
@@ -1499,9 +1579,34 @@ class Component extends DCLogic {
     }
   }
 
-  async loadChart() {
+  chartEls(scope) {
+    const s = scope === "dash" ? "dash" : "term";
+    if (typeof document === "undefined") return { wrap: null, canvas: null, foot: null };
+    if (s === "dash") {
+      return {
+        wrap: document.getElementById("dash-chart-wrap"),
+        canvas: document.getElementById("dash-chart-canvas"),
+        foot: document.getElementById("dash-chart-foot")
+      };
+    }
+    return {
+      wrap: document.getElementById("term-chart-wrap"),
+      canvas: document.getElementById("term-chart-canvas"),
+      foot: document.getElementById("term-chart-foot")
+    };
+  }
+
+  activeChartScope() {
+    if (this.state.marketOpen) return "term";
+    if (this.state.dashChartOpen) return "dash";
+    return this._chartScope || "term";
+  }
+
+  async loadChart(scope) {
+    const target = scope || this.activeChartScope();
+    this._chartScope = target;
     const cfg = this.chartRangeConfig(this.state.chartRange || "7D");
-    const foot = typeof document !== "undefined" ? document.getElementById("term-chart-foot") : null;
+    const { foot } = this.chartEls(target);
     const url =
       "/api/charts?token=0x168661c52e5922288dfb2b3f323b6cf90eb21e18" +
       "&pairId=0xa6975f4720a95aa9cdfa9b010a065b0e941534c93f9fa708104c08f0ac029ca0" +
@@ -1514,11 +1619,12 @@ class Component extends DCLogic {
       const json = await res.json();
       const candles = json && Array.isArray(json.candles) ? json.candles : [];
       this._chartCandles = candles;
-      this.ensureChartObserver();
-      // layout may still be settling inside the CRT
+      this.ensureChartObserver(target);
+      this._chartSizeKey = null;
+      this._chartDrawn = false;
       requestAnimationFrame(() => {
-        this.drawChart(this._chartCandles || []);
-        requestAnimationFrame(() => this.drawChart(this._chartCandles || []));
+        this.drawChart(this._chartCandles || [], target);
+        requestAnimationFrame(() => this.drawChart(this._chartCandles || [], target));
       });
       if (foot) {
         const asOf = json && json.observedAt ? new Date(json.observedAt).toLocaleString() : "";
@@ -1532,24 +1638,26 @@ class Component extends DCLogic {
     }
   }
 
-  ensureChartObserver() {
-    if (this._chartRo || typeof ResizeObserver === "undefined") return;
-    const wrap = document.getElementById("term-chart-wrap");
+  ensureChartObserver(scope) {
+    const target = scope || this.activeChartScope();
+    const key = "_chartRo_" + target;
+    if (this[key] || typeof ResizeObserver === "undefined") return;
+    const { wrap } = this.chartEls(target);
     if (!wrap) return;
-    this._chartRo = new ResizeObserver(() => {
+    this[key] = new ResizeObserver(() => {
       if (this._chartDrawPending) return;
       this._chartDrawPending = true;
       requestAnimationFrame(() => {
         this._chartDrawPending = false;
-        if (this._chartCandles && this._chartCandles.length) this.drawChart(this._chartCandles);
+        if (this._chartCandles && this._chartCandles.length) this.drawChart(this._chartCandles, target);
       });
     });
-    this._chartRo.observe(wrap);
+    this[key].observe(wrap);
   }
 
-  drawChart(candles) {
-    const canvas = typeof document !== "undefined" ? document.getElementById("term-chart-canvas") : null;
-    const wrap = typeof document !== "undefined" ? document.getElementById("term-chart-wrap") : null;
+  drawChart(candles, scope) {
+    const target = scope || this.activeChartScope();
+    const { canvas, wrap } = this.chartEls(target);
     if (!canvas || !canvas.getContext || !wrap) return;
 
     const cssW = Math.max(120, Math.floor(wrap.clientWidth || wrap.getBoundingClientRect().width || 640));
@@ -1560,10 +1668,11 @@ class Component extends DCLogic {
     // Never write canvas.style — absolute CSS fills the wrap. Style writes + RO = expand loop.
     if (canvas.width !== nextW) canvas.width = nextW;
     if (canvas.height !== nextH) canvas.height = nextH;
-    if (this._chartSizeKey === nextW + "x" + nextH && this._chartDrawn && candles === this._chartLastDrawn) {
+    const sizeKey = target + ":" + nextW + "x" + nextH;
+    if (this._chartSizeKey === sizeKey && this._chartDrawn && candles === this._chartLastDrawn) {
       return;
     }
-    this._chartSizeKey = nextW + "x" + nextH;
+    this._chartSizeKey = sizeKey;
     this._chartLastDrawn = candles;
     this._chartDrawn = true;
 
@@ -1670,8 +1779,9 @@ class Component extends DCLogic {
     ctx.fillText(Number(last.close).toFixed(5), cssW - padR + 7, Math.min(cssH - 10, Math.max(20, ly + 3)));
   }
 
-  async loadPools() {
-    const host = typeof document !== "undefined" ? document.getElementById("term-pools-body") : null;
+  async loadPools(hostId) {
+    const id = hostId || (this.state.marketOpen ? "term-pools-body" : "dash-pools-body");
+    const host = typeof document !== "undefined" ? document.getElementById(id) : null;
     if (!host) return;
     try {
       const res = await fetch("/api/pools", { headers: { Accept: "application/json" }, cache: "no-store" });
@@ -2107,6 +2217,8 @@ class Component extends DCLogic {
         newsOpen: st.power ? false : st.newsOpen,
         marketOpen: st.power ? false : st.marketOpen,
         poolsOpen: st.power ? false : st.poolsOpen,
+        dashChartOpen: st.power ? false : st.dashChartOpen,
+        dashPoolsOpen: st.power ? false : st.dashPoolsOpen,
         bulletinOpen: st.power ? false : st.bulletinOpen,
         pressOpen: st.power ? false : st.pressOpen,
         buyOpen: false,
@@ -2122,6 +2234,10 @@ class Component extends DCLogic {
       bulletinToggleLabel: this.state.bulletinOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       poolsOpen: !!this.state.poolsOpen,
       poolsToggleLabel: this.state.poolsOpen ? "COLLAPSE ▴" : "EXPAND ▾",
+      dashChartOpen: !!this.state.dashChartOpen,
+      dashChartToggleLabel: this.state.dashChartOpen ? "COLLAPSE ▴" : "EXPAND ▾",
+      dashPoolsOpen: !!this.state.dashPoolsOpen,
+      dashPoolsToggleLabel: this.state.dashPoolsOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       pressOpen: !!this.state.pressOpen,
       pressToggleLabel: this.state.pressOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       tickerText: this.tickerText(),
@@ -2204,7 +2320,19 @@ class Component extends DCLogic {
       togglePress: () => this.setState(st => ({ pressOpen: !st.pressOpen })),
       togglePools: () =>
         this.setState(st => ({ poolsOpen: !st.poolsOpen }), () => {
-          if (this.state.poolsOpen) setTimeout(() => this.loadPools(), 0);
+          if (this.state.poolsOpen) setTimeout(() => this.loadPools("term-pools-body"), 0);
+        }),
+      toggleDashChart: () =>
+        this.setState(st => ({ dashChartOpen: !st.dashChartOpen }), () => {
+          if (this.state.dashChartOpen) {
+            this._chartSizeKey = null;
+            this._chartDrawn = false;
+            setTimeout(() => this.loadChart("dash"), 0);
+          }
+        }),
+      toggleDashPools: () =>
+        this.setState(st => ({ dashPoolsOpen: !st.dashPoolsOpen }), () => {
+          if (this.state.dashPoolsOpen) setTimeout(() => this.loadPools("dash-pools-body"), 0);
         }),
       closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, marketOpen: false, poolsOpen: false, bulletinOpen: false, pressOpen: false, snapStatus: "STANDBY" }),
       closeCalc: () => this.setState({ calcOpen: false }),
@@ -2281,9 +2409,9 @@ class Component extends DCLogic {
       chartOn1D: this.state.chartRange === "1D" ? "1" : "0",
       chartOn7D: this.state.chartRange === "7D" ? "1" : "0",
       chartOn30D: this.state.chartRange === "30D" ? "1" : "0",
-      setChart1D: () => this.setState({ chartRange: "1D" }, () => this.loadChart()),
-      setChart7D: () => this.setState({ chartRange: "7D" }, () => this.loadChart()),
-      setChart30D: () => this.setState({ chartRange: "30D" }, () => this.loadChart()),
+      setChart1D: () => this.setState({ chartRange: "1D" }, () => this.loadChart(this.activeChartScope())),
+      setChart7D: () => this.setState({ chartRange: "7D" }, () => this.loadChart(this.activeChartScope())),
+      setChart30D: () => this.setState({ chartRange: "30D" }, () => this.loadChart(this.activeChartScope())),
       stop: e => e.stopPropagation(),
       lift: mode === "DIM" ? 1.02 : mode === "MID" ? 1.06 : 1.10,
       bloom: mode === "DIM" ? 0.06 : mode === "MID" ? 0.12 : 0.18,
