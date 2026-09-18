@@ -547,6 +547,10 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">NEWS</div>
+        <div class="term-chip term-action-chip" onClick="{{ openMarket }}"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
+          font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">MARKET</div>
       </sc-if>
       <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
         <div class="term-chip term-action-chip" onClick="{{ closePanels }}"
@@ -600,6 +604,9 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
         <a href="https://app.long.xyz/tokens/0x168661c52e5922288dfb2b3f323b6cf90eb21e18" target="_blank" rel="noopener"
           class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">LONG</a>
+        <a href="https://fomo.family/coin?address=0x168661c52e5922288dfb2b3f323b6cf90eb21e18&amp;chainId=4663&amp;r=0xmakerlee&amp;source=share_link" target="_blank" rel="noopener"
+          class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">FOMO</a>
         <a href="https://dexscreener.com/robinhood/0xa6975f4720a95aa9cdfa9b010a065b0e941534c93f9fa708104c08f0ac029ca0" target="_blank" rel="noopener"
           class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">DEXSCREENER</a>
@@ -736,37 +743,6 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
     </div>
   </div>
 
-  <div class="term-market" id="term-market">
-    <div class="term-market-card term-market-chart">
-      <div class="term-market-head">
-        <div>
-          <div class="term-market-kicker">PRICE CHART</div>
-          <div class="term-market-sub">CoinGecko · STRATEGY / MSTR · via StockTokenSwap</div>
-        </div>
-        <div class="term-market-ranges">
-          <div class="term-market-range" data-range="1D" onClick="{{ setChart1D }}" data-on="{{ chartOn1D }}">1D</div>
-          <div class="term-market-range" data-range="7D" onClick="{{ setChart7D }}" data-on="{{ chartOn7D }}">7D</div>
-          <div class="term-market-range" data-range="30D" onClick="{{ setChart30D }}" data-on="{{ chartOn30D }}">30D</div>
-        </div>
-      </div>
-      <div class="term-market-canvas-wrap" id="term-chart-wrap">
-        <canvas id="term-chart-canvas" aria-label="STRATEGY price chart"></canvas>
-      </div>
-      <div class="term-market-foot" id="term-chart-foot">Loading chart…</div>
-    </div>
-    <div class="term-market-card term-market-pools">
-      <div class="term-market-head">
-        <div>
-          <div class="term-market-kicker">POOLS</div>
-          <div class="term-market-sub">Best liquidity for STRATEGY / MSTR · CoinGecko onchain</div>
-        </div>
-      </div>
-      <div id="term-pools-body">
-        <div class="term-market-foot">Loading pools…</div>
-      </div>
-    </div>
-  </div>
-
   <div class="term-note" style="margin-top:14px;background:#EFEEEB;border:1px solid #C6C5BF;border-radius:5px;padding:11px 14px;
     box-shadow:inset 0 1px 0 #F8F7F5;display:flex;flex-direction:column;gap:6px;">
     <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;">DISCLAIMER</div>
@@ -792,6 +768,41 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
       </div>
     </div>
     <div style="font-size:8px;letter-spacing:.16em;color:#3E3A31;white-space:nowrap;">SYNC {{ syncCount }} &middot; SESSION OK</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ marketOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="term-market-view" style="display:flex;flex-direction:column;gap:10px;min-height:0;flex:1 1 auto;">
+    <div class="term-market" id="term-market">
+      <div class="term-market-card term-market-chart">
+        <div class="term-market-head">
+          <div>
+            <div class="term-market-kicker">PRICE CHART</div>
+            <div class="term-market-sub">CoinGecko · STRATEGY / MSTR</div>
+          </div>
+          <div class="term-market-ranges">
+            <div class="term-market-range" data-range="1D" onClick="{{ setChart1D }}" data-on="{{ chartOn1D }}">1D</div>
+            <div class="term-market-range" data-range="7D" onClick="{{ setChart7D }}" data-on="{{ chartOn7D }}">7D</div>
+            <div class="term-market-range" data-range="30D" onClick="{{ setChart30D }}" data-on="{{ chartOn30D }}">30D</div>
+          </div>
+        </div>
+        <div class="term-market-canvas-wrap" id="term-chart-wrap">
+          <canvas id="term-chart-canvas" aria-label="STRATEGY price chart"></canvas>
+        </div>
+        <div class="term-market-foot" id="term-chart-foot">Loading chart…</div>
+      </div>
+      <div class="term-market-card term-market-pools">
+        <div class="term-market-head">
+          <div>
+            <div class="term-market-kicker">POOLS</div>
+            <div class="term-market-sub">Best liquidity for STRATEGY / MSTR · CoinGecko onchain</div>
+          </div>
+        </div>
+        <div id="term-pools-body">
+          <div class="term-market-foot">Loading pools…</div>
+        </div>
+      </div>
+    </div>
   </div>
   </sc-if>
 
@@ -1237,6 +1248,7 @@ class Component extends DCLogic {
     calcOpen: false,
     snapOpen: false,
     newsOpen: false,
+    marketOpen: false,
     bulletinOpen: false,
     pressOpen: false,
     tickerSeed: 0,
@@ -1259,24 +1271,30 @@ class Component extends DCLogic {
     this._onVisibility = () => {
       if (typeof document !== "undefined" && document.hidden) return;
       this.refreshMetrics();
-      this.refreshMarketPanels();
+      if (this.state.marketOpen) this.refreshMarketPanels();
     };
     if (typeof document !== "undefined") {
       document.addEventListener("visibilitychange", this._onVisibility);
     }
     this.refreshMetrics();
-    this.refreshMarketPanels();
     this._metricsTimer = setInterval(() => {
       this.refreshMetrics();
-      this.refreshMarketPanels();
+      if (this.state.marketOpen) this.refreshMarketPanels();
     }, Component.POLL_MS);
   }
 
   componentDidUpdate() {
     if (this.state.newsOpen && this.state.power) this.ensureXFeed();
     if (this.state.swapOpen && this.state.power) {
-      // defer until modal DOM exists
       setTimeout(() => this.ensureSwapMounted(), 0);
+    }
+    if (this.state.marketOpen && this.state.power) {
+      if (!this._marketPainted) {
+        this._marketPainted = true;
+        setTimeout(() => this.refreshMarketPanels(), 0);
+      }
+    } else {
+      this._marketPainted = false;
     }
   }
 
@@ -1598,7 +1616,7 @@ class Component extends DCLogic {
     try {
       const res = await fetch("/api/pools", { headers: { Accept: "application/json" }, cache: "no-store" });
       const json = await res.json();
-      const pools = json && Array.isArray(json.pools) ? json.pools : [];
+      const pools = (json && Array.isArray(json.pools) ? json.pools : []).slice(0, 4);
       if (!pools.length) {
         host.innerHTML = '<div class="term-market-foot">Pool list unavailable right now.</div>';
         return;
@@ -2008,6 +2026,7 @@ class Component extends DCLogic {
     const calcOpen = this.state.calcOpen && !off;
     const snapOpen = this.state.snapOpen && !off;
     const newsOpen = this.state.newsOpen && !off;
+    const marketOpen = this.state.marketOpen && !off;
     const readout = this.calcReadout(m);
     const snapDataUrl = snapOpen
       ? (this.state.snapDataUrl || this.makeSnapDataUrl(m))
@@ -2033,6 +2052,7 @@ class Component extends DCLogic {
         calcOpen: st.power ? false : st.calcOpen,
         snapOpen: st.power ? false : st.snapOpen,
         newsOpen: st.power ? false : st.newsOpen,
+        marketOpen: st.power ? false : st.marketOpen,
         bulletinOpen: st.power ? false : st.bulletinOpen,
         pressOpen: st.power ? false : st.pressOpen,
         buyOpen: false,
@@ -2043,33 +2063,37 @@ class Component extends DCLogic {
       calcOpen,
       snapOpen,
       newsOpen,
+      marketOpen,
       bulletinOpen: !!this.state.bulletinOpen,
       bulletinToggleLabel: this.state.bulletinOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       pressOpen: !!this.state.pressOpen,
       pressToggleLabel: this.state.pressOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       tickerText: this.tickerText(),
-      showDash: !calcOpen && !snapOpen && !newsOpen,
-      showBack: calcOpen || snapOpen || newsOpen,
+      showDash: !calcOpen && !snapOpen && !newsOpen && !marketOpen,
+      showBack: calcOpen || snapOpen || newsOpen || marketOpen,
       screenProgram: calcOpen
         ? "POSITION READOUT // CALCULATOR"
         : snapOpen
           ? "FRAME CAPTURE // SNAP"
           : newsOpen
             ? "BULLETIN // NEWS"
-            : "COIN TERMINAL MODEL 4926",
+            : marketOpen
+              ? "CHART // POOLS"
+              : "COIN TERMINAL MODEL 4926",
       calcAmount: this.state.calcAmount,
       calcSharePct: readout.sharePct,
       calcImpliedMstr: readout.impliedMstr,
       calcUsdNotional: readout.usd,
       snapDataUrl: snapDataUrl || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",
       snapStatus: this.state.snapStatus || (snapOpen ? "READY" : "STANDBY"),
-      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, swapOpen: false, ejectOpen: false }),
+      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, marketOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, swapOpen: false, ejectOpen: false }),
       openSnap: () => {
         const url = this.makeSnapDataUrl(m);
         this.setState({
           snapOpen: true,
           calcOpen: false,
           newsOpen: false,
+          marketOpen: false,
           bulletinOpen: false,
           pressOpen: false,
           buyOpen: false,
@@ -2088,6 +2112,7 @@ class Component extends DCLogic {
         this.setState(
           {
             newsOpen: true,
+            marketOpen: false,
             bulletinOpen: false,
             pressOpen: false,
             calcOpen: false,
@@ -2100,9 +2125,23 @@ class Component extends DCLogic {
           () => this.ensureXFeed()
         );
       },
+      openMarket: () => {
+        this._marketPainted = false;
+        this.setState({
+          marketOpen: true,
+          newsOpen: false,
+          bulletinOpen: false,
+          pressOpen: false,
+          calcOpen: false,
+          snapOpen: false,
+          buyOpen: false,
+          swapOpen: false,
+          ejectOpen: false
+        });
+      },
       toggleBulletin: () => this.setState(st => ({ bulletinOpen: !st.bulletinOpen })),
       togglePress: () => this.setState(st => ({ pressOpen: !st.pressOpen })),
-      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, bulletinOpen: false, pressOpen: false, snapStatus: "STANDBY" }),
+      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, marketOpen: false, bulletinOpen: false, pressOpen: false, snapStatus: "STANDBY" }),
       closeCalc: () => this.setState({ calcOpen: false }),
       onCalcInput: (e) => {
         const raw = e && e.target ? String(e.target.value) : "";
