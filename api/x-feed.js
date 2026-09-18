@@ -1,10 +1,21 @@
 // Same-origin feed for NEWS panel — @strategystock posts without X widgets.js.
 // Scrapes public profile HTML for status IDs, hydrates text via FxTwitter.
 
+const {
+  rateLimit,
+  cachedFetch,
+  looksLikeBrowser,
+  refererAllowed
+} = require("./_guard");
+
 const SCREEN = "strategystock";
 const PROFILE_URL = `https://x.com/${SCREEN}`;
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
+
+const FEED_CACHE_MS = 120_000;
+const RATE_BROWSER = { limit: 20, windowMs: 60_000, prefix: "xfeed" };
+const RATE_ANON = { limit: 6, windowMs: 60_000, prefix: "xfeed-anon" };
 
 const ALLOWED_ORIGINS = new Set([
   "https://strategycoin.io",
@@ -49,13 +60,14 @@ function corsHeaders(origin) {
   return headers;
 }
 
-function send(res, status, body, origin) {
+function send(res, status, body, origin, extraHeaders) {
   res.statusCode = status;
   const headers = {
     "Content-Type": "application/json; charset=utf-8",
     "X-Content-Type-Options": "nosniff",
-    "Cache-Control": "public, s-maxage=120, stale-while-revalidate=600",
-    ...corsHeaders(origin)
+    "Cache-Control": "public, max-age=0, s-maxage=120, stale-while-revalidate=600",
+    ...corsHeaders(origin),
+    ...(extraHeaders || {})
   };
   for (const [k, v] of Object.entries(headers)) res.setHeader(k, v);
   res.end(JSON.stringify(body));
@@ -145,21 +157,7 @@ function parseTwitterDate(s) {
   return Number.isFinite(t) ? t : 0;
 }
 
-module.exports = async function handler(req, res) {
-  const origin = req.headers.origin || "";
-  if (origin && !originAllowed(origin)) {
-    send(res, 403, { ok: false, error: "origin_not_allowed" }, "");
-    return;
-  }
-  if (req.method === "OPTIONS") {
-    send(res, 204, {}, origin);
-    return;
-  }
-  if (req.method !== "GET") {
-    send(res, 405, { ok: false, error: "method_not_allowed" }, origin);
-    return;
-  }
-
+async function buildFeed() {
   let profile = {
     name: "Strategy Coin",
     handle: `@${SCREEN}`,
@@ -202,16 +200,68 @@ module.exports = async function handler(req, res) {
     source = "error";
   }
 
-  send(
-    res,
-    200,
-    {
-      ok: posts.length > 0,
-      source,
-      asOf: new Date().toISOString(),
-      profile,
-      posts
-    },
-    origin
-  );
+  return {
+    ok: posts.length > 0,
+    source,
+    asOf: new Date().toISOString(),
+    profile,
+    posts
+  };
+}
+
+module.exports = async function handler(req, res) {
+  const origin = req.headers.origin || "";
+  if (origin && !originAllowed(origin)) {
+    send(res, 403, { ok: false, error: "origin_not_allowed" }, "");
+    return;
+  }
+  if (req.method === "OPTIONS") {
+    send(res, 204, {}, origin);
+    return;
+  }
+  if (req.method !== "GET") {
+    send(res, 405, { ok: false, error: "method_not_allowed" }, origin);
+    return;
+  }
+
+  const browserish =
+    looksLikeBrowser(req) && (refererAllowed(req, originAllowed) || !origin);
+  const limited = rateLimit(req, browserish ? RATE_BROWSER : RATE_ANON);
+  if (!limited.ok) {
+    send(
+      res,
+      429,
+      { ok: false, error: "rate_limited" },
+      origin,
+      {
+        "Retry-After": String(limited.retryAfter),
+        "Cache-Control": "no-store"
+      }
+    );
+    return;
+  }
+
+  try {
+    const { value, cache } = await cachedFetch("x-feed", FEED_CACHE_MS, buildFeed);
+    send(res, 200, value, origin, { "X-Cache": cache });
+  } catch (_) {
+    send(
+      res,
+      200,
+      {
+        ok: false,
+        source: "error",
+        asOf: new Date().toISOString(),
+        profile: {
+          name: "Strategy Coin",
+          handle: `@${SCREEN}`,
+          url: PROFILE_URL,
+          description: ""
+        },
+        posts: []
+      },
+      origin,
+      { "X-Cache": "ERROR" }
+    );
+  }
 };

@@ -1067,11 +1067,25 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 class Component extends DCLogic {
   // Prefer same-origin Vercel function (works on *.vercel.app + strategycoin.io).
   // Direct STS URL is a fallback for local static servers without /api.
-  static METRICS_URLS = [
-    "/api/strategy-metrics",
-    "https://stocktokenswap.com/api/strategy-metrics"
-  ];
-  static POLL_MS = 15000;
+  static METRICS_URLS = (() => {
+    const local = "/api/strategy-metrics";
+    const sts = "https://stocktokenswap.com/api/strategy-metrics";
+    try {
+      if (typeof location !== "undefined") {
+        const h = location.hostname || "";
+        if (
+          h === "strategycoin.io" ||
+          h === "www.strategycoin.io" ||
+          h.includes("strategy-terminal") ||
+          h.endsWith(".vercel.app")
+        ) {
+          return [local];
+        }
+      }
+    } catch (e) {}
+    return [local, sts];
+  })();
+  static POLL_MS = 60000;
   static TICKER_QUOTES = [
     "A memecoin backed by a stock backed by Bitcoin",
     "BTC \u2192 MSTR \u2192 $STRATEGY",
@@ -1131,6 +1145,13 @@ class Component extends DCLogic {
         this.setState({ theme: saved });
       }
     } catch (e) {}
+    this._onVisibility = () => {
+      if (typeof document !== "undefined" && document.hidden) return;
+      this.refreshMetrics();
+    };
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", this._onVisibility);
+    }
     this.refreshMetrics();
     this._metricsTimer = setInterval(() => this.refreshMetrics(), Component.POLL_MS);
   }
@@ -1141,6 +1162,9 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     clearInterval(this._metricsTimer);
+    if (typeof document !== "undefined" && this._onVisibility) {
+      document.removeEventListener("visibilitychange", this._onVisibility);
+    }
   }
 
   tickerText() {
@@ -1242,6 +1266,7 @@ class Component extends DCLogic {
   }
 
   async refreshMetrics() {
+    if (typeof document !== "undefined" && document.hidden) return;
     if (this._metricsInFlight) return;
     this._metricsInFlight = true;
     try {

@@ -2,9 +2,22 @@
 // Same-origin on this site; CoinGecko key stays on StockTokenSwap only.
 // This is NOT a generic market-data proxy — fixed upstream URL, allowlisted fields.
 
+const {
+  rateLimit,
+  cachedFetch,
+  looksLikeBrowser,
+  refererAllowed
+} = require("./_guard");
+
 const UPSTREAM =
   process.env.STRATEGY_METRICS_URL ||
   "https://stocktokenswap.com/api/strategy-metrics";
+
+/** Soft in-isolate cache — stops bots from burning STS/Codex on every hit. */
+const UPSTREAM_CACHE_MS = 45_000;
+/** Browser tabs: generous. Anonymous/scripted: tight. */
+const RATE_BROWSER = { limit: 40, windowMs: 60_000, prefix: "metrics" };
+const RATE_ANON = { limit: 12, windowMs: 60_000, prefix: "metrics-anon" };
 
 const ALLOWED_ORIGINS = new Set([
   "https://strategycoin.io",
@@ -102,7 +115,7 @@ function securityHeaders() {
     "Referrer-Policy": "no-referrer",
     "X-Frame-Options": "DENY",
     "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
-    "Cache-Control": "public, s-maxage=15, stale-while-revalidate=60"
+    "Cache-Control": "public, max-age=0, s-maxage=60, stale-while-revalidate=300"
   };
 }
 
@@ -136,15 +149,36 @@ function pickPayload(raw) {
   return out;
 }
 
-function send(res, status, body, origin) {
+function send(res, status, body, origin, extraHeaders) {
   res.statusCode = status;
   const headers = {
     "Content-Type": "application/json; charset=utf-8",
     ...securityHeaders(),
-    ...corsHeaders(origin)
+    ...corsHeaders(origin),
+    ...(extraHeaders || {})
   };
   for (const [k, v] of Object.entries(headers)) res.setHeader(k, v);
   res.end(JSON.stringify(body));
+}
+
+async function fetchUpstreamPayload() {
+  const upstream = await fetch(UPSTREAM, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+    cache: "no-store",
+    redirect: "error"
+  });
+  if (!upstream.ok) return FALLBACK;
+  const text = await upstream.text();
+  if (text.length > 32_000) return FALLBACK;
+  const data = JSON.parse(text);
+  if (data && typeof data === "object" && !Array.isArray(data)) {
+    const payload = pickPayload(data);
+    if (payload.priceUsd || payload.marketCap) {
+      return { ...FALLBACK, ...payload, ok: true };
+    }
+  }
+  return FALLBACK;
 }
 
 module.exports = async function handler(req, res) {
@@ -170,11 +204,23 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  // Ignore query strings — no user-controlled upstream routing
-  if (!/^https:\/\/stocktokenswap\.com\/api\/strategy-metrics\/?$/.test(UPSTREAM) &&
-      !process.env.STRATEGY_METRICS_URL) {
-    // default path only; custom env must still be https
+  const browserish =
+    looksLikeBrowser(req) && (refererAllowed(req, originAllowed) || !origin);
+  const limited = rateLimit(req, browserish ? RATE_BROWSER : RATE_ANON);
+  if (!limited.ok) {
+    send(
+      res,
+      429,
+      { ok: false, error: "rate_limited" },
+      origin,
+      {
+        "Retry-After": String(limited.retryAfter),
+        "Cache-Control": "no-store"
+      }
+    );
+    return;
   }
+
   if (process.env.STRATEGY_METRICS_URL) {
     try {
       const u = new URL(process.env.STRATEGY_METRICS_URL);
@@ -189,31 +235,16 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const upstream = await fetch(UPSTREAM, {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-      redirect: "error"
-    });
-
-    if (upstream.ok) {
-      const text = await upstream.text();
-      if (text.length > 32_000) {
-        send(res, 200, FALLBACK, origin);
-        return;
-      }
-      const data = JSON.parse(text);
-      if (data && typeof data === "object" && !Array.isArray(data)) {
-        const payload = pickPayload(data);
-        if (payload.priceUsd || payload.marketCap) {
-          send(res, 200, { ...FALLBACK, ...payload, ok: true }, origin);
-          return;
-        }
-      }
-    }
+    const { value, cache } = await cachedFetch(
+      "strategy-metrics",
+      UPSTREAM_CACHE_MS,
+      fetchUpstreamPayload
+    );
+    send(res, 200, value, origin, { "X-Cache": cache });
+    return;
   } catch (_) {
     // Upstream missing/down — keep the CRT populated on Vercel.
   }
 
-  send(res, 200, FALLBACK, origin);
+  send(res, 200, FALLBACK, origin, { "X-Cache": "FALLBACK" });
 };
