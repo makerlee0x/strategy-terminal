@@ -166,9 +166,11 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-x-feed{flex:0 0 auto!important}
 .term-x-embed{
   width:100%!important;max-width:100%!important;min-height:280px!important;
-  max-height:min(380px,42vh)!important;overflow:auto!important;box-sizing:border-box!important;
+  max-height:min(520px,58vh)!important;overflow:auto!important;box-sizing:border-box!important;
 }
 .term-x-embed iframe{width:100%!important;max-width:100%!important}
+.term-x-feed{flex:1 1 auto!important;min-height:0!important}
+.term-bulletin{flex:0 0 auto!important}
 }
 @media (max-width:700px){
 .term-page{padding:8px 4px 20px!important;width:100%!important;box-sizing:border-box!important;overflow:auto!important;height:auto!important;max-height:none!important}
@@ -206,7 +208,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-theme-btn{width:46px!important;height:46px!important}
 .term-footer{flex-wrap:wrap!important;gap:8px!important;padding:10px 2px 12px!important}
 .term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
-.term-x-embed{min-height:260px!important;max-height:320px!important}
+.term-x-embed{min-height:280px!important;max-height:min(480px,55vh)!important}
 }
 @media (max-width:520px){
 .term-status-pills{display:none!important}
@@ -727,45 +729,55 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   </sc-if>
 
   <sc-if value="{{ newsOpen }}" hint-placeholder-val="{{ false }}">
-  <div class="term-news" style="display:flex;flex-direction:column;gap:10px;min-height:0;">
-    <div style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:14px 16px;
-      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:10px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
-        <div style="display:flex;flex-direction:column;gap:5px;min-width:0;">
-          <div style="font-size:8px;letter-spacing:.2em;color:#5A5852;">BULLETIN // MARKET STRUCTURE</div>
-          <div style="font-size:20px;font-weight:700;color:#26251F;letter-spacing:-.02em;line-height:1.15;">SEC Innovation Exemption for Tokenized Securities Venues</div>
-          <div style="font-size:11px;color:#5A5852;letter-spacing:.04em;text-wrap:pretty;">Five-year SEC relief for qualifying Tokenized Securities Venues (TSVs) to trade tokenized U.S. stocks onchain without registering as traditional exchanges.</div>
+  <div class="term-news" style="display:flex;flex-direction:column;gap:8px;min-height:0;flex:1 1 auto;">
+    <div class="term-bulletin" style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;
+      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;flex:0 0 auto;">
+      <div onClick="{{ toggleBulletin }}"
+        style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;cursor:pointer;
+        user-select:none;"
+        style-active="background:rgba(0,0,0,.03)">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;">
+          <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;flex:none;">BULLETIN</div>
+          <div style="font-size:12px;font-weight:700;color:#26251F;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">SEC Innovation Exemption for Tokenized Securities Venues</div>
         </div>
-        <div style="font-size:9px;letter-spacing:.14em;color:#54524C;text-align:right;">TERM<br/><span style="color:#1B3E2D;font-size:13px;letter-spacing:.04em;">5 YEARS</span></div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
-        <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
-          <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">TEMPORARY RELIEF</div>
-          <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Conditional exemption lasts five years so the SEC can test blockchain market data and form permanent rules.</div>
-        </div>
-        <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
-          <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">REAL OWNERSHIP ONLY</div>
-          <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Tokens must represent actual share ownership with voting and dividend rights. Synthetic price-tracking tokens are excluded.</div>
-        </div>
-        <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
-          <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">ISSUER VETO</div>
-          <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Platforms must notify public companies 30 days before listing; the issuer can block the listing if they object.</div>
-        </div>
-        <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
-          <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">DEALER EXEMPTION</div>
-          <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Liquidity providers on approved permissioned AMMs receive temporary relief from dealer registration rules.</div>
+        <div style="display:flex;align-items:center;gap:8px;flex:none;">
+          <div style="font-size:9px;letter-spacing:.12em;color:#1B3E2D;">5Y</div>
+          <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;">{{ bulletinToggleLabel }}</div>
         </div>
       </div>
-      <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);border-radius:5px;padding:11px 12px;color:#1B3E2D;
-        box-shadow:inset 0 3px 7px rgba(24,44,32,.4), inset 0 0 0 1px rgba(24,44,32,.25);">
-        <div style="font-size:8px;letter-spacing:.16em;margin-bottom:5px;">MARKET BENEFITS</div>
-        <div style="font-size:11px;line-height:1.45;text-wrap:pretty;">24/7 trading, fractional shares, near-instant settlement, and investor self-custody — rails Strategy Coin sits beside as a memecoin paired with tokenized $MSTR on Robinhood Chain.</div>
+      <sc-if value="{{ bulletinOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:10px;padding:0 12px 12px;border-top:1px solid #D4D3CE;">
+        <div style="font-size:11px;color:#5A5852;letter-spacing:.04em;text-wrap:pretty;padding-top:10px;">Five-year SEC relief for qualifying Tokenized Securities Venues (TSVs) to trade tokenized U.S. stocks onchain without registering as traditional exchanges.</div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
+          <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
+            <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">TEMPORARY RELIEF</div>
+            <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Conditional exemption lasts five years so the SEC can test blockchain market data and form permanent rules.</div>
+          </div>
+          <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
+            <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">REAL OWNERSHIP ONLY</div>
+            <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Tokens must represent actual share ownership with voting and dividend rights. Synthetic price-tracking tokens are excluded.</div>
+          </div>
+          <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
+            <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">ISSUER VETO</div>
+            <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Platforms must notify public companies 30 days before listing; the issuer can block the listing if they object.</div>
+          </div>
+          <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 #F5F4F2;">
+            <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">DEALER EXEMPTION</div>
+            <div style="font-size:11px;line-height:1.4;color:#3E3A31;">Liquidity providers on approved permissioned AMMs receive temporary relief from dealer registration rules.</div>
+          </div>
+        </div>
+        <div style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);border-radius:5px;padding:11px 12px;color:#1B3E2D;
+          box-shadow:inset 0 3px 7px rgba(24,44,32,.4), inset 0 0 0 1px rgba(24,44,32,.25);">
+          <div style="font-size:8px;letter-spacing:.16em;margin-bottom:5px;">MARKET BENEFITS</div>
+          <div style="font-size:11px;line-height:1.45;text-wrap:pretty;">24/7 trading, fractional shares, near-instant settlement, and investor self-custody — rails Strategy Coin sits beside as a memecoin paired with tokenized $MSTR on Robinhood Chain.</div>
+        </div>
+        <div style="font-size:10px;line-height:1.45;color:#5A5852;text-wrap:pretty;">Informational only — not legal advice. Strategy Coin is a memecoin, not a registered security or SEC-approved TSV listing.</div>
       </div>
-      <div style="font-size:10px;line-height:1.45;color:#5A5852;text-wrap:pretty;">Informational only — not legal advice. Strategy Coin is a memecoin, not a registered security or SEC-approved TSV listing.</div>
+      </sc-if>
     </div>
 
     <div class="term-x-feed" style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:12px 14px;
-      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:10px;">
+      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:10px;flex:1 1 auto;min-height:0;">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
         <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
           <div style="font-size:8px;letter-spacing:.2em;color:#5A5852;">LIVE FEED // X</div>
@@ -777,7 +789,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">OPEN ON X</a>
       </div>
       <div id="term-x-embed" class="term-x-embed" style="background:#EDECE8;border:1px solid #C6C5BF;border-radius:4px;
-        min-height:220px;max-height:380px;overflow:auto;box-shadow:inset 0 1px 0 #F5F4F2;padding:8px;">
+        min-height:280px;max-height:min(520px,58vh);overflow:auto;box-shadow:inset 0 1px 0 #F5F4F2;padding:8px;flex:1 1 auto;">
         <div style="font-size:11px;color:#5A5852;padding:14px 8px;">Loading @strategystock posts…</div>
       </div>
       <div style="font-size:9px;line-height:1.45;color:#5A5852;text-wrap:pretty;">Newest posts from the Strategy Coin X account. If the feed is empty, use OPEN ON X.</div>
@@ -993,6 +1005,7 @@ class Component extends DCLogic {
     calcOpen: false,
     snapOpen: false,
     newsOpen: false,
+    bulletinOpen: false,
     snapDataUrl: "",
     snapStatus: "STANDBY",
     calcAmount: "",
@@ -1481,7 +1494,8 @@ class Component extends DCLogic {
         power: !st.power,
         calcOpen: st.power ? false : st.calcOpen,
         snapOpen: st.power ? false : st.snapOpen,
-        newsOpen: st.power ? false : st.newsOpen
+        newsOpen: st.power ? false : st.newsOpen,
+        bulletinOpen: st.power ? false : st.bulletinOpen
       })),
       buyOpen: this.state.buyOpen && !off,
       calcOpen,
