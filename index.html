@@ -190,15 +190,18 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 }
 .term-x-embed iframe{width:100%!important;max-width:100%!important}
 .term-x-feed{flex:1 1 auto!important;min-height:0!important}
-.term-bulletin,.term-press,.term-ticker{flex:0 0 auto!important}
+.term-bulletin,.term-press{flex:0 0 auto!important}
+}
+/* NEWS ticker — all viewports (was wrongly locked to desktop media query) */
 .term-ticker{
-  overflow:hidden!important;position:relative!important;
+  flex:0 0 auto!important;width:100%!important;max-width:100%!important;
+  overflow:hidden!important;position:relative!important;box-sizing:border-box!important;
   border:1px solid #C6C5BF!important;border-radius:4px!important;
   background:linear-gradient(180deg,#1B3E2D,#243F30)!important;
   box-shadow:inset 0 2px 4px rgba(0,0,0,.35)!important;
 }
 .term-ticker-track{
-  display:flex!important;width:max-content!important;gap:0!important;
+  display:flex!important;width:max-content!important;max-width:none!important;gap:0!important;
   animation:termTicker 48s linear infinite!important;
   will-change:transform!important;
 }
@@ -208,7 +211,12 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 }
 @keyframes termTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){
-.term-ticker-track{animation:none!important;transform:none!important;flex-wrap:wrap!important;width:100%!important;justify-content:center!important}
+.term-ticker-track{animation:none!important;transform:none!important;will-change:auto!important}
+.term-ticker-track span:last-child{display:none!important}
+.term-ticker-track span{
+  display:block!important;width:100%!important;padding:7px 10px!important;
+  white-space:normal!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  text-align:center!important;
 }
 }
 @media (max-width:700px){
@@ -258,6 +266,10 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-footer{flex-wrap:wrap!important;gap:8px!important;padding:10px 2px 12px!important}
 .term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
 .term-x-embed{min-height:280px!important;max-height:min(480px,55vh)!important}
+.term-news{overflow-x:hidden!important;max-width:100%!important}
+.term-ticker{width:100%!important;max-width:100%!important;min-width:0!important}
+.term-ticker-track{animation-duration:36s!important}
+.term-ticker-track span{font-size:10px!important;padding:6px 0!important;letter-spacing:.06em!important}
 }
 @media (max-width:520px){
 .term-status-pills{display:none!important}
