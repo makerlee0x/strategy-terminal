@@ -1,0 +1,13 @@
+{
+  "name": "strategy-terminal-swap",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --minify --format=iife --global-name=StrategySwap --outfile=../assets/swap.js --target=es2020"
+  },
+  "dependencies": {
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
