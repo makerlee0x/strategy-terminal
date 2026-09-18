@@ -340,43 +340,28 @@ export function mountStrategySwap(host) {
   ui.className = "sc-swap";
   ui.innerHTML = `
     <div class="sc-swap-row sc-swap-head">
-      <div>
-        <div class="sc-swap-kicker">SWAP // NONCUSTODIAL</div>
-        <div class="sc-swap-title">$STRATEGY</div>
-        <div class="sc-swap-sub">Multi-pool routing with cross-chain bridging via Relay</div>
+      <div class="sc-swap-modes">
+        <button type="button" class="sc-swap-mode" data-mode="buy" data-on="1">Buy</button>
+        <button type="button" class="sc-swap-mode" data-mode="sell">Sell</button>
       </div>
       <button type="button" class="sc-swap-wallet" data-act="wallet">CONNECT</button>
     </div>
     <div class="sc-swap-picker" data-role="wallet-picker" hidden></div>
 
     <div class="sc-swap-toolbar">
-      <div class="sc-swap-modes">
-        <button type="button" class="sc-swap-mode" data-mode="buy" data-on="1">Buy STRATEGY</button>
-        <button type="button" class="sc-swap-mode" data-mode="sell">Sell STRATEGY</button>
-      </div>
+      <button type="button" class="sc-swap-link" data-act="bridge">Bridge ETH for gas</button>
       <div class="sc-swap-slip">
-        <span>Max slippage</span>
+        <span>Slip</span>
         <button type="button" class="sc-swap-chip" data-slip="2" data-on="1">2%</button>
         <button type="button" class="sc-swap-chip" data-slip="10">10%</button>
         <button type="button" class="sc-swap-chip" data-slip="15">15%</button>
       </div>
     </div>
 
-    <div class="sc-swap-bridge">
-      <div>
-        <div class="sc-swap-bridge-title">Bridge ETH for Gas</div>
-        <div class="sc-swap-bridge-sub">Cross-chain ETH → Robinhood for fees</div>
-      </div>
-      <button type="button" class="sc-swap-chip" data-act="bridge">Bridge ETH</button>
-    </div>
-
     <div class="sc-swap-card">
       <div class="sc-swap-label-row">
-        <div class="sc-swap-label">YOU PAY</div>
-        <div class="sc-swap-unit">
-          <button type="button" class="sc-swap-chip sc-swap-unit-btn" data-unit="token" data-on="1">TOKEN</button>
-          <button type="button" class="sc-swap-chip sc-swap-unit-btn" data-unit="usd">USD</button>
-        </div>
+        <div class="sc-swap-label">You pay</div>
+        <div class="sc-swap-bal" data-role="bal">Bal —</div>
       </div>
       <div class="sc-swap-field">
         <input class="sc-swap-input" data-act="amount" inputmode="decimal" placeholder="0.0" autocomplete="off" />
@@ -387,15 +372,14 @@ export function mountStrategySwap(host) {
       </div>
       <div class="sc-swap-subrow">
         <div class="sc-swap-usd" data-role="pay-usd">—</div>
-        <div class="sc-swap-bal" data-role="bal">Bal —</div>
+        <div class="sc-swap-presets" data-role="presets"></div>
       </div>
-      <div class="sc-swap-presets" data-role="presets"></div>
     </div>
 
     <div class="sc-swap-arrow">↓</div>
 
     <div class="sc-swap-card">
-      <div class="sc-swap-label">YOU RECEIVE</div>
+      <div class="sc-swap-label">You receive</div>
       <div class="sc-swap-field">
         <div class="sc-swap-out" data-role="out">—</div>
         <button type="button" class="sc-swap-token-btn" data-act="pick-recv">
@@ -411,24 +395,18 @@ export function mountStrategySwap(host) {
 
     <div class="sc-swap-token-modal" data-role="token-modal" hidden></div>
 
-    <div class="sc-swap-meta">
+    <div class="sc-swap-meta" data-role="meta" hidden>
       <div><span>Route</span><strong data-role="route">—</strong></div>
-      <div><span>Price impact</span><strong data-role="impact">—</strong></div>
-      <div><span>Network</span><strong data-role="gas">—</strong></div>
-      <div><span>Provider</span><strong data-role="provider">—</strong></div>
+      <div><span>Impact</span><strong data-role="impact">—</strong></div>
       <div class="sc-swap-meta-wide"><span>Interface fee</span><strong data-role="iface">—</strong></div>
     </div>
 
     <button type="button" class="sc-swap-go" data-act="swap" disabled>ENTER AMOUNT</button>
-    <button type="button" class="sc-swap-refresh" data-act="refresh">Refresh quote</button>
     <div class="sc-swap-status" data-role="status"></div>
     <div class="sc-swap-legal">
       Independent noncustodial interface — not affiliated with Robinhood, Strategy Inc., LONG, or Relay.
-      Not a broker, exchange, or advisor. Not investment advice. Robinhood Stock Tokens are restricted in
-      US, CA, GB, CH and other issuer jurisdictions; you are responsible for eligibility.
-      Interface fee is set by StockTokenSwap and already included in the quote.
-      <a href="https://docs.robinhood.com/rhj/restricted-jurisdictions/" target="_blank" rel="noopener">Restricted jurisdictions</a>
-      · <a href="https://stocktokenswap.com/disclaimer" target="_blank" rel="noopener">Disclaimer</a>
+      Restricted jurisdictions apply.
+      <a href="https://stocktokenswap.com/disclaimer" target="_blank" rel="noopener">Disclaimer</a>
     </div>
   `;
   host.appendChild(ui);
@@ -437,9 +415,8 @@ export function mountStrategySwap(host) {
     out: $(ui, "[data-role=out]"),
     route: $(ui, "[data-role=route]"),
     impact: $(ui, "[data-role=impact]"),
-    gas: $(ui, "[data-role=gas]"),
-    provider: $(ui, "[data-role=provider]"),
     iface: $(ui, "[data-role=iface]"),
+    meta: $(ui, "[data-role=meta]"),
     payUsd: $(ui, "[data-role=pay-usd]"),
     recvUsd: $(ui, "[data-role=recv-usd]"),
     bal: $(ui, "[data-role=bal]"),
@@ -473,9 +450,6 @@ export function mountStrategySwap(host) {
     });
     ui.querySelectorAll("[data-slip]").forEach((btn) => {
       btn.dataset.on = Number(btn.getAttribute("data-slip")) === state.slippage ? "1" : "0";
-    });
-    ui.querySelectorAll("[data-unit]").forEach((btn) => {
-      btn.dataset.on = btn.getAttribute("data-unit") === state.amountMode ? "1" : "0";
     });
   }
 
@@ -552,33 +526,21 @@ export function mountStrategySwap(host) {
         : fees.swapImpactPct != null
           ? fees.swapImpactPct + "%"
           : "—";
-    el.gas.textContent = fees.gasUsd != null ? fmtUsd(fees.gasUsd) : "—";
-    el.provider.textContent = fees.providerUsd != null ? fmtUsd(fees.providerUsd) : "—";
     if (fees.interfaceFeeUsd != null) {
       const bps =
         fees.interfaceFeeBps != null ? " · " + fmtBpsPct(fees.interfaceFeeBps) : "";
       el.iface.textContent = fmtUsd(fees.interfaceFeeUsd) + bps;
     } else el.iface.textContent = "—";
+    el.meta.hidden = !q;
 
     const ready = !!(state.account && state.quote && state.amount);
     el.go.disabled = !ready || state.status === "working";
     if (!state.amount) el.go.textContent = "ENTER AMOUNT";
     else if (!state.account) el.go.textContent = "CONNECT WALLET";
-    else if (
-      state.account &&
-      state.payToken.chainId &&
-      state.provider &&
-      state.mode !== "bridge"
-    ) {
-      // may need chain switch — still allow execute to switch
-      if (!state.quote) el.go.textContent = "GETTING QUOTE…";
-      else if (Number(state.payToken.chainId) !== CHAIN_ID && state.mode === "buy")
-        el.go.textContent = "SWAP / BRIDGE";
-      else if (Number(state.payToken.chainId) !== CHAIN_ID)
-        el.go.textContent = "SWITCH & SWAP";
-      else el.go.textContent = state.mode === "sell" ? "SELL STRATEGY" : "SWAP";
-    } else if (!state.quote) el.go.textContent = "GETTING QUOTE…";
-    else el.go.textContent = state.mode === "bridge" ? "BRIDGE ETH" : "SWAP";
+    else if (!state.quote) el.go.textContent = "GETTING QUOTE…";
+    else if (state.mode === "bridge") el.go.textContent = "BRIDGE ETH";
+    else if (state.mode === "sell") el.go.textContent = "SELL";
+    else el.go.textContent = "SWAP";
   }
 
   async function refreshBalance() {
@@ -1074,13 +1036,6 @@ export function mountStrategySwap(host) {
       debouncedQuote();
     });
   });
-  ui.querySelectorAll("[data-unit]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.amountMode = btn.getAttribute("data-unit") === "usd" ? "usd" : "token";
-      paintMode();
-      debouncedQuote();
-    });
-  });
   $(ui, "[data-act=bridge]").addEventListener("click", () => applyModeDefaults("bridge"));
   $(ui, "[data-act=pick-pay]").addEventListener("click", () => {
     openTokenPicker(state.mode === "sell" ? "recv" : "pay").catch((e) =>
@@ -1088,14 +1043,7 @@ export function mountStrategySwap(host) {
     );
   });
   $(ui, "[data-act=pick-recv]").addEventListener("click", () => {
-    if (state.mode === "buy") {
-      // featured destination is STRATEGY; still allow browse
-      openTokenPicker("recv").catch((e) =>
-        setStatus(e.message || "Token list failed.", "error")
-      );
-      return;
-    }
-    openTokenPicker("recv").catch((e) =>
+    openTokenPicker(state.mode === "buy" ? "recv" : "recv").catch((e) =>
       setStatus(e.message || "Token list failed.", "error")
     );
   });
@@ -1113,7 +1061,6 @@ export function mountStrategySwap(host) {
     openWalletPicker().catch((e) => setStatus(e.message || "Connect failed.", "error"));
   });
   el.go.addEventListener("click", () => executeSwap());
-  $(ui, "[data-act=refresh]").addEventListener("click", () => refreshQuote());
 
   paintWallet();
   paintMode();
