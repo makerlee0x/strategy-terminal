@@ -142,19 +142,39 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-bright{display:none!important}
 .term-metrics{
   flex:0 0 auto!important;display:grid!important;
-  grid-template-columns:repeat(4,minmax(0,1fr))!important;
-  gap:8px!important;margin-top:10px!important;overflow:visible!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:6px!important;margin-top:8px!important;overflow:visible!important;
+  align-items:stretch!important;
 }
-.term-metrics > div{
-  min-height:auto!important;height:auto!important;overflow:visible!important;
-  padding:8px 9px!important;gap:6px!important;box-sizing:border-box!important;
+.term-metric-group{
+  min-width:0!important;display:flex!important;flex-direction:column!important;gap:4px!important;
+  background:#EDECE8!important;border:1px solid #C6C5BF!important;border-radius:5px!important;
+  padding:5px!important;box-sizing:border-box!important;
+  box-shadow:inset 0 1px 0 #F5F4F2!important;
+}
+.term-metric-group-label{
+  font-size:8px!important;letter-spacing:.16em!important;color:#5A5852!important;
+  padding:0 3px 1px!important;line-height:1.2!important;
+}
+.term-metric-group-grid{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:4px!important;flex:1 1 auto!important;
+}
+.term-metrics .term-metric-tile{
+  min-width:0!important;min-height:auto!important;height:auto!important;overflow:hidden!important;
+  padding:5px 6px!important;gap:3px!important;box-sizing:border-box!important;
+}
+.term-metrics .term-metric-label{
+  font-size:7px!important;letter-spacing:.12em!important;line-height:1.2!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
 }
 .term-metric-value{
-  display:block!important;font-size:15px!important;line-height:1.3!important;
-  padding:8px 9px!important;min-height:2.1em!important;height:auto!important;
-  overflow:visible!important;white-space:nowrap!important;box-sizing:border-box!important;
+  display:block!important;font-size:13px!important;line-height:1.2!important;
+  padding:5px 6px!important;min-height:0!important;height:auto!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;box-sizing:border-box!important;
 }
-.term-metrics > div > div:last-child:not(.term-metric-value){display:none!important}
+.term-metrics .term-metric-src{display:none!important}
+.term-metric-group:last-child .term-metric-tile:last-child{grid-column:1/-1!important}
 .term-note{flex:0 0 auto!important;margin-top:8px!important;padding:8px 10px!important}
 .term-note > div:nth-child(n+3){display:none!important}
 .term-sync{flex:0 0 auto!important;margin-top:8px!important;padding:8px 10px!important}
@@ -217,8 +237,18 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-links .term-addr{grid-column:1/-1!important;justify-content:flex-start!important;text-align:left!important;font-size:11px!important;letter-spacing:.02em!important;word-break:break-all!important}
 .term-links .term-chip:last-child:nth-child(even){grid-column:1/-1!important}
 .term-bright{display:none!important}
-.term-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;width:100%!important;margin-top:8px!important}
-.term-metric-value{font-size:14px!important;padding:8px!important;overflow:visible!important;min-height:2em!important;line-height:1.3!important;white-space:nowrap!important}
+.term-metrics{
+  grid-template-columns:1fr!important;gap:8px!important;width:100%!important;margin-top:8px!important;
+}
+.term-metric-group{
+  padding:7px!important;gap:5px!important;
+}
+.term-metric-group-label{font-size:9px!important;letter-spacing:.14em!important;padding:0 2px 2px!important}
+.term-metric-group-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+.term-metrics .term-metric-tile{padding:8px!important;gap:5px!important}
+.term-metrics .term-metric-label{font-size:8px!important;letter-spacing:.12em!important}
+.term-metric-value{font-size:14px!important;padding:8px!important;overflow:hidden!important;min-height:0!important;line-height:1.25!important;white-space:nowrap!important}
+.term-metric-group:last-child .term-metric-tile:last-child{grid-column:1/-1!important}
 .term-rail{width:100%!important;flex-direction:row!important;justify-content:space-around!important;align-items:flex-end!important;gap:6px!important;padding:6px 0 8px!important;align-self:stretch!important;grid-column:auto!important}
 .term-rail-vent{display:none!important}
 .term-rail-power{display:none!important}
@@ -283,7 +313,8 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 [data-theme="dark"] .term-calc > div,
 [data-theme="dark"] .term-snap > div,
 [data-theme="dark"] .term-news > div:not(.term-x-embed):not(.term-ticker),
-[data-theme="dark"] .term-metrics > div,
+[data-theme="dark"] .term-metric-group,
+[data-theme="dark"] .term-metric-tile,
 [data-theme="dark"] .term-note,
 [data-theme="dark"] .term-sync,
 [data-theme="dark"] .sec-bulletin,
@@ -293,6 +324,8 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04), 0 1px 2px rgba(0,0,0,.35)!important;
   color:#c8d2c4!important;
 }
+[data-theme="dark"] .term-metric-group-label,
+[data-theme="dark"] .term-metric-label{color:#8a9488!important}
 [data-theme="dark"] .term-ticker{
   background:linear-gradient(180deg,#0f1a12,#162218)!important;
   border-color:#2c342e!important;
@@ -558,83 +591,79 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
     </div>
   </div>
 
-  <div class="term-metrics" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px;">
+  <div class="term-metrics" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px;">
 
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PRICE (MSTR)</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ priceMstr }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
+    <div class="term-metric-group">
+      <div class="term-metric-group-label">VALUATION</div>
+      <div class="term-metric-group-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;">
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PRICE (MSTR)</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ priceMstr }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
+      </div>
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MARKET CAP</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ marketCap }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
+      </div>
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">OUTSTANDING</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ totalSupply }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
+      </div>
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">FDV</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ fdv }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
+      </div>
+      </div>
     </div>
 
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MARKET CAP</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ marketCap }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
+    <div class="term-metric-group">
+      <div class="term-metric-group-label">LIQUIDITY</div>
+      <div class="term-metric-group-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;">
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">LP TOTAL $</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ liquidityUsd }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
+      </div>
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR IN LP</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLp }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCoingecko }}</div></sc-if>
+      </div>
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR TOKENIZED</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrTokenized }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCoingecko }}</div></sc-if>
+      </div>
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">% MSTR IN LP</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLpPct }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
+      </div>
+      </div>
     </div>
 
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">STRATEGY OUTSTANDING</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ totalSupply }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
-    </div>
-
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">FDV</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ fdv }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
-    </div>
-
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">LIQUIDITY (LP TOTAL $)</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ liquidityUsd }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
-    </div>
-
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR IN LP</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLp }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCoingecko }}</div></sc-if>
-    </div>
-
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">MSTR TOKENIZED</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrTokenized }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCoingecko }}</div></sc-if>
-    </div>
-
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">% MSTR IN LP</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ mstrInLpPct }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcDerived }}</div></sc-if>
-    </div>
-
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">24H VOLUME</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ volume24h }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCoingecko }}</div></sc-if>
-    </div>
-
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">HOLDERS</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ holders }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCoingecko }}</div></sc-if>
-    </div>
-
-    <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;
-      box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-      <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PAIR ASSET</div>
-      <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ pairAsset }}</div>
-      <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcRobinhood }}</div></sc-if>
+    <div class="term-metric-group">
+      <div class="term-metric-group-label">MARKET</div>
+      <div class="term-metric-group-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;">
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">24H VOLUME</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ volume24h }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCoingecko }}</div></sc-if>
+      </div>
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">HOLDERS</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ holders }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcCoingecko }}</div></sc-if>
+      </div>
+      <div class="term-metric-tile" style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
+        <div class="term-metric-label" style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PAIR ASSET</div>
+        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ pairAsset }}</div>
+        <sc-if value="{{ showSources }}" hint-placeholder-val="{{ true }}"><div class="term-metric-src" style="font-size:8px;letter-spacing:.1em;color:#5A5852;">{{ srcRobinhood }}</div></sc-if>
+      </div>
+      </div>
     </div>
   </div>
 
