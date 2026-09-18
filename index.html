@@ -2185,6 +2185,8 @@ class Component extends DCLogic {
       },
       openMarket: () => {
         this._marketPainted = false;
+        this._chartSizeKey = null;
+        this._chartDrawn = false;
         this.setState({
           marketOpen: true,
           poolsOpen: false,
