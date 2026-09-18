@@ -163,6 +163,12 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-footer{flex:0 0 auto!important;padding:8px 2px 10px!important}
 .term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
 .term-calc,.term-snap,.term-news{flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
+.term-x-feed{flex:0 0 auto!important}
+.term-x-embed{
+  width:100%!important;max-width:100%!important;min-height:280px!important;
+  max-height:min(380px,42vh)!important;overflow:auto!important;box-sizing:border-box!important;
+}
+.term-x-embed iframe{width:100%!important;max-width:100%!important}
 }
 @media (max-width:700px){
 .term-page{padding:8px 4px 20px!important;width:100%!important;box-sizing:border-box!important;overflow:auto!important;height:auto!important;max-height:none!important}
@@ -200,6 +206,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-theme-btn{width:46px!important;height:46px!important}
 .term-footer{flex-wrap:wrap!important;gap:8px!important;padding:10px 2px 12px!important}
 .term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
+.term-x-embed{min-height:260px!important;max-height:320px!important}
 }
 @media (max-width:520px){
 .term-status-pills{display:none!important}
@@ -254,7 +261,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 [data-theme="dark"] .term-price,
 [data-theme="dark"] .term-calc > div,
 [data-theme="dark"] .term-snap > div,
-[data-theme="dark"] .term-news > div,
+[data-theme="dark"] .term-news > div:not(.term-x-embed),
 [data-theme="dark"] .term-metrics > div,
 [data-theme="dark"] .term-note,
 [data-theme="dark"] .term-sync,
@@ -753,6 +760,29 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
       </div>
       <div style="font-size:10px;line-height:1.45;color:#5A5852;text-wrap:pretty;">Informational only — not legal advice. Strategy Coin is a memecoin, not a registered security or SEC-approved TSV listing.</div>
     </div>
+
+    <div class="term-x-feed" style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:12px 14px;
+      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+          <div style="font-size:8px;letter-spacing:.2em;color:#5A5852;">LIVE FEED // X</div>
+          <div style="font-size:16px;font-weight:700;color:#26251F;letter-spacing:-.01em;">@strategystock</div>
+        </div>
+        <a href="https://x.com/strategystock" target="_blank" rel="noopener"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:8px 12px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">OPEN ON X</a>
+      </div>
+      <div id="term-x-embed" class="term-x-embed" style="background:#FFFFFF;border:1px solid #C6C5BF;border-radius:4px;
+        min-height:280px;max-height:380px;overflow:auto;box-shadow:inset 0 1px 0 #F5F4F2;">
+        <a class="twitter-timeline"
+          href="https://x.com/strategystock"
+          data-height="360"
+          data-chrome="noheader nofooter noborders transparent"
+          data-tweet-limit="6">Loading @strategystock posts…</a>
+      </div>
+      <div style="font-size:9px;line-height:1.45;color:#5A5852;text-wrap:pretty;">Newest posts from the Strategy Coin X account. If the feed is blocked by your browser, use OPEN ON X.</div>
+    </div>
   </div>
   </sc-if>
 
@@ -983,8 +1013,61 @@ class Component extends DCLogic {
     this._metricsTimer = setInterval(() => this.refreshMetrics(), Component.POLL_MS);
   }
 
+  componentDidUpdate() {
+    if (this.state.newsOpen && this.state.power) this.ensureXFeed();
+  }
+
   componentWillUnmount() {
     clearInterval(this._metricsTimer);
+  }
+
+  ensureXFeed() {
+    const host = typeof document !== "undefined" ? document.getElementById("term-x-embed") : null;
+    if (!host) return;
+    const theme = this.state.theme === "dark" ? "dark" : "light";
+    if (host.dataset.xReady === "1" && host.dataset.xTheme === theme) return;
+
+    if (host.dataset.xTheme !== theme || !host.querySelector("a.twitter-timeline, iframe")) {
+      host.dataset.xTheme = theme;
+      host.dataset.xReady = "0";
+      host.innerHTML =
+        '<a class="twitter-timeline" href="https://x.com/strategystock"' +
+        ' data-theme="' + theme + '"' +
+        ' data-height="360"' +
+        ' data-chrome="noheader nofooter noborders transparent"' +
+        ' data-tweet-limit="6">Loading @strategystock posts…</a>';
+    }
+
+    const boot = () => {
+      if (!host.isConnected) return;
+      if (!window.twttr || !window.twttr.widgets || typeof window.twttr.widgets.load !== "function") return;
+      try {
+        const p = window.twttr.widgets.load(host);
+        if (p && typeof p.then === "function") {
+          p.then(() => { host.dataset.xReady = "1"; }).catch(() => {});
+        } else {
+          host.dataset.xReady = "1";
+        }
+      } catch (e) {}
+    };
+
+    if (window.twttr && window.twttr.widgets) {
+      boot();
+      return;
+    }
+    if (document.getElementById("x-platform-widgets")) {
+      if (window.twttr && typeof window.twttr.ready === "function") window.twttr.ready(boot);
+      return;
+    }
+    const s = document.createElement("script");
+    s.id = "x-platform-widgets";
+    s.src = "https://platform.twitter.com/widgets.js";
+    s.async = true;
+    s.onload = () => {
+      if (window.twttr && typeof window.twttr.ready === "function") window.twttr.ready(boot);
+      else boot();
+    };
+    document.body.appendChild(s);
   }
 
   async refreshMetrics() {
@@ -1350,6 +1433,10 @@ class Component extends DCLogic {
         const next = st.theme === "dark" ? "light" : "dark";
         try { localStorage.setItem("sc-theme", next); } catch (e) {}
         return { theme: next };
+      }, () => {
+        const host = document.getElementById("term-x-embed");
+        if (host) host.dataset.xReady = "0";
+        if (this.state.newsOpen) this.ensureXFeed();
       }),
       off,
       screenOpacity: off ? 0 : 1,
@@ -1392,7 +1479,10 @@ class Component extends DCLogic {
           snapStatus: url ? "READY" : "FAULT"
         });
       },
-      openNews: () => this.setState({ newsOpen: true, calcOpen: false, snapOpen: false, buyOpen: false, ejectOpen: false }),
+      openNews: () => this.setState(
+        { newsOpen: true, calcOpen: false, snapOpen: false, buyOpen: false, ejectOpen: false },
+        () => this.ensureXFeed()
+      ),
       closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, snapStatus: "STANDBY" }),
       closeCalc: () => this.setState({ calcOpen: false }),
       onCalcInput: (e) => {
