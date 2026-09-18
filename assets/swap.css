@@ -104,6 +104,7 @@
   background:#fff;border:1px solid #D9D8D4;color:#26251F;
 }
 .sc-swap-token-row.is-selected{background:#f4ecec;border-color:#e0b4b6}
+.sc-swap-token-row.has-bal .sc-swap-token-side{color:#1B3E2D;font-variant-numeric:tabular-nums}
 .sc-swap-token-main strong{display:block;font-size:12px}
 .sc-swap-token-main em{font-style:normal;font-size:10px;color:#6A6860;margin-left:6px}
 .sc-swap-token-main span{display:block;font-size:9px;color:#6A6860;margin-top:2px}
@@ -119,9 +120,7 @@
 [data-theme="dark"] .sc-swap-meta strong{color:#e8f0e4}
 [data-theme="dark"] .sc-swap-card,
 [data-theme="dark"] .sc-swap-picker,
-[data-theme="dark"] .sc-swap-token-modal{
-  background:#171c18;border-color:#2c342e;
-}
+[data-theme="dark"] .sc-swap-token-row.has-bal .sc-swap-token-side{color:#8FCF9A}
 [data-theme="dark"] .sc-swap-input,
 [data-theme="dark"] .sc-swap-out{color:#e8f0e4}
 [data-theme="dark"] .sc-swap-wallet,

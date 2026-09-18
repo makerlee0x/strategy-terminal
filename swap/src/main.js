@@ -328,12 +328,14 @@ export function mountStrategySwap(host) {
     status: "idle",
     requestId: null,
     balance: null,
+    balCache: {},
     pickerOpen: false,
     tokenOpen: false,
     tokenQuery: "",
     tokenRows: [],
     wcProvider: null,
-    curated: []
+    curated: [],
+    autoPickedPay: false
   };
 
   const ui = document.createElement("div");
@@ -543,28 +545,126 @@ export function mountStrategySwap(host) {
     else el.go.textContent = "SWAP";
   }
 
+  async function readTokenBalance(token, account) {
+    if (!token || !account) return null;
+    const key = tokenKey(token);
+    const hit = state.balCache[key];
+    if (hit && Date.now() - hit.at < 45000) return hit.v;
+    try {
+      const client = publicClientFor(token.chainId);
+      let v = 0;
+      if (isNative(token)) {
+        const wei = await client.getBalance({ address: account });
+        v = Number(formatUnits(wei, token.decimals || 18));
+      } else {
+        const raw = await client.readContract({
+          address: token.address,
+          abi: erc20Abi,
+          functionName: "balanceOf",
+          args: [account]
+        });
+        v = Number(formatUnits(raw, token.decimals || 18));
+      }
+      if (!Number.isFinite(v)) v = 0;
+      state.balCache[key] = { v, at: Date.now() };
+      return v;
+    } catch (_) {
+      return null;
+    }
+  }
+
   async function refreshBalance() {
     state.balance = null;
     paintBalance();
     if (!state.account || !state.payToken) return;
-    try {
-      const client = publicClientFor(state.payToken.chainId);
-      if (isNative(state.payToken)) {
-        const wei = await client.getBalance({ address: state.account });
-        state.balance = Number(formatUnits(wei, 18));
-      } else {
-        const raw = await client.readContract({
-          address: state.payToken.address,
-          abi: erc20Abi,
-          functionName: "balanceOf",
-          args: [state.account]
-        });
-        state.balance = Number(formatUnits(raw, state.payToken.decimals || 18));
-      }
-    } catch (_) {
-      state.balance = null;
-    }
+    const v = await readTokenBalance(state.payToken, state.account);
+    state.balance = v;
     paintBalance();
+  }
+
+  async function enrichWithBalances(tokens) {
+    if (!state.account || !tokens.length) {
+      return tokens.map((t) => ({ ...t, bal: null }));
+    }
+    // Parallel but chunked so we don't hammer RPCs
+    const out = new Array(tokens.length);
+    const chunk = 8;
+    for (let i = 0; i < tokens.length; i += chunk) {
+      const slice = tokens.slice(i, i + chunk);
+      const part = await Promise.all(
+        slice.map(async (t) => {
+          const bal = await readTokenBalance(t, state.account);
+          return { ...t, bal };
+        })
+      );
+      for (let j = 0; j < part.length; j++) out[i + j] = part[j];
+    }
+    return out;
+  }
+
+  function splitByBalance(tokens) {
+    const withBal = [];
+    const rest = [];
+    for (const t of tokens) {
+      if (t.bal != null && Number(t.bal) > 0) withBal.push(t);
+      else rest.push(t);
+    }
+    withBal.sort((a, b) => Number(b.bal) - Number(a.bal));
+    return { withBal, rest };
+  }
+
+  async function preferBalancedPayToken() {
+    if (!state.account || state.mode !== "buy") {
+      await refreshBalance();
+      return;
+    }
+    try {
+      // Wider scan: curated RH + a few search hits for common pay assets
+      const [base, eth, usdc] = await Promise.all([
+        loadTokenRows(""),
+        loadTokenRows("ETH"),
+        loadTokenRows("USDC")
+      ]);
+      const seen = new Set();
+      const merged = [];
+      for (const t of [].concat(base || [], eth || [], usdc || [])) {
+        const k = tokenKey(t);
+        if (!k || seen.has(k)) continue;
+        // Skip STRATEGY as a pay default on buy
+        if (sameToken(t, STRATEGY_TOKEN)) continue;
+        seen.add(k);
+        merged.push(t);
+      }
+      const enriched = await enrichWithBalances(merged.slice(0, 36));
+      const { withBal } = splitByBalance(enriched);
+      const curBal = await readTokenBalance(state.payToken, state.account);
+      if (curBal != null && curBal > 0) {
+        state.balance = curBal;
+        paintBalance();
+        return;
+      }
+      if (withBal.length) {
+        // Prefer Robinhood native/ETH if it has balance, else highest balance
+        const rh = withBal.find((t) => Number(t.chainId) === CHAIN_ID);
+        const pick = rh || withBal[0];
+        state.payToken = {
+          chainId: Number(pick.chainId),
+          address: pick.address,
+          symbol: pick.symbol,
+          name: pick.name,
+          decimals: pick.decimals || 18,
+          logoURI: pick.logoURI || null,
+          verified: !!pick.verified
+        };
+        state.autoPickedPay = true;
+        state.receiveToken = { ...STRATEGY_TOKEN };
+        paintTokens();
+        state.balance = pick.bal;
+        paintBalance();
+        return;
+      }
+    } catch (_) {}
+    await refreshBalance();
   }
 
   function applyModeDefaults(mode) {
@@ -591,7 +691,8 @@ export function mountStrategySwap(host) {
     paintMode();
     paintTokens();
     paintQuote();
-    refreshBalance();
+    if (state.account && mode === "buy") preferBalancedPayToken();
+    else refreshBalance();
     debouncedQuote();
   }
 
@@ -699,10 +800,14 @@ export function mountStrategySwap(host) {
     if (provider.on) {
       provider.on("accountsChanged", (accs) => {
         state.account = (accs && accs[0]) || null;
+        state.balCache = {};
+        state.autoPickedPay = false;
         paintWallet();
-        refreshBalance();
-        if (state.account) refreshQuote();
-        else {
+        if (state.account) {
+          preferBalancedPayToken().then(() => refreshQuote());
+        } else {
+          state.balance = null;
+          paintBalance();
           state.quote = null;
           paintQuote();
         }
@@ -711,7 +816,9 @@ export function mountStrategySwap(host) {
     closeWalletPicker();
     paintWallet();
     setStatus((label || "Wallet") + " connected.", "ok");
-    await refreshBalance();
+    state.balCache = {};
+    state.autoPickedPay = false;
+    await preferBalancedPayToken();
     await refreshQuote();
   }
 
@@ -835,40 +942,62 @@ export function mountStrategySwap(host) {
     const search = $(el.tokenModal, "[data-act=token-search]");
     const list = $(el.tokenModal, "[data-role=token-list]");
 
-    async function renderList(term) {
-      list.textContent = "Loading…";
-      const tokens = await loadTokenRows(term);
-      state.tokenRows = tokens;
-      if (!tokens.length) {
-        list.innerHTML = '<div class="sc-swap-picker-loading">No tokens found.</div>';
-        return;
-      }
-      const your = [];
-      const all = [];
-      // Best-effort: mark selected; balances only for current pay chain account later
-      for (const t of tokens) {
-        const selected =
-          (side === "pay" && sameToken(t, state.payToken)) ||
-          (side === "recv" && sameToken(t, state.receiveToken));
-        const row = { ...t, selected };
-        all.push(row);
-      }
-      list.innerHTML =
-        '<div class="sc-swap-token-sec">ALL TOKENS</div>' +
-        all
-          .map((t) => {
-            const chain = chainMeta(t.chainId).name;
-            return `<button type="button" class="sc-swap-token-row${
-              t.selected ? " is-selected" : ""
-            }" data-key="${escapeHtml(tokenKey(t))}">
+    function rowHtml(t) {
+      const chain = chainMeta(t.chainId).name;
+      const balTxt =
+        t.bal != null && Number(t.bal) > 0
+          ? fmtAmt(t.bal, 5)
+          : t.selected
+            ? "SELECTED"
+            : "";
+      return `<button type="button" class="sc-swap-token-row${
+        t.selected ? " is-selected" : ""
+      }${t.bal != null && Number(t.bal) > 0 ? " has-bal" : ""}" data-key="${escapeHtml(
+        tokenKey(t)
+      )}">
               <span class="sc-swap-token-main">
                 <strong>${escapeHtml(t.symbol || "?")} <em>${escapeHtml(chain)}</em></strong>
                 <span>${escapeHtml(t.name || "")}</span>
               </span>
-              <span class="sc-swap-token-side">${t.selected ? "SELECTED" : ""}</span>
+              <span class="sc-swap-token-side">${escapeHtml(balTxt)}</span>
             </button>`;
-          })
-          .join("");
+    }
+
+    async function renderList(term) {
+      list.textContent = "Loading…";
+      const tokens = await loadTokenRows(term);
+      if (!tokens.length) {
+        state.tokenRows = [];
+        list.innerHTML = '<div class="sc-swap-picker-loading">No tokens found.</div>';
+        return;
+      }
+      list.innerHTML =
+        (state.account
+          ? '<div class="sc-swap-picker-loading">Checking balances…</div>'
+          : "") + '<div class="sc-swap-token-sec">ALL TOKENS</div>';
+      const enriched = await enrichWithBalances(tokens);
+      state.tokenRows = enriched;
+      for (const t of enriched) {
+        t.selected =
+          (side === "pay" && sameToken(t, state.payToken)) ||
+          (side === "recv" && sameToken(t, state.receiveToken));
+      }
+      const { withBal, rest } = splitByBalance(enriched);
+      let html = "";
+      if (withBal.length) {
+        html +=
+          '<div class="sc-swap-token-sec">YOUR TOKENS</div>' +
+          withBal.map(rowHtml).join("");
+        html += '<div class="sc-swap-token-sec">ALL TOKENS</div>' + rest.map(rowHtml).join("");
+      } else {
+        html +=
+          (state.account
+            ? '<div class="sc-swap-token-help">No balances detected in this list — pick any token below.</div>'
+            : "") +
+          '<div class="sc-swap-token-sec">ALL TOKENS</div>' +
+          enriched.map(rowHtml).join("");
+      }
+      list.innerHTML = html;
       list.querySelectorAll("[data-key]").forEach((btn) => {
         btn.addEventListener("click", () => {
           const key = btn.getAttribute("data-key");
@@ -876,22 +1005,13 @@ export function mountStrategySwap(host) {
           if (!t) return;
           if (side === "pay") {
             if (state.mode === "sell") {
-              // selling STRATEGY: pay stays STRATEGY; picking pay token ignored → treat as receive
               state.receiveToken = t;
             } else {
               state.payToken = t;
               if (state.mode === "buy") state.receiveToken = { ...STRATEGY_TOKEN };
             }
           } else {
-            if (state.mode === "buy") {
-              // receive should stay STRATEGY on buy; allow override only if not STRATEGY feature
-              state.receiveToken = t;
-            } else {
-              state.receiveToken = t;
-            }
-          }
-          if (state.mode === "buy" && side === "recv") {
-            // keep buy destination featured as STRATEGY unless user explicitly picks otherwise
+            state.receiveToken = t;
           }
           closeTokenModal();
           paintTokens();
@@ -900,7 +1020,6 @@ export function mountStrategySwap(host) {
           debouncedQuote();
         });
       });
-      void your;
     }
 
     search.addEventListener(
