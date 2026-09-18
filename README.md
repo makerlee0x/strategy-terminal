@@ -49,10 +49,8 @@ Custom domains that should work with the same-origin metrics proxy:
 Optional env on the Vercel project:
 
 - `STRATEGY_METRICS_URL` — override upstream (default `https://stocktokenswap.com/api/strategy-metrics`)
-- `RELAY_API_BASE_URL` / `RELAY_API_KEY` — Relay API for same-origin swap
-- `RELAY_APP_FEE_BPS` / `RELAY_APP_FEE_RECIPIENT` — server-only swap app fee
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` — optional WC project id (allowlist strategycoin.io)
-- `NEXT_PUBLIC_ROBINHOOD_CHAIN_RPC_URL` — Robinhood Chain RPC for the swap widget
+- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` — optional WalletConnect project id (allowlist strategycoin.io)
+- `NEXT_PUBLIC_ROBINHOOD_CHAIN_RPC_URL` — optional Robinhood Chain RPC override
 
 See `.env.example`.
 
