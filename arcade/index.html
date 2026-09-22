@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>STRATEGY Arcade · strategycoin.io</title>
+  <meta name="description" content="STRATEGY Arcade on strategycoin.io — Flappy STRATEGY, HODL Stack, Candle Dodge, Pump Clicker. Fan mini-games." />
+  <link rel="icon" href="/assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: "ChicagoFLF";
+      src: url("https://db.onlinewebfonts.com/t/1a243397695904f6f56e490ffd77a9cb.woff2") format("woff2"),
+           url("https://db.onlinewebfonts.com/t/1a243397695904f6f56e490ffd77a9cb.woff") format("woff");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+  </style>
+  <link rel="stylesheet" href="/arcade/css/arcade.css?v=1" />
+</head>
+<body>
+  <div class="arcade-page" data-theme="light" id="arcade-root">
+    <div class="arcade-shell">
+      <div class="arcade-topbar">
+        <div>
+          <div class="arcade-brand">STRATEGY</div>
+          <div class="arcade-sub">ARCADE &nbsp;/&nbsp; MODEL 4926</div>
+        </div>
+        <div class="arcade-nav">
+          <a class="arcade-chip" href="/">TERMINAL</a>
+          <button type="button" class="arcade-chip" id="theme-toggle" aria-label="Toggle theme">DARK</button>
+        </div>
+      </div>
+
+      <div class="arcade-bezel">
+        <div class="arcade-crt">
+          <div class="arcade-screen">
+            <div class="arcade-panel">
+              <div class="arcade-head">
+                <div>
+                  <div class="arcade-kicker">STRATEGY ARCADE</div>
+                  <div class="arcade-title">Pick a game</div>
+                  <div class="arcade-desc">Fan mini-games for $STRATEGY · $MSTR · $BTC. Tap, stack, dodge, pump.</div>
+                </div>
+              </div>
+
+              <div class="arcade-grid">
+                <a class="arcade-card" href="/arcade/flappy">
+                  <div class="arcade-card-kicker">WINGED BTC · CANDLE PIPES</div>
+                  <div class="arcade-card-title">Flappy STRATEGY</div>
+                  <div class="arcade-card-blurb">Flap through green/gold candles. Chart trail, trophies, and shared leaderboard.</div>
+                  <div class="arcade-card-meta">PLAY →</div>
+                </a>
+                <a class="arcade-card" href="/arcade/hodl-stack">
+                  <div class="arcade-card-kicker">STACK THE BAGS</div>
+                  <div class="arcade-card-title">HODL Stack</div>
+                  <div class="arcade-card-blurb">Drop blocks to stack BTC / STRATEGY bags. Don’t miss the ledge.</div>
+                  <div class="arcade-card-meta">PLAY →</div>
+                </a>
+                <a class="arcade-card" href="/arcade/candle-dodge">
+                  <div class="arcade-card-kicker">GREEN GOOD · RED BAD</div>
+                  <div class="arcade-card-title">Candle Dodge</div>
+                  <div class="arcade-card-blurb">Swipe or tap to dodge bear candles and scoop green pumps.</div>
+                  <div class="arcade-card-meta">PLAY →</div>
+                </a>
+                <a class="arcade-card" href="/arcade/pump-clicker">
+                  <div class="arcade-card-kicker">10S MARKET-CAP JOKE</div>
+                  <div class="arcade-card-title">Pump Clicker</div>
+                  <div class="arcade-card-blurb">Mash the printer for 10 seconds. Joke mcap flex for X.</div>
+                  <div class="arcade-card-meta">PLAY →</div>
+                </a>
+              </div>
+
+              <div class="arcade-legal">
+                Strategy Coin is not affiliated with Strategy&#8383;. Fan arcade only — not investment advice.
+                Not affiliated with Robinhood, Stock Token issuers, or StockTokenSwap as a product of those brands.
+                Leaderboard for Flappy is shared with stocktokenswap.com.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("arcade-root");
+      var btn = document.getElementById("theme-toggle");
+      try {
+        var saved = localStorage.getItem("sc-theme");
+        if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
+      } catch (e) {}
+      function sync() {
+        var dark = root.getAttribute("data-theme") === "dark";
+        btn.textContent = dark ? "LIGHT" : "DARK";
+      }
+      sync();
+      btn.addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("sc-theme", next); } catch (e) {}
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>

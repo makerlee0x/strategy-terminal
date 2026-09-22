@@ -2,6 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/play", "destination": "/arcade" },
+    { "source": "/play/flappy", "destination": "/arcade/flappy" },
+    { "source": "/play/hodl-stack", "destination": "/arcade/hodl-stack" },
+    { "source": "/play/candle-dodge", "destination": "/arcade/candle-dodge" },
+    { "source": "/play/pump-clicker", "destination": "/arcade/pump-clicker" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
