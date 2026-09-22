@@ -45,7 +45,7 @@
     var mcapBox = document.createElement("div");
     var mcapLabel = document.createElement("p");
     mcapLabel.className = "arcade-eyebrow";
-    mcapLabel.textContent = "Joke market cap";
+    mcapLabel.textContent = "Live printer mcap";
     var mcapVal = document.createElement("p");
     mcapVal.className = "arcade-phosphor arcade-phosphor-btc arcade-mcap";
     mcapBox.appendChild(mcapLabel);
@@ -113,7 +113,7 @@
           return (
             "Mashed " +
             e +
-            " pumps in 10s on Pump Clicker — joke mcap $" +
+            " pumps in 10s on Pump Clicker — printer mcap $" +
             (420069 * e).toLocaleString() +
             " 🟢₿"
           );
