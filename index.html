@@ -182,10 +182,9 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-rail-vent > div{height:40px!important}
 .term-footer{flex:0 0 auto!important;padding:8px 2px 10px!important}
 .term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
-.term-calc,.term-snap,.term-news,.term-market-view{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important}
+.term-news,.term-market-view{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important}
 .term-market{margin-top:0!important;min-height:0!important;flex:1 1 auto!important;display:flex!important;flex-direction:column!important;gap:8px!important}
 .term-market-chart{flex:1 1 auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;padding:10px 12px!important}
-.term-market-pools{flex:0 0 auto!important}
 .term-market-canvas-wrap{flex:1 1 auto!important;min-height:240px!important;height:auto!important;max-height:none!important}
 .term-x-feed{flex:0 0 auto!important}
 .term-x-embed{
@@ -195,7 +194,6 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-x-embed iframe{width:100%!important;max-width:100%!important}
 .term-x-feed{flex:1 1 auto!important;min-height:0!important}
 .term-bulletin,.term-press{flex:0 0 auto!important}
-.term-dash-tools{flex:0 0 auto!important;margin-top:10px!important;display:flex!important;flex-direction:column!important;gap:8px!important;width:100%!important}
 }
 /* NEWS ticker — all viewports (was wrongly locked to desktop media query) */
 .term-ticker{
@@ -283,10 +281,8 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-chain-label{display:none!important}
 .term-screen-label{font-size:9px!important;letter-spacing:.08em!important}
 .term-tagline{display:none!important}
-.term-pool-row{grid-template-columns:minmax(0,1fr) auto!important;gap:6px 10px!important}
-.term-pool-metric:nth-child(3){display:none!important}
 }
-/* MARKET — all viewports: chart fills CRT, pools as slim expandable strip */
+/* MARKET — chart fills CRT */
 .term-market-view{
   display:flex!important;flex-direction:column!important;gap:8px!important;
   min-height:0!important;flex:1 1 auto!important;overflow:hidden!important;width:100%!important;
@@ -302,15 +298,6 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-market-chart{
   flex:1 1 auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;
   padding:10px 12px!important;
-}
-.term-market-pools{padding:0!important;flex:0 0 auto!important}
-.term-market-pools-toggle{
-  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
-  padding:10px 12px!important;cursor:pointer!important;user-select:none!important;
-}
-.term-market-pools-body{
-  padding:0 10px 10px!important;border-top:1px solid #D4D3CE!important;
-  max-height:min(220px,30vh)!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important;
 }
 .term-market-head{
   display:flex!important;justify-content:space-between!important;align-items:center!important;
@@ -340,77 +327,11 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
   display:block!important;max-width:none!important;pointer-events:none!important;
 }
 .term-market-foot{margin-top:8px!important;font-size:9px!important;letter-spacing:.04em!important;color:#6A6860!important;flex:0 0 auto!important}
-.term-pool-row{
-  display:grid!important;grid-template-columns:minmax(0,1.5fr) minmax(70px,0.65fr) minmax(70px,0.65fr) auto!important;
-  gap:8px!important;align-items:center!important;padding:10px 6px!important;
-  border-bottom:1px solid #E0DFDA!important;
-}
-.term-pool-row:last-of-type{border-bottom:0!important}
-.term-pool-name{font-weight:700!important;font-size:12px!important;color:#26251F!important;display:flex!important;align-items:center!important;gap:6px!important;flex-wrap:wrap!important}
-.term-pool-pair{display:block!important;font-size:9px!important;color:#6A6860!important;font-weight:400!important;margin-top:2px!important}
-.term-pool-metric{display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important}
-.term-pool-metric span{font-size:8px!important;letter-spacing:.12em!important;color:#7A7870!important}
-.term-pool-metric strong{font-size:12px!important;color:#26251F!important;font-weight:700!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-.term-pools-primary{
-  display:inline-block!important;padding:1px 6px!important;border-radius:3px!important;
-  background:#D9232E!important;color:#fff!important;font-size:8px!important;letter-spacing:.08em!important;
-}
-.term-pools-link{
-  color:#1B3E2D!important;text-decoration:none!important;letter-spacing:.08em!important;font-size:10px!important;
-  white-space:nowrap!important;padding:6px 8px!important;border:1px solid #C4C3BE!important;border-radius:3px!important;
-  background:linear-gradient(#FFFFFF,#E9E8E4)!important;box-shadow:inset 0 1px 0 #F8F7F5, 0 1px 0 #BEBDB8!important;
-}
-.term-pools-note{margin-top:6px!important;font-size:9px!important;line-height:1.4!important;color:#6A6860!important;padding:0 4px!important}
 [data-theme="dark"] .term-market-card{background:#151a16!important;border-color:#2c342e!important;box-shadow:none!important}
 [data-theme="dark"] .term-market-kicker,
 [data-theme="dark"] .term-market-sub,
-[data-theme="dark"] .term-market-foot,
-[data-theme="dark"] .term-pools-note,
-[data-theme="dark"] .term-pool-pair,
-[data-theme="dark"] .term-pool-metric span{color:#8a9488!important}
+[data-theme="dark"] .term-market-foot{color:#8a9488!important}
 [data-theme="dark"] .term-market-canvas-wrap{background:#101410!important;border-color:#2c342e!important}
-[data-theme="dark"] .term-market-pools-body{border-top-color:#2c342e!important}
-[data-theme="dark"] .term-pool-row{border-bottom-color:#2c342e!important}
-[data-theme="dark"] .term-pool-name,
-[data-theme="dark"] .term-pool-metric strong{color:#e8f0e4!important}
-[data-theme="dark"] .term-pools-link{
-  background:linear-gradient(#2a2e28,#1c201c)!important;border-color:#3a4238!important;color:#c8d2c4!important;box-shadow:none!important;
-}
-/* Homepage slim tools — chart + pools, collapsed like NEWS */
-.term-dash-tools{
-  display:flex!important;flex-direction:column!important;gap:8px!important;
-  width:100%!important;margin-top:12px!important;flex:0 0 auto!important;
-}
-.term-dash-strip{
-  background:#F4F3F0!important;border:1px solid #C6C5BF!important;border-radius:6px!important;
-  box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12)!important;
-  display:flex!important;flex-direction:column!important;flex:0 0 auto!important;
-}
-.term-dash-strip-toggle{
-  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
-  padding:9px 12px!important;cursor:pointer!important;user-select:none!important;
-}
-.term-dash-strip-body{
-  padding:0 12px 12px!important;border-top:1px solid #D4D3CE!important;
-  display:flex!important;flex-direction:column!important;gap:8px!important;
-}
-.term-dash-chart-wrap{
-  position:relative!important;width:100%!important;height:220px!important;max-height:28vh!important;
-  background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%)!important;
-  background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px)!important;
-  border-radius:5px!important;overflow:hidden!important;box-sizing:border-box!important;
-  box-shadow:inset 0 4px 10px rgba(24,44,32,.5), inset 0 0 0 1px rgba(24,44,32,.3), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75)!important;
-}
-.term-dash-chart-wrap canvas{
-  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
-  display:block!important;pointer-events:none!important;
-}
-.term-dash-pools-body{
-  max-height:min(200px,28vh)!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important;
-}
-[data-theme="dark"] .term-dash-strip{background:#151a16!important;border-color:#2c342e!important;box-shadow:none!important}
-[data-theme="dark"] .term-dash-strip-body{border-top-color:#2c342e!important}
-[data-theme="dark"] .term-dash-chart-wrap{background:#101410!important;border-color:#2c342e!important}
 </style>
 <style id="term-theme-css">
 /* Dark CRT chassis — overrides inline light plastics */
@@ -456,8 +377,6 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 [data-theme="dark"] .term-brand,
 [data-theme="dark"] .term-brand-head,
 [data-theme="dark"] .term-price,
-[data-theme="dark"] .term-calc > div,
-[data-theme="dark"] .term-snap > div,
 [data-theme="dark"] .term-news > div:not(.term-x-embed):not(.term-ticker),
 [data-theme="dark"] .term-metric-group,
 [data-theme="dark"] .term-metric-tile,
@@ -613,14 +532,6 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
       <sc-if value="{{ showDash }}" hint-placeholder-val="{{ true }}">
-        <div class="term-chip term-action-chip" onClick="{{ openCalc }}"
-          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
-          font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
-          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">CALCULATOR</div>
-        <div class="term-chip term-action-chip" onClick="{{ openSnap }}"
-          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
-          font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
-          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">SNAP</div>
         <div class="term-chip term-action-chip" onClick="{{ openNews }}"
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
@@ -629,10 +540,6 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
           style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
           font-size:9px;letter-spacing:.14em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
           style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">MARKET</div>
-        <a href="/arcade" class="term-chip term-action-chip"
-          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:6px 10px;
-          font-size:9px;letter-spacing:.14em;color:#3E3A31;text-decoration:none;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
-          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">ARCADE</a>
       </sc-if>
       <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
         <div class="term-chip term-action-chip" onClick="{{ closePanels }}"
@@ -689,8 +596,6 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
         <a href="https://fomo.family/coin?address=0x168661c52e5922288dfb2b3f323b6cf90eb21e18&amp;chainId=4663&amp;r=0xmakerlee&amp;source=share_link" target="_blank" rel="noopener"
           class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">FOMO</a>
-        <a href="/arcade" class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
-          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">ARCADE</a>
         <a href="https://dexscreener.com/robinhood/0xa6975f4720a95aa9cdfa9b010a065b0e941534c93f9fa708104c08f0ac029ca0" target="_blank" rel="noopener"
           class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">DEXSCREENER</a>
@@ -854,47 +759,6 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
     <div style="font-size:8px;letter-spacing:.16em;color:#3E3A31;white-space:nowrap;">SYNC {{ syncCount }} &middot; SESSION OK</div>
   </div>
 
-  <div class="term-dash-tools">
-    <div class="term-dash-strip">
-      <div class="term-dash-strip-toggle" onClick="{{ toggleDashChart }}"
-        style-active="background:rgba(0,0,0,.03)">
-        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;">
-          <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;flex:none;">CHART</div>
-          <div style="font-size:12px;font-weight:700;color:#26251F;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">STRATEGY / MSTR · CoinGecko</div>
-        </div>
-        <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;flex:none;">{{ dashChartToggleLabel }}</div>
-      </div>
-      <sc-if value="{{ dashChartOpen }}" hint-placeholder-val="{{ false }}">
-      <div class="term-dash-strip-body">
-        <div class="term-market-ranges" style="justify-content:flex-end;">
-          <div class="term-market-range" data-range="1D" onClick="{{ setChart1D }}" data-on="{{ chartOn1D }}">1D</div>
-          <div class="term-market-range" data-range="7D" onClick="{{ setChart7D }}" data-on="{{ chartOn7D }}">7D</div>
-          <div class="term-market-range" data-range="30D" onClick="{{ setChart30D }}" data-on="{{ chartOn30D }}">30D</div>
-        </div>
-        <div class="term-dash-chart-wrap" id="dash-chart-wrap">
-          <canvas id="dash-chart-canvas" aria-label="STRATEGY price chart"></canvas>
-        </div>
-        <div class="term-market-foot" id="dash-chart-foot">Loading chart…</div>
-      </div>
-      </sc-if>
-    </div>
-
-    <div class="term-dash-strip">
-      <div class="term-dash-strip-toggle" onClick="{{ toggleDashPools }}"
-        style-active="background:rgba(0,0,0,.03)">
-        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;">
-          <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;flex:none;">POOLS</div>
-          <div style="font-size:12px;font-weight:700;color:#26251F;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">Top liquidity · CoinGecko onchain</div>
-        </div>
-        <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;flex:none;">{{ dashPoolsToggleLabel }}</div>
-      </div>
-      <sc-if value="{{ dashPoolsOpen }}" hint-placeholder-val="{{ false }}">
-      <div class="term-dash-strip-body term-dash-pools-body" id="dash-pools-body">
-        <div class="term-market-foot">Loading pools…</div>
-      </div>
-      </sc-if>
-    </div>
-  </div>
   </sc-if>
 
   <sc-if value="{{ marketOpen }}" hint-placeholder-val="{{ false }}">
@@ -917,108 +781,6 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
         </div>
         <div class="term-market-foot" id="term-chart-foot">Loading chart…</div>
       </div>
-      <div class="term-market-card term-market-pools">
-        <div class="term-market-pools-toggle" onClick="{{ togglePools }}"
-          style-active="background:rgba(0,0,0,.03)">
-          <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;">
-            <div class="term-market-kicker" style="flex:none;">POOLS</div>
-            <div style="font-size:12px;font-weight:700;color:#26251F;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">Top liquidity · expand</div>
-          </div>
-          <div style="font-size:10px;letter-spacing:.14em;color:#5A5852;flex:none;">{{ poolsToggleLabel }}</div>
-        </div>
-        <sc-if value="{{ poolsOpen }}" hint-placeholder-val="{{ false }}">
-        <div class="term-market-pools-body" id="term-pools-body">
-          <div class="term-market-foot">Loading pools…</div>
-        </div>
-        </sc-if>
-      </div>
-    </div>
-  </div>
-  </sc-if>
-
-  <sc-if value="{{ calcOpen }}" hint-placeholder-val="{{ false }}">
-  <div class="term-calc" style="display:flex;flex-direction:column;gap:14px;">
-    <div style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:16px 18px;
-      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:12px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
-        <div style="display:flex;flex-direction:column;gap:5px;min-width:0;">
-          <div style="font-size:22px;font-weight:700;color:#26251F;letter-spacing:-.02em;line-height:1;">POSITION READOUT</div>
-          <div style="font-size:11px;color:#5A5852;letter-spacing:.04em;text-wrap:pretty;">Enter a $STRATEGY amount to see share of outstanding and pro-rata $MSTR.</div>
-        </div>
-        <div style="font-size:9px;letter-spacing:.14em;color:#54524C;text-align:right;">OUTSTANDING<br/><span style="color:#1B3E2D;font-size:13px;letter-spacing:.04em;">{{ totalSupply }}</span></div>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:7px;">
-        <div style="font-size:8px;letter-spacing:.16em;color:#54524C;">$STRATEGY AMOUNT</div>
-        <input type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 10000000"
-          value="{{ calcAmount }}" onInput="{{ onCalcInput }}"
-          style="width:100%;box-sizing:border-box;border:1px solid #C4C3BE;border-radius:4px;padding:12px 14px;
-          font:inherit;font-size:18px;letter-spacing:.04em;color:#1B3E2D;background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);
-          box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28);outline:none;" />
-      </div>
-
-      <div style="display:flex;flex-wrap:wrap;gap:8px;">
-        <div class="term-chip" onClick="{{ setCalcPreset10M }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">10M</div>
-        <div class="term-chip" onClick="{{ setCalcPreset25M }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">25M</div>
-        <div class="term-chip" onClick="{{ setCalcPreset100M }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">100M</div>
-        <div class="term-chip" onClick="{{ clearCalc }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">CLEAR</div>
-      </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:9px;">
-      <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-        <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">SHARE OF SUPPLY</div>
-        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ calcSharePct }}</div>
-        <div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">OF {{ totalSupply }} OUTSTANDING</div>
-      </div>
-      <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-        <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">PRO-RATA $MSTR</div>
-        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ calcImpliedMstr }}</div>
-        <div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">VS {{ mstrTokenized }} TOKENIZED</div>
-      </div>
-      <div style="background:#E4E3E0;border:1px solid #C6C5BF;border-radius:4px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:7px;box-shadow:inset 0 1px 0 #F5F4F2, 0 1px 2px rgba(0,0,0,.14);">
-        <div style="font-size:8px;letter-spacing:.15em;color:#5A5852;">USD NOTIONAL</div>
-        <div class="term-metric-value" style="background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 9px;color:#1B3E2D;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ calcUsdNotional }}</div>
-        <div style="font-size:8px;letter-spacing:.1em;color:#5A5852;">AT {{ priceUsd }}</div>
-      </div>
-    </div>
-
-    <div style="background:#EFEEEB;border:1px solid #C6C5BF;border-radius:5px;padding:11px 14px;box-shadow:inset 0 1px 0 #F8F7F5;display:flex;flex-direction:column;gap:6px;">
-      <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;">NOTE</div>
-      <div style="font-size:10px;line-height:1.5;color:#4A4842;text-wrap:pretty;">Manual readout only — no wallet connect on this terminal. Pro-rata $MSTR uses tokenized float &times; your share of outstanding. Not investment advice.</div>
-    </div>
-  </div>
-  </sc-if>
-
-  <sc-if value="{{ snapOpen }}" hint-placeholder-val="{{ false }}">
-  <div class="term-snap" style="display:flex;flex-direction:column;gap:14px;">
-    <div style="background:#F4F3F0;border:1px solid #C6C5BF;border-radius:6px;padding:16px 18px;
-      box-shadow:inset 0 1px 0 #F5F4F2, inset 0 -2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:12px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
-        <div style="display:flex;flex-direction:column;gap:5px;min-width:0;">
-          <div style="font-size:22px;font-weight:700;color:#26251F;letter-spacing:-.02em;line-height:1;">FRAME CAPTURE</div>
-          <div style="font-size:11px;color:#5A5852;letter-spacing:.04em;text-wrap:pretty;">Snapshot the CRT readout card, then share to X, Telegram, or Discord.</div>
-        </div>
-        <div style="font-size:9px;letter-spacing:.14em;color:#54524C;text-align:right;">STATUS<br/><span style="color:#1B3E2D;font-size:13px;letter-spacing:.04em;">{{ snapStatus }}</span></div>
-      </div>
-
-      <div style="background:#E7E6E2;border:1px solid #C9C8C2;border-radius:5px;padding:10px;
-        box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -2px 4px rgba(0,0,0,.12);">
-        <img src="{{ snapDataUrl }}" alt="Strategy Coin terminal snapshot preview"
-          style="display:block;width:100%;height:auto;border-radius:3px;background:#1B3E2D;" />
-      </div>
-
-      <div style="display:flex;flex-wrap:wrap;gap:8px;">
-        <div class="term-chip" onClick="{{ saveSnap }}" style="background:linear-gradient(180deg,#1B3E2D,#243F30);border:1px solid #0F2419;border-radius:3px;padding:9px 12px;font-size:10px;letter-spacing:.12em;color:#E8F0E4;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 2px 0 #0F2419;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.35);transform:translateY(1px)">SAVE PNG</div>
-        <div class="term-chip" onClick="{{ shareX }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:9px 12px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">X / TWITTER</div>
-        <div class="term-chip" onClick="{{ shareTelegram }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:9px 12px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">TELEGRAM</div>
-        <div class="term-chip" onClick="{{ shareDiscord }}" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:9px 12px;font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">DISCORD</div>
-      </div>
-    </div>
-
-    <div style="background:#EFEEEB;border:1px solid #C6C5BF;border-radius:5px;padding:11px 14px;box-shadow:inset 0 1px 0 #F8F7F5;display:flex;flex-direction:column;gap:6px;">
-      <div style="font-size:8px;letter-spacing:.18em;color:#5A5852;">SHARE NOTES</div>
-      <div style="font-size:10px;line-height:1.5;color:#4A4842;text-wrap:pretty;">SAVE PNG downloads the CRT card. X and Telegram open a share draft with live metrics + www.strategycoin.io. DISCORD copies the caption and downloads the PNG so you can paste both into a channel.</div>
     </div>
   </div>
   </sc-if>
@@ -1375,19 +1137,11 @@ class Component extends DCLogic {
     buyOpen: false,
     swapOpen: false,
     ejectOpen: false,
-    calcOpen: false,
-    snapOpen: false,
     newsOpen: false,
     marketOpen: false,
-    poolsOpen: false,
-    dashChartOpen: false,
-    dashPoolsOpen: false,
     bulletinOpen: false,
     pressOpen: false,
     tickerSeed: 0,
-    snapDataUrl: "",
-    snapStatus: "STANDBY",
-    calcAmount: "",
     copied: false,
     metrics: null,
     metricsLive: false,
@@ -1543,18 +1297,11 @@ class Component extends DCLogic {
     try {
       const data = await this.fetchMetrics();
       if (!data) return;
-      this.setState(st => {
-        const next = {
-          metrics: data,
-          metricsLive: true,
-          syncCount: (st.syncCount % 999) + 1
-        };
-        if (st.snapOpen) {
-          next.snapDataUrl = this.makeSnapDataUrl(data);
-          next.snapStatus = "LIVE";
-        }
-        return next;
-      });
+      this.setState(st => ({
+        metrics: data,
+        metricsLive: true,
+        syncCount: (st.syncCount % 999) + 1
+      }));
     } catch (e) {
       // Keep last good / fallback values on the CRT.
     } finally {
@@ -1576,25 +1323,15 @@ class Component extends DCLogic {
     if (this._marketInFlight) return;
     this._marketInFlight = true;
     try {
-      const jobs = [this.loadChart("term")];
-      if (this.state.poolsOpen) jobs.push(this.loadPools("term-pools-body"));
-      await Promise.all(jobs);
+      await this.loadChart("term");
     } catch (e) {
     } finally {
       this._marketInFlight = false;
     }
   }
 
-  chartEls(scope) {
-    const s = scope === "dash" ? "dash" : "term";
+  chartEls() {
     if (typeof document === "undefined") return { wrap: null, canvas: null, foot: null };
-    if (s === "dash") {
-      return {
-        wrap: document.getElementById("dash-chart-wrap"),
-        canvas: document.getElementById("dash-chart-canvas"),
-        foot: document.getElementById("dash-chart-foot")
-      };
-    }
     return {
       wrap: document.getElementById("term-chart-wrap"),
       canvas: document.getElementById("term-chart-canvas"),
@@ -1602,17 +1339,9 @@ class Component extends DCLogic {
     };
   }
 
-  activeChartScope() {
-    if (this.state.marketOpen) return "term";
-    if (this.state.dashChartOpen) return "dash";
-    return this._chartScope || "term";
-  }
-
-  async loadChart(scope) {
-    const target = scope || this.activeChartScope();
-    this._chartScope = target;
+  async loadChart() {
     const cfg = this.chartRangeConfig(this.state.chartRange || "7D");
-    const { foot } = this.chartEls(target);
+    const { foot } = this.chartEls();
     const url =
       "/api/charts?token=0x168661c52e5922288dfb2b3f323b6cf90eb21e18" +
       "&pairId=0xa6975f4720a95aa9cdfa9b010a065b0e941534c93f9fa708104c08f0ac029ca0" +
@@ -1625,12 +1354,12 @@ class Component extends DCLogic {
       const json = await res.json();
       const candles = json && Array.isArray(json.candles) ? json.candles : [];
       this._chartCandles = candles;
-      this.ensureChartObserver(target);
+      this.ensureChartObserver();
       this._chartSizeKey = null;
       this._chartDrawn = false;
       requestAnimationFrame(() => {
-        this.drawChart(this._chartCandles || [], target);
-        requestAnimationFrame(() => this.drawChart(this._chartCandles || [], target));
+        this.drawChart(this._chartCandles || []);
+        requestAnimationFrame(() => this.drawChart(this._chartCandles || []));
       });
       if (foot) {
         const asOf = json && json.observedAt ? new Date(json.observedAt).toLocaleString() : "";
@@ -1644,26 +1373,23 @@ class Component extends DCLogic {
     }
   }
 
-  ensureChartObserver(scope) {
-    const target = scope || this.activeChartScope();
-    const key = "_chartRo_" + target;
-    if (this[key] || typeof ResizeObserver === "undefined") return;
-    const { wrap } = this.chartEls(target);
+  ensureChartObserver() {
+    if (this._chartRo || typeof ResizeObserver === "undefined") return;
+    const { wrap } = this.chartEls();
     if (!wrap) return;
-    this[key] = new ResizeObserver(() => {
+    this._chartRo = new ResizeObserver(() => {
       if (this._chartDrawPending) return;
       this._chartDrawPending = true;
       requestAnimationFrame(() => {
         this._chartDrawPending = false;
-        if (this._chartCandles && this._chartCandles.length) this.drawChart(this._chartCandles, target);
+        if (this._chartCandles && this._chartCandles.length) this.drawChart(this._chartCandles);
       });
     });
-    this[key].observe(wrap);
+    this._chartRo.observe(wrap);
   }
 
-  drawChart(candles, scope) {
-    const target = scope || this.activeChartScope();
-    const { canvas, wrap } = this.chartEls(target);
+  drawChart(candles) {
+    const { canvas, wrap } = this.chartEls();
     if (!canvas || !canvas.getContext || !wrap) return;
 
     const cssW = Math.max(120, Math.floor(wrap.clientWidth || wrap.getBoundingClientRect().width || 640));
@@ -1674,7 +1400,7 @@ class Component extends DCLogic {
     // Never write canvas.style — absolute CSS fills the wrap. Style writes + RO = expand loop.
     if (canvas.width !== nextW) canvas.width = nextW;
     if (canvas.height !== nextH) canvas.height = nextH;
-    const sizeKey = target + ":" + nextW + "x" + nextH;
+    const sizeKey = nextW + "x" + nextH;
     if (this._chartSizeKey === sizeKey && this._chartDrawn && candles === this._chartLastDrawn) {
       return;
     }
@@ -1783,65 +1509,6 @@ class Component extends DCLogic {
     ctx.fillStyle = "#E8F0E4";
     ctx.font = "10px Anonymous Pro, monospace";
     ctx.fillText(Number(last.close).toFixed(5), cssW - padR + 7, Math.min(cssH - 10, Math.max(20, ly + 3)));
-  }
-
-  async loadPools(hostId) {
-    const id = hostId || (this.state.marketOpen ? "term-pools-body" : "dash-pools-body");
-    const host = typeof document !== "undefined" ? document.getElementById(id) : null;
-    if (!host) return;
-    try {
-      const res = await fetch("/api/pools", { headers: { Accept: "application/json" }, cache: "no-store" });
-      const json = await res.json();
-      const pools = (json && Array.isArray(json.pools) ? json.pools : []).slice(0, 4);
-      if (!pools.length) {
-        host.innerHTML = '<div class="term-market-foot">Pool list unavailable right now.</div>';
-        return;
-      }
-      const rows = pools
-        .map((p) => {
-          const primary = p.primary
-            ? '<span class="term-pools-primary">PRIMARY</span>'
-            : "";
-          return (
-            '<div class="term-pool-row">' +
-            '<div><div class="term-pool-name">' +
-            this.escapeHtml(p.dex || "Pool") +
-            primary +
-            '</div><span class="term-pool-pair">' +
-            this.escapeHtml(p.pair || "") +
-            "</span></div>" +
-            '<div class="term-pool-metric"><span>LIQ</span><strong>' +
-            this.escapeHtml(p.liquidityUsd || "—") +
-            "</strong></div>" +
-            '<div class="term-pool-metric"><span>VOL 24H</span><strong>' +
-            this.escapeHtml(p.volume24h || "—") +
-            "</strong></div>" +
-            '<a class="term-pools-link" href="' +
-            this.escapeHtml(p.url || "#") +
-            '" target="_blank" rel="noopener">Open ↗</a>' +
-            "</div>"
-          );
-        })
-        .join("");
-      host.innerHTML =
-        rows +
-        '<div class="term-pools-note">' +
-        this.escapeHtml(
-          (json && json.note) ||
-            "Fee % shown only when the pool name reports it — we never invent APR."
-        ) +
-        "</div>";
-    } catch (e) {
-      host.innerHTML = '<div class="term-market-foot">Pool list unavailable right now.</div>';
-    }
-  }
-
-  escapeHtml(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
   }
 
   async fetchMetrics() {
@@ -1954,162 +1621,6 @@ class Component extends DCLogic {
     return String(count);
   }
 
-  formatSharePct(n) {
-    if (!(n > 0) || !Number.isFinite(n)) return "—";
-    const pct = n * 100;
-    if (pct >= 10) return pct.toFixed(2) + "%";
-    if (pct >= 1) return pct.toFixed(3) + "%";
-    if (pct >= 0.01) return pct.toFixed(4) + "%";
-    return pct.toFixed(6) + "%";
-  }
-
-  formatUsd(n) {
-    if (!(n > 0) || !Number.isFinite(n)) return "—";
-    if (n >= 1e6) return "$" + (n / 1e6).toFixed(2).replace(/\.00$/, "") + "M";
-    if (n >= 1e3) return "$" + (n / 1e3).toFixed(2).replace(/\.00$/, "") + "K";
-    if (n >= 1) return "$" + n.toFixed(2);
-    return "$" + n.toFixed(4);
-  }
-
-  calcReadout(m) {
-    const amount = this.parseCompactNumber(this.state.calcAmount);
-    const supply = this.parseCompactNumber(m.totalSupply);
-    const tokenized = this.parseCompactNumber(m.mstrTokenized);
-    const price = this.parseCompactNumber(m.priceUsd);
-    if (!(amount > 0) || !(supply > 0)) {
-      return { sharePct: "—", impliedMstr: "—", usd: "—" };
-    }
-    const share = amount / supply;
-    return {
-      sharePct: this.formatSharePct(share),
-      impliedMstr: tokenized > 0 ? this.formatCompactCount(share * tokenized) : "—",
-      usd: price > 0 ? this.formatUsd(amount * price) : "—"
-    };
-  }
-
-  shareCaption(m) {
-    const live = this.state.metricsLive && m.source && m.source !== "fallback" ? "LIVE" : "STANDBY";
-    return [
-      "$STRATEGY CRT SNAP // Strategy Coin Terminal",
-      "CA 0x168661c52e5922288dfb2b3f323b6cf90eb21e18 · Robinhood Chain",
-      "Price " + m.priceUsd + " (" + m.change24h + " 24h) · " + live,
-      "MCap " + m.marketCap + " · Outstanding " + m.totalSupply + " · LP " + m.liquidityUsd,
-      "MSTR in LP " + m.mstrInLp + " · Tokenized " + m.mstrTokenized,
-      "https://www.strategycoin.io/"
-    ].join("\n");
-  }
-
-  makeSnapDataUrl(metrics) {
-    const m = metrics || this.state.metrics || Component.FALLBACK_METRICS;
-    const W = 1200;
-    const H = 675;
-    const canvas = document.createElement("canvas");
-    canvas.width = W;
-    canvas.height = H;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return "";
-
-    const fillRound = (x, y, w, h, r, fill) => {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.arcTo(x + w, y, x + w, y + h, r);
-      ctx.arcTo(x + w, y + h, x, y + h, r);
-      ctx.arcTo(x, y + h, x, y, r);
-      ctx.arcTo(x, y, x + w, y, r);
-      ctx.closePath();
-      ctx.fillStyle = fill;
-      ctx.fill();
-    };
-
-    const g = ctx.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, "#8C857A");
-    g.addColorStop(0.55, "#7A7469");
-    g.addColorStop(1, "#5F5A52");
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
-
-    fillRound(48, 40, W - 96, H - 80, 28, "#F3F1EB");
-    fillRound(72, 64, W - 144, H - 128, 14, "#DFDEDA");
-
-    ctx.fillStyle = "#5A5852";
-    ctx.font = "600 18px ui-monospace, monospace";
-    ctx.fillText("STRATEGY COIN  /  MODEL 4926  /  FRAME CAPTURE", 98, 108);
-
-    fillRound(98, 128, 64, 64, 10, "#D9232E");
-    ctx.fillStyle = "#FFF6F2";
-    ctx.font = "700 28px ui-monospace, monospace";
-    ctx.fillText("$S", 114, 170);
-
-    ctx.fillStyle = "#26251F";
-    ctx.font = "700 42px ui-monospace, monospace";
-    ctx.fillText("$STRATEGY COIN", 180, 158);
-    ctx.fillStyle = "#5A5852";
-    ctx.font = "400 18px ui-monospace, monospace";
-    ctx.fillText("Paired with $MSTR  ·  Backed by $BTC  ·  Robinhood Chain", 180, 186);
-
-    fillRound(98, 220, 520, 150, 10, "#1B3E2D");
-    ctx.fillStyle = "#A9BA9C";
-    ctx.font = "600 16px ui-monospace, monospace";
-    ctx.fillText("PRICE (USD IMPLIED)", 120, 252);
-    ctx.fillStyle = "#E8F0E4";
-    ctx.font = "700 56px ui-monospace, monospace";
-    ctx.fillText(String(m.priceUsd || "—"), 120, 318);
-    ctx.fillStyle = m.change24hPositive === false ? "#F2B0B4" : "#B8C8A9";
-    ctx.font = "600 22px ui-monospace, monospace";
-    ctx.fillText(String(m.change24h || "—") + "  24H", 120, 350);
-
-    const tiles = [
-      ["MARKET CAP", m.marketCap],
-      ["OUTSTANDING", m.totalSupply],
-      ["LIQUIDITY", m.liquidityUsd],
-      ["MSTR IN LP", m.mstrInLp],
-      ["TOKENIZED", m.mstrTokenized],
-      ["HOLDERS", m.holders]
-    ];
-    tiles.forEach((tile, i) => {
-      const col = i % 3;
-      const row = Math.floor(i / 3);
-      const x = 640 + col * 150;
-      const y = 220 + row * 78;
-      fillRound(x, y, 140, 68, 6, "#E4E3E0");
-      fillRound(x + 8, y + 28, 124, 30, 4, "#A9BA9C");
-      ctx.fillStyle = "#5A5852";
-      ctx.font = "600 11px ui-monospace, monospace";
-      ctx.fillText(tile[0], x + 12, y + 20);
-      ctx.fillStyle = "#1B3E2D";
-      ctx.font = "700 18px ui-monospace, monospace";
-      ctx.fillText(String(tile[1] || "—"), x + 16, y + 50);
-    });
-
-    ctx.fillStyle = "#5A5852";
-    ctx.font = "400 16px ui-monospace, monospace";
-    const stamp = (m.sourceTime || "--:--:--") + " UTC  ·  strategycoin.io";
-    ctx.fillText(stamp, 98, H - 78);
-    ctx.fillStyle = "#D9232E";
-    ctx.beginPath();
-    ctx.arc(W - 110, H - 84, 7, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#5A5852";
-    ctx.font = "600 14px ui-monospace, monospace";
-    ctx.fillText(this.state.metricsLive ? "LIVE" : "STANDBY", W - 92, H - 79);
-
-    try {
-      return canvas.toDataURL("image/png");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  downloadSnap(dataUrl) {
-    if (!dataUrl) return;
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = "strategy-coin-terminal-snap.png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-
   copyText(text, onDone) {
     const done = typeof onDone === "function" ? onDone : () => {};
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -2192,14 +1703,8 @@ class Component extends DCLogic {
     const dark = theme === "dark";
     const m = this.state.metrics || Component.FALLBACK_METRICS;
     const t = m.sourceTime;
-    const calcOpen = this.state.calcOpen && !off;
-    const snapOpen = this.state.snapOpen && !off;
     const newsOpen = this.state.newsOpen && !off;
     const marketOpen = this.state.marketOpen && !off;
-    const readout = this.calcReadout(m);
-    const snapDataUrl = snapOpen
-      ? (this.state.snapDataUrl || this.makeSnapDataUrl(m))
-      : (this.state.snapDataUrl || "");
     return {
       mode,
       theme,
@@ -2218,13 +1723,8 @@ class Component extends DCLogic {
       powerLabel: off ? "OFF" : "ON",
       togglePower: () => this.setState(st => ({
         power: !st.power,
-        calcOpen: st.power ? false : st.calcOpen,
-        snapOpen: st.power ? false : st.snapOpen,
         newsOpen: st.power ? false : st.newsOpen,
         marketOpen: st.power ? false : st.marketOpen,
-        poolsOpen: st.power ? false : st.poolsOpen,
-        dashChartOpen: st.power ? false : st.dashChartOpen,
-        dashPoolsOpen: st.power ? false : st.dashPoolsOpen,
         bulletinOpen: st.power ? false : st.bulletinOpen,
         pressOpen: st.power ? false : st.pressOpen,
         buyOpen: false,
@@ -2232,56 +1732,20 @@ class Component extends DCLogic {
         ejectOpen: false
       })),
       buyOpen: this.state.buyOpen && !off,
-      calcOpen,
-      snapOpen,
       newsOpen,
       marketOpen,
       bulletinOpen: !!this.state.bulletinOpen,
       bulletinToggleLabel: this.state.bulletinOpen ? "COLLAPSE ▴" : "EXPAND ▾",
-      poolsOpen: !!this.state.poolsOpen,
-      poolsToggleLabel: this.state.poolsOpen ? "COLLAPSE ▴" : "EXPAND ▾",
-      dashChartOpen: !!this.state.dashChartOpen,
-      dashChartToggleLabel: this.state.dashChartOpen ? "COLLAPSE ▴" : "EXPAND ▾",
-      dashPoolsOpen: !!this.state.dashPoolsOpen,
-      dashPoolsToggleLabel: this.state.dashPoolsOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       pressOpen: !!this.state.pressOpen,
       pressToggleLabel: this.state.pressOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       tickerText: this.tickerText(),
-      showDash: !calcOpen && !snapOpen && !newsOpen && !marketOpen,
-      showBack: calcOpen || snapOpen || newsOpen || marketOpen,
-      screenProgram: calcOpen
-        ? "POSITION READOUT // CALCULATOR"
-        : snapOpen
-          ? "FRAME CAPTURE // SNAP"
-          : newsOpen
-            ? "BULLETIN // NEWS"
-            : marketOpen
-              ? "CHART // POOLS"
-              : "COIN TERMINAL MODEL 4926",
-      calcAmount: this.state.calcAmount,
-      calcSharePct: readout.sharePct,
-      calcImpliedMstr: readout.impliedMstr,
-      calcUsdNotional: readout.usd,
-      snapDataUrl: snapDataUrl || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",
-      snapStatus: this.state.snapStatus || (snapOpen ? "READY" : "STANDBY"),
-      openCalc: () => this.setState({ calcOpen: true, snapOpen: false, newsOpen: false, marketOpen: false, poolsOpen: false, bulletinOpen: false, pressOpen: false, buyOpen: false, swapOpen: false, ejectOpen: false }),
-      openSnap: () => {
-        const url = this.makeSnapDataUrl(m);
-        this.setState({
-          snapOpen: true,
-          calcOpen: false,
-          newsOpen: false,
-          marketOpen: false,
-          poolsOpen: false,
-          bulletinOpen: false,
-          pressOpen: false,
-          buyOpen: false,
-          swapOpen: false,
-          ejectOpen: false,
-          snapDataUrl: url,
-          snapStatus: url ? "READY" : "FAULT"
-        });
-      },
+      showDash: !newsOpen && !marketOpen,
+      showBack: newsOpen || marketOpen,
+      screenProgram: newsOpen
+        ? "BULLETIN // NEWS"
+        : marketOpen
+          ? "MARKET // CHART"
+          : "COIN TERMINAL MODEL 4926",
       openNews: () => {
         const host = typeof document !== "undefined" ? document.getElementById("term-x-embed") : null;
         if (host) {
@@ -2292,11 +1756,8 @@ class Component extends DCLogic {
           {
             newsOpen: true,
             marketOpen: false,
-            poolsOpen: false,
             bulletinOpen: false,
             pressOpen: false,
-            calcOpen: false,
-            snapOpen: false,
             buyOpen: false,
             swapOpen: false,
             ejectOpen: false,
@@ -2311,12 +1772,9 @@ class Component extends DCLogic {
         this._chartDrawn = false;
         this.setState({
           marketOpen: true,
-          poolsOpen: false,
           newsOpen: false,
           bulletinOpen: false,
           pressOpen: false,
-          calcOpen: false,
-          snapOpen: false,
           buyOpen: false,
           swapOpen: false,
           ejectOpen: false
@@ -2324,69 +1782,7 @@ class Component extends DCLogic {
       },
       toggleBulletin: () => this.setState(st => ({ bulletinOpen: !st.bulletinOpen })),
       togglePress: () => this.setState(st => ({ pressOpen: !st.pressOpen })),
-      togglePools: () =>
-        this.setState(st => ({ poolsOpen: !st.poolsOpen }), () => {
-          if (this.state.poolsOpen) setTimeout(() => this.loadPools("term-pools-body"), 0);
-        }),
-      toggleDashChart: () =>
-        this.setState(st => ({ dashChartOpen: !st.dashChartOpen }), () => {
-          if (this.state.dashChartOpen) {
-            this._chartSizeKey = null;
-            this._chartDrawn = false;
-            setTimeout(() => this.loadChart("dash"), 0);
-          }
-        }),
-      toggleDashPools: () =>
-        this.setState(st => ({ dashPoolsOpen: !st.dashPoolsOpen }), () => {
-          if (this.state.dashPoolsOpen) setTimeout(() => this.loadPools("dash-pools-body"), 0);
-        }),
-      closePanels: () => this.setState({ calcOpen: false, snapOpen: false, newsOpen: false, marketOpen: false, poolsOpen: false, bulletinOpen: false, pressOpen: false, snapStatus: "STANDBY" }),
-      closeCalc: () => this.setState({ calcOpen: false }),
-      onCalcInput: (e) => {
-        const raw = e && e.target ? String(e.target.value) : "";
-        const cleaned = raw.replace(/[^0-9.,kKmMbB]/g, "").slice(0, 24);
-        this.setState({ calcAmount: cleaned });
-      },
-      setCalcPreset10M: () => this.setState({ calcAmount: "10000000" }),
-      setCalcPreset25M: () => this.setState({ calcAmount: "25000000" }),
-      setCalcPreset100M: () => this.setState({ calcAmount: "100000000" }),
-      clearCalc: () => this.setState({ calcAmount: "" }),
-      saveSnap: () => {
-        const url = this.makeSnapDataUrl(m);
-        this.downloadSnap(url);
-        this.setState({ snapDataUrl: url, snapStatus: "SAVED" });
-        clearTimeout(this._snapStatusT);
-        this._snapStatusT = setTimeout(() => this.setState({ snapStatus: "READY" }), 1600);
-      },
-      shareX: () => {
-        const url = this.makeSnapDataUrl(m);
-        this.setState({ snapDataUrl: url, snapStatus: "X DRAFT" });
-        const text = this.shareCaption(m);
-        const intent = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
-        window.open(intent, "_blank", "noopener,noreferrer");
-        clearTimeout(this._snapStatusT);
-        this._snapStatusT = setTimeout(() => this.setState({ snapStatus: "READY" }), 1600);
-      },
-      shareTelegram: () => {
-        const url = this.makeSnapDataUrl(m);
-        this.setState({ snapDataUrl: url, snapStatus: "TG DRAFT" });
-        const text = this.shareCaption(m);
-        const intent = "https://t.me/share/url?url=" + encodeURIComponent("https://www.strategycoin.io/") +
-          "&text=" + encodeURIComponent(text);
-        window.open(intent, "_blank", "noopener,noreferrer");
-        clearTimeout(this._snapStatusT);
-        this._snapStatusT = setTimeout(() => this.setState({ snapStatus: "READY" }), 1600);
-      },
-      shareDiscord: () => {
-        const url = this.makeSnapDataUrl(m);
-        const text = this.shareCaption(m);
-        this.copyText(text, () => {
-          this.downloadSnap(url);
-          this.setState({ snapDataUrl: url, snapStatus: "COPIED" });
-          clearTimeout(this._snapStatusT);
-          this._snapStatusT = setTimeout(() => this.setState({ snapStatus: "READY" }), 1800);
-        });
-      },
+      closePanels: () => this.setState({ newsOpen: false, marketOpen: false, bulletinOpen: false, pressOpen: false }),
       addressLabel: this.state.copied ? "COPIED \u2713" : "CA 0x168661c52e5922288dfb2b3f323b6cf90eb21e18",
       copyAddress: () => {
         const addr = "0x168661c52e5922288dfb2b3f323b6cf90eb21e18";
@@ -2415,9 +1811,9 @@ class Component extends DCLogic {
       chartOn1D: this.state.chartRange === "1D" ? "1" : "0",
       chartOn7D: this.state.chartRange === "7D" ? "1" : "0",
       chartOn30D: this.state.chartRange === "30D" ? "1" : "0",
-      setChart1D: () => this.setState({ chartRange: "1D" }, () => this.loadChart(this.activeChartScope())),
-      setChart7D: () => this.setState({ chartRange: "7D" }, () => this.loadChart(this.activeChartScope())),
-      setChart30D: () => this.setState({ chartRange: "30D" }, () => this.loadChart(this.activeChartScope())),
+      setChart1D: () => this.setState({ chartRange: "1D" }, () => this.loadChart()),
+      setChart7D: () => this.setState({ chartRange: "7D" }, () => this.loadChart()),
+      setChart30D: () => this.setState({ chartRange: "30D" }, () => this.loadChart()),
       stop: e => e.stopPropagation(),
       lift: mode === "DIM" ? 1.02 : mode === "MID" ? 1.06 : 1.10,
       bloom: mode === "DIM" ? 0.06 : mode === "MID" ? 0.12 : 0.18,
