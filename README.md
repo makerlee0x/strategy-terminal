@@ -130,8 +130,8 @@ standby/fallback metrics unless you point it at the STS URL directly.
 - Metrics poll `/api/strategy-metrics` every 15s (LIVE when upstream succeeds, STANDBY otherwise).
 - Interactions: POWER cuts the display to static, the knob and DIM/MID/NORM set screen
   brightness, the address chip copies the contract address, BUY NOW and EJECT open modals.
-  NEWS opens the bulletin / X feed; MARKET opens the CoinGecko chart. POOLS is a top-bar
-  link out to StockTokenSwap liquidity.
+  NEWS opens the bulletin / X feed; MARKET opens the CoinGecko chart; POOLS opens an
+  in-terminal liquidity list from `/api/pools` (CoinGecko onchain).
   Rail DARK/LIGHT button toggles CRT chassis theme (saved in localStorage).
 - Below the pedestal: SEC Innovation Exemption bulletin for Tokenized Securities Venues
   (SEO-facing copy; not part of the CRT first viewport).

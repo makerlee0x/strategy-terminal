@@ -182,7 +182,7 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 .term-rail-vent > div{height:40px!important}
 .term-footer{flex:0 0 auto!important;padding:8px 2px 10px!important}
 .term-pedestal,.term-shadow,.sec-bulletin-external{display:none!important}
-.term-news,.term-market-view{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important}
+.term-news,.term-market-view,.term-pools-view{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important}
 .term-market{margin-top:0!important;min-height:0!important;flex:1 1 auto!important;display:flex!important;flex-direction:column!important;gap:8px!important}
 .term-market-chart{flex:1 1 auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;padding:10px 12px!important}
 .term-market-canvas-wrap{flex:1 1 auto!important;min-height:240px!important;height:auto!important;max-height:none!important}
@@ -332,6 +332,45 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
 [data-theme="dark"] .term-market-sub,
 [data-theme="dark"] .term-market-foot{color:#8a9488!important}
 [data-theme="dark"] .term-market-canvas-wrap{background:#101410!important;border-color:#2c342e!important}
+/* POOLS — in-CRT liquidity list */
+.term-pools-view{
+  display:flex!important;flex-direction:column!important;gap:8px!important;
+  min-height:0!important;flex:1 1 auto!important;overflow:hidden!important;width:100%!important;
+}
+.term-pools-panel{
+  flex:1 1 auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;
+  padding:10px 12px!important;overflow:hidden!important;
+}
+.term-pools-body{
+  margin-top:8px!important;flex:1 1 auto!important;min-height:0!important;
+  overflow:auto!important;-webkit-overflow-scrolling:touch!important;
+}
+.term-pool-row{
+  display:grid!important;grid-template-columns:minmax(0,1.6fr) minmax(72px,0.7fr) minmax(72px,0.7fr) minmax(48px,0.45fr)!important;
+  gap:8px!important;align-items:center!important;padding:11px 6px!important;
+  border-bottom:1px solid #E0DFDA!important;
+}
+.term-pool-row:last-of-type{border-bottom:0!important}
+.term-pool-name{font-weight:700!important;font-size:12px!important;color:#26251F!important;display:flex!important;align-items:center!important;gap:6px!important;flex-wrap:wrap!important}
+.term-pool-pair{display:block!important;font-size:9px!important;color:#6A6860!important;font-weight:400!important;margin-top:2px!important}
+.term-pool-metric{display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important}
+.term-pool-metric span{font-size:8px!important;letter-spacing:.12em!important;color:#7A7870!important}
+.term-pool-metric strong{font-size:12px!important;color:#26251F!important;font-weight:700!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.term-pools-primary{
+  display:inline-block!important;padding:1px 6px!important;border-radius:3px!important;
+  background:#D9232E!important;color:#fff!important;font-size:8px!important;letter-spacing:.08em!important;
+}
+.term-pools-note{margin-top:8px!important;font-size:9px!important;line-height:1.4!important;color:#6A6860!important;padding:0 4px!important}
+[data-theme="dark"] .term-pool-row{border-bottom-color:#2c342e!important}
+[data-theme="dark"] .term-pool-name,
+[data-theme="dark"] .term-pool-metric strong{color:#e8f0e4!important}
+[data-theme="dark"] .term-pool-pair,
+[data-theme="dark"] .term-pool-metric span,
+[data-theme="dark"] .term-pools-note{color:#8a9488!important}
+@media (max-width:520px){
+.term-pool-row{grid-template-columns:minmax(0,1fr) auto auto!important;gap:6px 10px!important}
+.term-pool-metric:nth-child(4){display:none!important}
+}
 </style>
 <style id="term-theme-css">
 /* Dark CRT chassis — overrides inline light plastics */
@@ -584,9 +623,10 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
       <div class="term-links" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
         <div class="term-chip term-addr" title="Click to copy contract address" onClick="{{ copyAddress }}"
           style="cursor:pointer;background:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%);background-image:linear-gradient(180deg,#A9BA9C 0%, #B8C8A9 38%, #A0B293 100%), repeating-linear-gradient(0deg, rgba(27,62,45,.14) 0 1px, rgba(27,62,45,0) 1px 3px);border-radius:3px;padding:8px 11px;color:#1B3E2D;font-size:11px;letter-spacing:.02em;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;line-height:1.35;word-break:break-all;overflow-wrap:anywhere;max-width:100%;text-shadow:0 1px 0 rgba(255,255,255,.3);box-shadow:inset 0 3px 7px rgba(24,44,32,.45), inset 0 0 0 1px rgba(24,44,32,.28), inset 0 -1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(255,255,255,.75);">{{ addressLabel }}</div>
-        <a href="https://stocktokenswap.com/token/0x168661c52e5922288dfb2b3f323b6cf90eb21e18#pools" target="_blank" rel="noopener"
-          class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
-          font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">POOLS</a>
+        <div class="term-chip" onClick="{{ openPools }}"
+          style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
+          font-size:10px;letter-spacing:.12em;color:#3E3A31;cursor:pointer;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;"
+          style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">POOLS</div>
         <a href="https://robinhoodchain.blockscout.com/token/0x168661C52E5922288dFb2b3f323b6Cf90eb21e18" target="_blank" rel="noopener"
           class="term-chip" style="background:linear-gradient(#FFFFFF,#E9E8E4);border:1px solid #C4C3BE;border-radius:3px;padding:7px 11px;
           font-size:10px;letter-spacing:.12em;color:#3E3A31;text-decoration:none;box-shadow:inset 0 1px 0 #F8F7F5, 0 2px 0 #BEBDB8;cursor:pointer;" style-active="box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transform:translateY(1px)">EXPLORER</a>
@@ -780,6 +820,22 @@ x-dc{display:block!important;height:100%!important;overflow:hidden!important}
           <canvas id="term-chart-canvas" aria-label="STRATEGY price chart"></canvas>
         </div>
         <div class="term-market-foot" id="term-chart-foot">Loading chart…</div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ poolsOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="term-pools-view">
+    <div class="term-market-card term-pools-panel">
+      <div class="term-market-head">
+        <div>
+          <div class="term-market-kicker">STRATEGY / MSTR</div>
+          <div class="term-market-sub">Top liquidity · CoinGecko onchain</div>
+        </div>
+      </div>
+      <div class="term-pools-body" id="term-pools-body">
+        <div class="term-market-foot">Loading pools…</div>
       </div>
     </div>
   </div>
@@ -1139,6 +1195,7 @@ class Component extends DCLogic {
     ejectOpen: false,
     newsOpen: false,
     marketOpen: false,
+    poolsOpen: false,
     bulletinOpen: false,
     pressOpen: false,
     tickerSeed: 0,
@@ -1159,6 +1216,7 @@ class Component extends DCLogic {
       if (typeof document !== "undefined" && document.hidden) return;
       this.refreshMetrics();
       if (this.state.marketOpen) this.refreshMarketPanels();
+      if (this.state.poolsOpen) this.loadPools();
     };
     if (typeof document !== "undefined") {
       document.addEventListener("visibilitychange", this._onVisibility);
@@ -1167,6 +1225,7 @@ class Component extends DCLogic {
     this._metricsTimer = setInterval(() => {
       this.refreshMetrics();
       if (this.state.marketOpen) this.refreshMarketPanels();
+      if (this.state.poolsOpen) this.loadPools();
     }, Component.POLL_MS);
   }
 
@@ -1182,6 +1241,14 @@ class Component extends DCLogic {
       }
     } else {
       this._marketPainted = false;
+    }
+    if (this.state.poolsOpen && this.state.power) {
+      if (!this._poolsPainted) {
+        this._poolsPainted = true;
+        setTimeout(() => this.loadPools(), 0);
+      }
+    } else {
+      this._poolsPainted = false;
     }
   }
 
@@ -1511,6 +1578,71 @@ class Component extends DCLogic {
     ctx.fillText(Number(last.close).toFixed(5), cssW - padR + 7, Math.min(cssH - 10, Math.max(20, ly + 3)));
   }
 
+  async loadPools() {
+    const host = typeof document !== "undefined" ? document.getElementById("term-pools-body") : null;
+    if (!host) return;
+    if (this._poolsInFlight) return;
+    this._poolsInFlight = true;
+    try {
+      const res = await fetch("/api/pools", { headers: { Accept: "application/json" }, cache: "no-store" });
+      const json = await res.json();
+      const pools = (json && Array.isArray(json.pools) ? json.pools : []).slice(0, 6);
+      if (!pools.length) {
+        host.innerHTML = '<div class="term-market-foot">' +
+          this.escapeHtml((json && json.note) || "Pool list unavailable right now.") +
+          "</div>";
+        return;
+      }
+      const rows = pools
+        .map((p) => {
+          const primary = p.primary
+            ? '<span class="term-pools-primary">PRIMARY</span>'
+            : "";
+          const fee = p.fee && p.fee !== "—" ? p.fee : "—";
+          return (
+            '<div class="term-pool-row">' +
+            '<div><div class="term-pool-name">' +
+            this.escapeHtml(p.dex || "Pool") +
+            primary +
+            '</div><span class="term-pool-pair">' +
+            this.escapeHtml(p.pair || "") +
+            "</span></div>" +
+            '<div class="term-pool-metric"><span>LIQ</span><strong>' +
+            this.escapeHtml(p.liquidityUsd || "—") +
+            "</strong></div>" +
+            '<div class="term-pool-metric"><span>VOL 24H</span><strong>' +
+            this.escapeHtml(p.volume24h || "—") +
+            "</strong></div>" +
+            '<div class="term-pool-metric"><span>FEE</span><strong>' +
+            this.escapeHtml(fee) +
+            "</strong></div>" +
+            "</div>"
+          );
+        })
+        .join("");
+      host.innerHTML =
+        rows +
+        '<div class="term-pools-note">' +
+        this.escapeHtml(
+          (json && json.note) ||
+            "Fee % shown only when the pool name reports it — we never invent APR."
+        ) +
+        "</div>";
+    } catch (e) {
+      host.innerHTML = '<div class="term-market-foot">Pool list unavailable right now.</div>';
+    } finally {
+      this._poolsInFlight = false;
+    }
+  }
+
+  escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
   async fetchMetrics() {
     let lastErr = null;
     for (const url of Component.METRICS_URLS) {
@@ -1705,6 +1837,7 @@ class Component extends DCLogic {
     const t = m.sourceTime;
     const newsOpen = this.state.newsOpen && !off;
     const marketOpen = this.state.marketOpen && !off;
+    const poolsOpen = this.state.poolsOpen && !off;
     return {
       mode,
       theme,
@@ -1725,6 +1858,7 @@ class Component extends DCLogic {
         power: !st.power,
         newsOpen: st.power ? false : st.newsOpen,
         marketOpen: st.power ? false : st.marketOpen,
+        poolsOpen: st.power ? false : st.poolsOpen,
         bulletinOpen: st.power ? false : st.bulletinOpen,
         pressOpen: st.power ? false : st.pressOpen,
         buyOpen: false,
@@ -1734,18 +1868,21 @@ class Component extends DCLogic {
       buyOpen: this.state.buyOpen && !off,
       newsOpen,
       marketOpen,
+      poolsOpen,
       bulletinOpen: !!this.state.bulletinOpen,
       bulletinToggleLabel: this.state.bulletinOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       pressOpen: !!this.state.pressOpen,
       pressToggleLabel: this.state.pressOpen ? "COLLAPSE ▴" : "EXPAND ▾",
       tickerText: this.tickerText(),
-      showDash: !newsOpen && !marketOpen,
-      showBack: newsOpen || marketOpen,
+      showDash: !newsOpen && !marketOpen && !poolsOpen,
+      showBack: newsOpen || marketOpen || poolsOpen,
       screenProgram: newsOpen
         ? "BULLETIN // NEWS"
         : marketOpen
           ? "MARKET // CHART"
-          : "COIN TERMINAL MODEL 4926",
+          : poolsOpen
+            ? "POOLS // LIQUIDITY"
+            : "COIN TERMINAL MODEL 4926",
       openNews: () => {
         const host = typeof document !== "undefined" ? document.getElementById("term-x-embed") : null;
         if (host) {
@@ -1756,6 +1893,7 @@ class Component extends DCLogic {
           {
             newsOpen: true,
             marketOpen: false,
+            poolsOpen: false,
             bulletinOpen: false,
             pressOpen: false,
             buyOpen: false,
@@ -1773,6 +1911,20 @@ class Component extends DCLogic {
         this.setState({
           marketOpen: true,
           newsOpen: false,
+          poolsOpen: false,
+          bulletinOpen: false,
+          pressOpen: false,
+          buyOpen: false,
+          swapOpen: false,
+          ejectOpen: false
+        });
+      },
+      openPools: () => {
+        this._poolsPainted = false;
+        this.setState({
+          poolsOpen: true,
+          marketOpen: false,
+          newsOpen: false,
           bulletinOpen: false,
           pressOpen: false,
           buyOpen: false,
@@ -1782,7 +1934,7 @@ class Component extends DCLogic {
       },
       toggleBulletin: () => this.setState(st => ({ bulletinOpen: !st.bulletinOpen })),
       togglePress: () => this.setState(st => ({ pressOpen: !st.pressOpen })),
-      closePanels: () => this.setState({ newsOpen: false, marketOpen: false, bulletinOpen: false, pressOpen: false }),
+      closePanels: () => this.setState({ newsOpen: false, marketOpen: false, poolsOpen: false, bulletinOpen: false, pressOpen: false }),
       addressLabel: this.state.copied ? "COPIED \u2713" : "CA 0x168661c52e5922288dfb2b3f323b6cf90eb21e18",
       copyAddress: () => {
         const addr = "0x168661c52e5922288dfb2b3f323b6cf90eb21e18";
