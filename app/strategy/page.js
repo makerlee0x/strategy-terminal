@@ -10,7 +10,12 @@ export const metadata = {
     title: '$STRATEGY · STRATEGY COIN',
     description: 'Paired with tokenized MSTR on Robinhood Chain.',
     url: 'https://www.strategycoin.io/strategy',
-    images: [{ url: '/api/card/stack', width: 1200, height: 675 }]
+    images: [{ url: '/api/card/stack', width: 1200, height: 675, type: 'image/png' }]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@strategystock',
+    images: ['/api/card/stack']
   }
 };
 export default async function Page() { return <View init={await initial(STATS)} />; }

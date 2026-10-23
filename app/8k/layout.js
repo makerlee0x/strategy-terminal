@@ -5,8 +5,13 @@ export const metadata = {
   alternates: { canonical: '/8k' },
   openGraph: {
     title: '8-K day · STRATEGY COIN',
-    images: [{ url: '/api/card/8k', width: 1200, height: 675 }]
+    description: 'What Strategy₿ Inc.’s latest 8-K means for every MSTR token and every 1M $STRATEGY.',
+    images: [{ url: '/api/card/8k', width: 1200, height: 675, type: 'image/png' }]
   },
-  twitter: { card: 'summary_large_image', images: ['/api/card/8k'] }
+  twitter: {
+    card: 'summary_large_image',
+    site: '@strategystock',
+    images: ['/api/card/8k']
+  }
 };
 export default function L({ children }) { return children; }

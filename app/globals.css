@@ -64,7 +64,7 @@ button.btn{border:0;cursor:pointer;font-family:inherit}.cabtn{border:1px solid v
 .slip{display:flex;gap:4px;align-items:center}.slip button,.chips button{border:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;font-size:11px;padding:4px 8px;cursor:pointer}.slip button.on{background:var(--red);color:var(--on-red);border-color:var(--red)}.slip input{width:64px;border:1px solid var(--ink);background:var(--bg);color:var(--ink);font:inherit;font-size:11px;padding:4px 6px}
 .chips{display:flex;gap:4px}.sw-card{border:1px solid var(--rule);background:var(--bg);padding:10px 12px;display:flex;flex-direction:column;gap:6px}
 .sw-amt{font-family:'Bungee',sans-serif;font-size:32px;color:var(--red-t);border:0;background:transparent;width:60%;outline:none}.sw-amt:focus{border-bottom:1px dashed var(--red-t)}
-.sw select,.tok{border:1px solid var(--ink);background:var(--ink);color:var(--bg);font:inherit;font-size:12px;padding:6px 10px;letter-spacing:.06em}.sw-arrow{text-align:center;color:var(--red-t);font-size:18px;margin:-4px 0}
+.sw select,.tok{border:1px solid var(--ink);background:var(--ink);color:var(--bg);font:inherit;font-size:12px;padding:6px 10px;letter-spacing:.06em;max-width:168px}.sw-arrow{text-align:center;color:var(--red-t);font-size:18px;margin:-4px 0}
 .sw-meta{font-size:12px}.sw-meta td{padding:6px 4px}.sw-meta td:last-child{text-align:right;font-weight:700}
 .sw-go{background:var(--red);color:var(--on-red);border:0;padding:14px;font:inherit;font-weight:700;text-transform:uppercase;letter-spacing:.14em;cursor:pointer}.sw-go:disabled{opacity:.55;cursor:not-allowed}
 .sw-status{font-size:11px;min-height:16px}.sw-status.error{color:var(--red-t)}.sw-status.info{color:var(--mu)}
