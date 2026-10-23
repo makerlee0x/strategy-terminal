@@ -1,0 +1,103 @@
+{
+ "fetchedAt": "2026-10-13T17:06:23.273Z",
+ "source": "api.coingecko.com/api/v3/coins/{id} (free public)",
+ "tokens": [
+  {
+   "id": "microstrategy-xstock",
+   "name": "MicroStrategy xStock",
+   "symbol": "mstrx",
+   "platforms": {
+    "arbitrum-one": "0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+    "binance-smart-chain": "0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+    "ethereum": "0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+    "solana": "XsP7xzNPvEHS1m6qfanPUGjNmdnmsLKEoNAnHjdxxyZ"
+   },
+   "desc": "\"For too long, investing has come with barriers. Borders. Brokers. Limitations. It’s been complicated, costly, and — for millions — out of reach. xStocks were created to change that.\n\nxStocks are tokenized stocks. They’re backed 1:1 by the underlying",
+   "home": "https://xstocks.com/"
+  },
+  {
+   "id": "strategy-tokenized-bstocks",
+   "name": "Strategy (bStocks Tokenized Stock)",
+   "symbol": "mstrb",
+   "platforms": {
+    "binance-smart-chain": "0xe87afb3076aeb0f9b14e368de8145ae6a2826a14"
+   },
+   "desc": "",
+   "home": "https://www.bstocks.finance/en/"
+  },
+  {
+   "id": "microstrategy-ondo-tokenized-stock",
+   "name": "MicroStrategy (Ondo Tokenized Stock)",
+   "symbol": "mstron",
+   "platforms": {
+    "ethereum": "0xcabd955322dfbf94c084929ac5e9eca3feb5556f",
+    "binance-smart-chain": "0x7313ea16493b2f55054df0131a3a14b043ec8992",
+    "hyperevm": "0x8a64fdf0857c1c734a594cd1db20b3f8e3f133f6",
+    "solana": "FSz4ouiqXpHuGPcpacZfTzbMjScoj5FfzHkiyu2ondo"
+   },
+   "desc": "MSTRon is the Ondo Tokenized version of MicroStrategy, giving tokenholders economic exposure similar to holding MSTR and reinvesting any dividends. Ondo tokenized stocks enable non-US retail and institutional users around the world to instantly mint ",
+   "home": "https://app.ondo.finance/assets/mstron"
+  },
+  {
+   "id": "microstrategy-rstock",
+   "name": "Strategy Tokenized Stock (Reality)",
+   "symbol": "rmstr",
+   "platforms": {
+    "arbitrum-one": "0x10fe806857055d3b5ae00d2eabafd3e61f0e89aa",
+    "morph-l2": "0xecbe05d15bbab573ed1d6b8dac3b259cf1047460"
+   },
+   "desc": "Strategy, formerly MicroStrategy, has evolved from an enterprise business-intelligence software vendor into a publicly traded Bitcoin-treasury company while continuing to sell analytics and BI software. Through equity, debt and preferred-stock financ",
+   "home": "https://realityfinance.xyz/"
+  },
+  {
+   "id": "strategy-inc-robinhood-tokenized-stock",
+   "name": "Strategy Inc. • Robinhood Token",
+   "symbol": "mstr",
+   "platforms": {
+    "robinhood": "0xec262a75e413fafd0df80480274532c79d42da09"
+   },
+   "desc": "",
+   "home": "https://robinhood.com/us/en/"
+  },
+  {
+   "id": "microstrategy-coinbase-tokenized-stock",
+   "name": "MicroStrategy (Coinbase Tokenized Stock)",
+   "symbol": "mstrc",
+   "platforms": {
+    "base": "0xb2000000000000000000004884b426556b92883d"
+   },
+   "desc": "About MicroStrategy (Coinbase Tokenized Stock) ([TICKER])\n\nMicroStrategy (Coinbase Tokenized Stock) is an onchain certificate that provides economic exposure to shares of MicroStrategy through a tokenized security issued by Coinbase Onchain SPV Ltd i",
+   "home": "https://www.coinbase.com/tokenize"
+  },
+  {
+   "id": "strategy-dinari-tokenized-stock",
+   "name": "Strategy (Dinari Tokenized Stock)",
+   "symbol": "mstr",
+   "platforms": {
+    "ethereum": "0xcd08eb87d94bdb0957541a86e2252c81c0c8a9d1",
+    "base": "0x5de98c65a9a3c414550e6663666bc725c23c2e7b",
+    "arbitrum-one": "0xdf7a6ce3b9087251f5859f42ca79ce34f4a88460",
+    "avalanche": "0x7944e6f238f13740121323f837f2f1022b38525e"
+   },
+   "home": "https://dinari.com"
+  },
+  {
+   "id": "strategy-backpack-securities",
+   "name": "Strategy (Backpack Securities)",
+   "symbol": "mstr",
+   "platforms": {
+    "solana": "MSTRdWXMeZxdE8osAQy3fA4rvTY5rgummDSMEx6U7Nz"
+   },
+   "home": "https://backpack.exchange/stocks/MSTR"
+  },
+  {
+   "id": "microstrategy-incorporated-st0x",
+   "name": "MicroStrategy Incorporated ST0x",
+   "symbol": "wtmstr",
+   "platforms": {
+    "base": "0xff05e1bd696900dc6a52ca35ca61bb1024eda8e2"
+   },
+   "home": "https://www.st0x.io"
+  }
+ ]
+}

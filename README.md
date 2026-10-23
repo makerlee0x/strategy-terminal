@@ -1,138 +1,59 @@
-# Strategy Coin Terminal
+# STRATEGY COIN — strategycoin.io
 
-Static, dependency-free site for the Strategy Coin retro terminal dashboard.
+Next.js 14 (App Router) hub for `$STRATEGY` and tokenized MSTR. Deploys on Vercel as a normal Next.js app.
 
-## Contents
+**Production:** see `PROD.md`. Live site ships from `makerlee0x/strategy-terminal`.
 
-- `index.html` — the site
-- `support.js` — runtime it loads
-- `assets/` — logo mark, CRT noise texture, swap widget bundle
-- `swap/src/` — source for the CRT swap widget (viem)
-- `api/` — Vercel serverless (metrics, X feed)
-- `vercel.json` — Vercel config (static, clean URLs, asset caching)
-- `.nojekyll` — required so GitHub Pages serves all files as-is
+## Setup
 
-## Build
-
-Swap widget bundle (required after editing `swap/src`). Prebuilt output lives in `assets/swap.js` and is what Vercel serves — the root project stays static (no root `package.json`) so deploys do not run a Node build.
-
-    cd swap
-    npm install
-    npm run build
-
-## Run locally
-
-`file://` will block the local script load, so use a static server:
-
-    npx serve .
-    # or
-    python3 -m http.server 8000
-
-For live APIs locally:
-
-    npx vercel dev
-
-## Deploy — Vercel
-
-    npm i -g vercel
-    vercel deploy --prod
-
-Or import the repo at vercel.com: Framework preset **Other**, build command empty,
-output directory `.` (or `site` if you push the whole project).
-
-Custom domains that should work with the same-origin metrics proxy:
-
-- `*.vercel.app` (preview + production)
-- `strategycoin.io` / `www.strategycoin.io` (once DNS is pointed at this Vercel project)
-
-Optional env on the Vercel project:
-
-- `STRATEGY_METRICS_URL` — override upstream (default `https://stocktokenswap.com/api/strategy-metrics`)
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` — optional WalletConnect project id (allowlist strategycoin.io)
-- `NEXT_PUBLIC_ROBINHOOD_CHAIN_RPC_URL` — optional Robinhood Chain RPC override
-
-See `.env.example`.
-
-## Live metrics (StockTokenSwap)
-
-The terminal reads **display-ready** JSON from same-origin `/api/strategy-metrics`.
-On Vercel that function proxies to StockTokenSwap (where the CoinGecko key lives). If upstream
-is down, it returns a safe fallback payload so the CRT never goes blank.
-
-### Contract for StockTokenSwap: `GET /api/strategy-metrics`
-
-Return JSON (strings already formatted for the CRT):
-
-```json
-{
-  "ok": true,
-  "asOf": "2026-09-12T15:02:00.000Z",
-  "priceUsd": "$0.004036",
-  "change24h": "1.01%",
-  "change24hPositive": true,
-  "priceMstr": "0.000030",
-  "marketCap": "$4.03M",
-  "fdv": "$4.03M",
-  "totalSupply": "1.00B",
-  "strategySupply": "1.00B",
-  "liquidityUsd": "$636.48K",
-  "mstrInLp": "2.17K",
-  "mstrTokenized": "29.55K",
-  "mstrInLpPct": "7.36%",
-  "volume24h": "$695.01K",
-  "holders": "1,839",
-  "pairAsset": "MSTR",
-  "sourceTime": "15:02:00"
-}
+```
+npm install
+cp .env.example .env.local   # optional
+npm run dev                  # http://localhost:3000
+npm run build
 ```
 
-`strategySupply` / `totalSupply` is Strategy Coin outstanding (not tokenized MSTR).
-STS may send either; the terminal accepts both. If omitted, it derives `marketCap / priceUsd`.
+Requires Node 18.17+.
 
-Hardcode the Strategy token/pair on the STS side — do not accept arbitrary token query params.
-Cache ~15s. Allow CORS from:
+## Environment
 
-- `https://strategycoin.io`
-- `https://www.strategycoin.io`
-- `https://strategy-terminal.vercel.app`
-- `https://*.vercel.app` (previews)
-- `http://localhost:3000` (dev)
+All secrets stay in Vercel / local `.env.local`. Never commit real keys.
 
-Keep the CoinGecko API key only in StockTokenSwap env — never in this public repo.
+| Name | Purpose |
+|---|---|
+| STRATEGY_METRICS_URL | Upstream metrics (default `https://stocktokenswap.com/api/strategy-metrics`) |
+| NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID | WalletConnect in swap (optional; built-in default exists) |
+| NEXT_PUBLIC_ROBINHOOD_CHAIN_RPC_URL | Robinhood Chain RPC |
+| COINGECKO_API_KEY / COINGECKO_PLAN | Optional; `demo` or `pro` |
+| MSTR_SHARES_BASIS | Share count for on-chain % figure |
+| VERCEL_PREVIEW_PREFIX | Origin allowlist for `*.vercel.app` previews |
+| KV_REST_API_URL / KV_REST_API_TOKEN | Daily pool history (chart + 30D yield) |
+| CRON_SECRET | Bearer for `/api/cron/snapshot` |
 
-## Security notes (metrics)
+## Pages
 
-- CoinGecko key never lives in this repo.
-- `/api/strategy-metrics` is a **fixed-upstream** proxy (no user-controlled URL/query routing).
-- Response is field-allowlisted display strings only (no raw market-data payload passthrough).
-- Cross-origin calls require an allowlisted `Origin` (`strategycoin.io`, this project's Vercel previews, localhost). Others get `403`.
-- Site-wide `X-Content-Type-Options`, `Referrer-Policy`, and frame permissions are set in `vercel.json`.
+`/` home · `/strategy` ($STRATEGY pool + metrics) · `/mstr` (MSTR on-chain utility) · `/8k` (8-K day) · `/terminal` (interactive CRT + in-terminal swap). Old paths (`/earn`, `/opportunities`, `/learn`, `/resources`, `/tokens`) redirect to `/mstr`.
 
-## Deploy — GitHub Pages
+## APIs (server-cached, rate-limited, origin-checked)
 
-    git init
-    git add .
-    git commit -m "Strategy Coin terminal"
-    git branch -M main
-    git remote add origin git@github.com:<you>/<repo>.git
-    git push -u origin main
+Same-origin routes. Upstream market data for `$STRATEGY` metrics comes from StockTokenSwap (keys stay there).
 
-Then Settings → Pages → Source: **Deploy from a branch**, branch `main`, folder `/ (root)`.
-If you push the whole project instead of this folder's contents, set the folder to `/site`.
+| Route | Source |
+|---|---|
+| `/api/strategy-metrics` | stocktokenswap.com |
+| `/api/pools` | GeckoTerminal |
+| `/api/pool-backing` | DexScreener + launch curve |
+| `/api/strategy-history` | KV daily snapshots |
+| `/api/mstr-tokens` | CoinGecko markets |
+| `/api/robinhood-mstr` | Robinhood / Arbitrum RPC |
+| `/api/perps` | Hyperliquid + Lighter |
+| `/api/chains` | venue volume |
+| `/api/offhours` | off-hours volume share |
+| `/api/strategy-filings` | SEC 8-K |
+| `/api/cron/snapshot` | nightly history write |
 
-Note: GitHub Pages will not run the Vercel `/api` function; the terminal will show
-standby/fallback metrics unless you point it at the STS URL directly.
+Swap quote / execute / status calls StockTokenSwap `/api/swap/*` from the browser on strategycoin.io.
 
-## Notes
+When an upstream fails, routes return `delayed: true` and last good data when available. UI shows DATA DELAYED — no invented fallback figures.
 
-- Fonts (ChicagoFLF, Anonymous Pro) load from CDNs. `standalone.html` has everything inlined
-  if you need it fully offline.
-- Metrics poll `/api/strategy-metrics` every 15s (LIVE when upstream succeeds, STANDBY otherwise).
-- Interactions: POWER cuts the display to static, the knob and DIM/MID/NORM set screen
-  brightness, the address chip copies the contract address, BUY NOW and EJECT open modals.
-  NEWS opens the bulletin / X feed; MARKET opens the CoinGecko chart; POOLS opens an
-  in-terminal liquidity list from `/api/pools` (CoinGecko onchain).
-  Rail DARK/LIGHT button toggles CRT chassis theme (saved in localStorage).
-- Below the pedestal: SEC Innovation Exemption bulletin for Tokenized Securities Venues
-  (SEO-facing copy; not part of the CRT first viewport).
-- CRT screen hugs content (no forced 72vh bezel gap); mobile stack hides pedestal shadow.
+Not affiliated with, endorsed by, or sponsored by Strategy Inc. Informational only, not investment advice.
