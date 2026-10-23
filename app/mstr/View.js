@@ -14,7 +14,7 @@ export default function View({ init }) {
     const spy = () => { let cur = TABS[0][0]; for (const [id] of TABS) { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top < innerHeight * 0.35) cur = id; } if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = TABS[TABS.length - 1][0]; setTab(cur); };
     spy(); addEventListener('scroll', spy, { passive: true }); addEventListener('resize', spy); return () => { removeEventListener('scroll', spy); removeEventListener('resize', spy); };
   }, []);
-  const t = T?.totals || {}, venues = (CH?.chains || []).filter(c => c.vol24Usd > 0).sort((a, b) => b.vol24Usd - a.vol24Usd), vmax = venues[0]?.vol24Usd || 1;
+  const t = T?.totals || {}, venues = (CH?.chains || []).filter(c => c.vol24Usd >= 1000).sort((a, b) => b.vol24Usd - a.vol24Usd), vmax = venues[0]?.vol24Usd || 1;
   const rh = (CH?.chains || []).find(c => c.key === 'robinhood'), off = OH?.all?.d30?.closedPct, f = F8?.latest, chg = F8?.weeklyChangeBtc;
   const hl = (PP?.markets || []).find(m => m.venue === 'Hyperliquid'), li = (PP?.markets || []).find(m => m.venue === 'Lighter');
   return (<>

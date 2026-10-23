@@ -18,8 +18,8 @@ export default function PoolChart({ days, live, since }) {
   const pts = all.length ? view(all, range) : [];
   if (pts.length < 2) return <>
     <div className="lbl">MSTR in the pool</div><div className="soft" style={{ fontSize: 12, marginTop: 4 }}>$STRATEGY/MSTR · Uniswap v4 · Robinhood Chain</div>
-    <div className="num" style={{ fontSize: 72, margin: '48px 0 10px' }}>{live ? Math.round(live.poolMstr).toLocaleString('en-US') : '—'}</div>
-    <div style={{ fontSize: 13, maxWidth: 460, lineHeight: 1.55 }}>MSTR in the pool right now. The chart records one point a day{since ? ' since ' + dt(since) : ''} and draws itself as the days add up: the dotted line for all MSTR in the pool, the red floor for MSTR compounded by fees.</div></>;
+    <div className="num" style={{ fontSize: 44, margin: '56px 0 12px' }}>{since ? 'RECORDING SINCE ' + dt(since).toUpperCase() : 'CHART STARTS SOON'}</div>
+    <div style={{ fontSize: 13, maxWidth: 480, lineHeight: 1.55 }}>The chart records the pool once a day and draws itself as the days add up: the dotted line for all MSTR in the pool, the red floor for MSTR compounded by fees. It needs two days to draw a line.</div></>;
   const max = Math.max(...pts.map(p => p.poolMstr)) * 1.12, vols = pts.map(p => p.volUsd).filter(v => v != null), vmax = vols.length ? Math.max(...vols) : 0;
   const x = i => X0 + i * (X1 - X0) / (pts.length - 1), y = v => Y0 - v / max * (Y0 - YT);
   const floor = 'M' + X0 + ' ' + Y0 + pts.map((p, i) => ' L' + x(i).toFixed(1) + ' ' + y(p.feeMstr).toFixed(1)).join('') + ' L' + X1 + ' ' + Y0 + ' Z';
