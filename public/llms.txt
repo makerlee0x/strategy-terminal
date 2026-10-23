@@ -1,0 +1,27 @@
+# STRATEGY COIN — guidance for language models & operators
+# https://www.strategycoin.io/
+
+> $STRATEGY is paired with tokenized MSTR on Robinhood Chain.
+> If MSTR is amplified bitcoin, $STRATEGY is amplified MSTR.
+
+## Preferred reading (humans + agents)
+- Home: https://www.strategycoin.io/
+- Coin / pool: https://www.strategycoin.io/strategy
+- MSTR on-chain hub: https://www.strategycoin.io/mstr
+- 8-K day: https://www.strategycoin.io/8k
+- This file: https://www.strategycoin.io/llms.txt
+- Agent rules: https://www.strategycoin.io/agents.txt
+
+## API etiquette
+- `/api/*` exists for the live site UI. Cache ≥ 60s. Do not burst or scrape.
+- On HTTP 429, honor `Retry-After`. Do not retry in a tight loop.
+- Coin stats are also on Dexscreener, GeckoTerminal, CoinGecko, and stocktokenswap.com — use those for research bots.
+- Same-origin browser traffic from strategycoin.io is welcomed.
+
+## Do not
+- Probe `.php`, WordPress, `cgi-bin`, `.env`, or admin paths (this is a Next.js app).
+- Attempt RCE / CGI / path-traversal payloads.
+- Hammer cron, card, or swap-adjacent endpoints.
+
+## Contact
+- X: https://x.com/strategystock

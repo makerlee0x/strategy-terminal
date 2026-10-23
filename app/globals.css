@@ -52,6 +52,12 @@ button.btn{border:0;cursor:pointer;font-family:inherit}.cabtn{border:1px solid v
 .mbtns{display:flex;gap:8px;flex-wrap:wrap}.swaphost{border:1px dashed var(--rule);min-height:120px;margin:12px 0;padding:10px}
 .logo img{display:block;width:auto;height:36px}
 .sw{display:flex;flex-direction:column;gap:10px}.sw-top,.sw-tool,.sw-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.sw-blurb{margin:0;font-size:12px;line-height:1.5;color:var(--mu);text-transform:none;letter-spacing:0}
+.sw-hint{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border:1px solid var(--red-t);background:#d9232e12;font-size:12px}
+.sw-foot{margin:2px 0 0;font-size:11px;color:var(--mu);line-height:1.45;text-transform:none;letter-spacing:0}
+.buy-foot{margin-top:16px;padding-top:14px;border-top:2px solid var(--rule)}
+.buy-foot-h{font-family:'Bungee',sans-serif;font-size:14px;letter-spacing:.02em}
+.buy-foot-acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .seg{display:flex;border:1px solid var(--ink)}.seg button{background:transparent;color:var(--ink);border:0;padding:8px 18px;text-transform:uppercase;letter-spacing:.1em;font:inherit;font-size:11px;cursor:pointer}.seg button.on{background:var(--ink);color:var(--bg)}
 .sw-wallet{border:1px solid var(--ink);background:transparent;color:var(--ink);padding:8px 12px;font:inherit;font-size:11px;text-transform:uppercase;letter-spacing:.08em;cursor:pointer}.sw-wallet:hover{background:var(--red);color:var(--on-red);border-color:var(--red)}
 .linkbtn{background:none;border:0;border-bottom:1px solid var(--red-t);color:var(--red-t);font:inherit;font-size:11px;cursor:pointer;padding:2px 0}.linkbtn.on{font-weight:700}
@@ -100,14 +106,18 @@ button.btn{border:0;cursor:pointer;font-family:inherit}.cabtn{border:1px solid v
 .tilt{background:var(--ink);color:var(--bg);width:100%;max-width:360px;padding:24px;transform:rotate(2.5deg);box-shadow:10px 10px 0 var(--red)}
 @media(max-width:760px){
   .g2,.g3,.g4,.cells,.redblock,.hero-chain{grid-template-columns:1fr!important}h1{font-size:44px!important}
-  main{padding:20px 16px}nav{padding:14px 16px}
-  .panel table{display:block;overflow-x:auto;white-space:nowrap}.addr{white-space:nowrap}
+  main{padding:20px 16px}nav{padding:14px 16px;gap:8px 14px}
+  .logo img{height:28px;width:auto;max-width:min(180px,52vw)}
+  nav .l,.navband .buy{font-size:12px;padding:8px 10px}
+  .panel table{display:block;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}.addr{white-space:nowrap}
   .big{font-size:40px}.stamp{font-size:30px}.g4>div{border-right:0;border-bottom:1px solid var(--rule)}.hero-chain>div+div{border-left:0;border-top:1px solid var(--rule)}
   .tokgrid{grid-template-columns:1fr}.hb{grid-template-columns:96px 1fr 70px}.goal{grid-template-columns:44px 1fr}
   .newsrow{flex-wrap:wrap}.newsrow>span{min-width:0;overflow-wrap:anywhere}.newsrow>span.k{white-space:normal!important;flex-basis:100%;padding-left:36px}
   .cardwrap{overflow-x:auto}
-  .hero-red{margin-top:-20px;padding-top:28px;padding-bottom:48px}.hero-red h1{font-size:54px!important}.sticker{position:static;width:170px;height:170px;margin:0 0 24px auto}.sticker b{font-size:38px}
+  .hero-red{margin-top:-20px;padding-top:28px;padding-bottom:48px}.hero-red h1{font-size:clamp(40px,14vw,54px)!important;line-height:.95}.hero-red .lede{font-size:16px}.sticker{position:static;width:170px;height:170px;margin:0 0 24px auto}.sticker b{font-size:38px}
   .sec-h{font-size:30px}
+  .addrchip{max-width:100%;font-size:11px}
+  footer{padding:20px 16px 96px;gap:14px}
 }
 /* Phones: a Buy bar pinned to the bottom of every page. */
 .buybar{display:none}

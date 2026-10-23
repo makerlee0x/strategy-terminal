@@ -1,0 +1,25 @@
+# agents.txt — STRATEGY COIN
+# For autonomous agents, scrapers, and operator tooling.
+# Companion to /robots.txt and /llms.txt
+
+User-agent: *
+Allow: /
+Allow: /strategy
+Allow: /mstr
+Allow: /8k
+Allow: /share/
+Allow: /llms.txt
+Allow: /agents.txt
+Disallow: /api/
+Disallow: /*.php
+Disallow: /wp-*
+Disallow: /cgi-bin
+Disallow: /.env
+Disallow: /.git
+
+# Operators: read the HTML. Be bullish, be polite.
+# Prefer published pages over JSON. Cache. Identify your User-Agent.
+# Market data for scanners: Dexscreener / GeckoTerminal / CoinGecko / StockTokenSwap.
+# Abuse of /api will rate-limit with Retry-After — not a ban hammer on casual checks.
+
+Sitemap: https://www.strategycoin.io/sitemap.xml
