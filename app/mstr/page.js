@@ -9,7 +9,13 @@ export const metadata = {
   openGraph: {
     title: 'MSTR On-Chain · STRATEGY COIN',
     description: 'Every MSTR token, every chain, and how to put it to work.',
-    url: 'https://www.strategycoin.io/mstr'
+    url: 'https://www.strategycoin.io/mstr',
+    images: [{ url: '/api/card/supply', width: 1200, height: 675, type: 'image/png' }]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@strategystock',
+    images: ['/api/card/supply']
   }
 };
 export default async function Page() { return <View init={await initial(MSTR)} />; }

@@ -2,7 +2,8 @@ import './globals.css';
 
 const title = 'STRATEGY COIN · Amplified MSTR';
 const description =
-  '$STRATEGY is paired with tokenized MSTR. If MSTR is amplified bitcoin, $STRATEGY is amplified MSTR. Plus the hub for tokenized MSTR: every token, every chain, every way to put it to work.';
+  '$STRATEGY is paired with tokenized MSTR. Hold. Hold. Amplify.';
+const ogAlt = 'STRATEGY COIN — MSTR in the pool for every 1M $STRATEGY';
 
 export const metadata = {
   metadataBase: new URL('https://www.strategycoin.io'),
@@ -31,10 +32,14 @@ export const metadata = {
     siteName: 'STRATEGY COIN',
     title,
     description,
-    images: [{ url: '/api/card/stack', width: 1200, height: 675, alt: 'STRATEGY COIN' }]
+    images: [
+      { url: '/api/card/stack', width: 1200, height: 675, alt: ogAlt, type: 'image/png' }
+    ]
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@strategystock',
+    creator: '@strategystock',
     title,
     description,
     images: ['/api/card/stack']
