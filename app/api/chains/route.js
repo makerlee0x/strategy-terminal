@@ -7,20 +7,27 @@ const NET = { robinhood: ['robinhood', 'Robinhood Chain'], solana: ['solana', 'S
 // Tokens not in the CoinGecko list: Mantle WMSTRX (DefiLlama fluxion pool underlying). Base is intentionally not part of this comparison.
 const EXTRA = { mantle: ['0x266e5923f6118f8b340ca5a23ae7f71897361476'] };
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-// One GeckoTerminal call per chain, all at once, so the whole load fits well inside a serverless time limit.
+// GeckoTerminal's public API is rate limited (~30 calls/min, shared by everything on the same Vercel IP),
+// so ask a few chains at a time, Robinhood first, retry with backoff, and fall back to each chain's last good numbers.
+const LAST = new Map(), ORDER = ['robinhood', 'solana', 'binance-smart-chain', 'ethereum', 'arbitrum-one'];
 async function one(p, addrs) {
   const [gt, label] = NET[p];
   const url = `https://api.geckoterminal.com/api/v2/networks/${gt}/tokens/multi/${[...new Set(addrs)].join(',')}`; let d;
-  for (let i = 0; ; i++) { try { d = await getJson(url, { ms: 8000 }); break; } catch (e) { if (i >= 1) return { key: p, chain: label, error: true }; await sleep(1500); } }
+  for (let i = 0; ; i++) {
+    try { d = await getJson(url, { ms: 8000 }); break; }
+    catch (e) { if (i >= 3) { const last = LAST.get(p); return last ? { ...last, stale: true } : { key: p, chain: label, error: true }; } await sleep(1000 * 2 ** i); }
+  }
   const vol = d.data.reduce((s, x) => s + (+x.attributes.volume_usd?.h24 || 0), 0), liq = d.data.reduce((s, x) => s + (+x.attributes.total_reserve_in_usd || 0), 0);
   const top = d.data.flatMap(x => x.relationships?.top_pools?.data || []).map(x => x.id)[0] || null;
-  return { key: p, chain: label, vol24Usd: vol, dexLiquidityUsd: liq, topPool: top, tokens: d.data.map(x => x.attributes.symbol) };
+  const row = { key: p, chain: label, vol24Usd: vol, dexLiquidityUsd: liq, topPool: top, tokens: d.data.map(x => x.attributes.symbol) };
+  LAST.set(p, row); return row;
 }
 async function load() {
   const by = {};
   for (const t of cg.tokens) for (const [p, a] of Object.entries(t.platforms || {})) if (NET[p]) (by[p] ||= []).push(a);
   for (const [p, a] of Object.entries(EXTRA)) (by[p] ||= []).push(...a);
-  const chains = await Promise.all(Object.entries(by).map(([p, a]) => one(p, a)));
+  const jobs = Object.entries(by).sort(([a], [b]) => (ORDER.indexOf(a) + 1 || 99) - (ORDER.indexOf(b) + 1 || 99)), chains = [];
+  for (let i = 0; i < jobs.length; i += 3) chains.push(...await Promise.all(jobs.slice(i, i + 3).map(([p, a]) => one(p, a))));
   if (chains.every(c => c.error)) throw new Error('all_failed');
   chains.sort((a, b) => (b.vol24Usd ?? -1) - (a.vol24Usd ?? -1));
   const totVol = chains.reduce((s, c) => s + (c.vol24Usd || 0), 0);
@@ -32,6 +39,8 @@ export async function OPTIONS(req) { return preflight(req); }
 export async function GET(req) {
   const pf = preflight(req, { browser: { limit: 30 }, anon: { limit: 10 }, prefix: 'chains' }); if (pf) return pf;
   const origin = req.headers.get('origin') || '';
-  try { const { value } = await cachedFetch('chains', 600_000, load); return json(value, { origin, sMaxAge: 300, swr: 3600 }); }
+  try { const prev = lastGood('chains')?.value, rhOk = prev?.chains?.some(c => c.key === 'robinhood' && c.vol24Usd != null);
+    // Retry sooner while Robinhood is missing.
+    const { value } = await cachedFetch('chains', rhOk ? 600_000 : 60_000, load); return json(value, { origin, sMaxAge: 300, swr: 3600 }); }
   catch (e) { const lg = lastGood('chains'); return json(lg ? { ...lg.value, ok: false, delayed: true } : { ok: false, delayed: true, chains: [] }, { origin, sMaxAge: 30 }); }
 }

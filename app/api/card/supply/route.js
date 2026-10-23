@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { preflight } from '../../../../lib/guard';
-import { C, fonts, markSrc, num, cacheHeaders, cardData } from '../../../../lib/og';
+import { C, withHeaders, fonts, markSrc, num, cacheHeaders, cardData } from '../../../../lib/og';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
 // 1200×675 "Share of MSTR" OG — 1 in N on red, X-safe margins.
@@ -19,7 +19,7 @@ export async function GET(req) {
   const shown = Math.min(n, 48);
   const hero = '1 IN ' + n;
   const heroSize = hero.length > 8 ? 140 : hero.length > 6 ? 168 : 196;
-  return new ImageResponse(
+  return withHeaders(new ImageResponse(
     (
       <div
         style={{
@@ -88,8 +88,6 @@ export async function GET(req) {
     {
       width: 1200,
       height: 675,
-      fonts: F.length ? F : undefined,
-      headers: { ...cacheHeaders(demo), 'Content-Type': 'image/png' }
-    }
-  );
+      fonts: F.length ? F : undefined }
+  ), cacheHeaders(demo));
 }

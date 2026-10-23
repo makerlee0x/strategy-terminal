@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { preflight } from '../../../../lib/guard';
-import { C, fonts, markSrc, today, num, cacheHeaders, cardData } from '../../../../lib/og';
+import { C, withHeaders, fonts, markSrc, today, num, cacheHeaders, cardData } from '../../../../lib/og';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
 // 1200×675 homepage / share OG — brand-first, X-safe margins, live MSTR-per-1M.
@@ -24,7 +24,7 @@ export async function GET(req) {
       <div style={{ ...D, fontSize: 40, marginTop: 6, color: C.ink }}>{v}</div>
     </div>
   );
-  return new ImageResponse(
+  return withHeaders(new ImageResponse(
     (
       <div
         style={{
@@ -134,11 +134,6 @@ export async function GET(req) {
     {
       width: 1200,
       height: 675,
-      fonts: F.length ? F : undefined,
-      headers: {
-        ...cacheHeaders(demo),
-        'Content-Type': 'image/png'
-      }
-    }
-  );
+      fonts: F.length ? F : undefined }
+  ), cacheHeaders(demo));
 }
