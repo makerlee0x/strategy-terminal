@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>deviceType</key>
+	<string>com.apple.CoreSimulator.SimDeviceType.iPhone-Duo-Open</string>
+	<key>identifier</key>
+	<string>com.apple.CoreSimulator.SimDeviceType.iPhone-Duo-Open</string>
+	<key>modelIdentifier</key>
+	<string>iPhone18,6</string>
+	<key>productFamily</key>
+	<string>iPhone</string>
+	<key>productType</key>
+	<string>com.apple.product-type.iphone</string>
+	<key>mainScreenWidth</key>
+	<integer>2670</integer>
+	<key>mainScreenHeight</key>
+	<integer>1878</integer>
+	<key>mainScreenScale</key>
+	<real>3</real>
+	<key>mainScreenPitch</key>
+	<real>430</real>
+	<key>mainScreenClass</key>
+	<string>iPhone</string>
+	<key>minRuntimeVersion</key>
+	<integer>220000</integer>
+	<key>maxRuntimeVersion</key>
+	<integer>999999</integer>
+	<key>destinations</key>
+	<array>
+		<string>iPhone</string>
+	</array>
+	<key>capabilities</key>
+	<array>
+		<string>gyroscope</string>
+		<string>accelerometer</string>
+		<string>location-services</string>
+		<string>wifi</string>
+		<string>bluetooth</string>
+		<string>camera-front</string>
+		<string>camera-rear</string>
+		<string>microphone</string>
+		<string>opengl-es-3</string>
+		<string>metal</string>
+		<string>metal-2</string>
+		<string>metal-3</string>
+	</array>
+</dict>
+</plist>
