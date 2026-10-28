@@ -66,10 +66,11 @@ export function useBuyExe(setLog) {
     try {
       if (mock()) { await sleep(600); s.quote = MOCK; } else s.quote = (await getQuote({ acct: s.acct, payTok: s.pay, recvTok: s.recv, w: s.w, slip: s.slip })).quote;
     } catch (e) { upd(id, ['QUOTE FAILED: ' + String(e.message || e).toUpperCase()]); return askAmount(); }
-    const q = s.quote, imp = Number(q.fees?.totalImpactPct ?? q.fees?.swapImpactPct), fee = q.fees?.interfaceFeeBps ?? DEFAULT_FEE_BPS;
+    const q = s.quote, imp = Number(q.fees?.totalImpactPct ?? q.fees?.swapImpactPct);
+    const feeUsd = q.fees?.interfaceFeeUsd != null ? usd(q.fees.interfaceFeeUsd) : q.payAmountUsd != null ? '~' + usd(q.payAmountUsd * (q.fees?.interfaceFeeBps ?? DEFAULT_FEE_BPS) / 1e4) : '—';
     upd(id, ['QUOTE · ' + (q.routeLabels || ['RELAY']).join(' · ').toUpperCase()]);
     say([['YOU PAY       ', s.amt + ' ' + sym(s.pay) + (q.payAmountUsd ? ' (≈' + usd(q.payAmountUsd) + ')' : '')], ['YOU GET       ', (s.recv === STRAT ? Math.floor(Number(q.receiveAmount)).toLocaleString('en-US') : fmtN(q.receiveAmount)) + ' ' + sym(s.recv)], ['MIN AFTER ' + s.slip + '% SLIPPAGE  ', Math.floor(Number(q.receiveAmount) * (1 - s.slip / 100)).toLocaleString('en-US')],
-      ['PRICE IMPACT  ', Number.isFinite(imp) ? imp + '%' + (imp >= 3 ? ' ⚠ HIGH' : '') : '—'], ['SOLVER FEE    ', fee / 100 + '%']], { box: true });
+      ['PRICE IMPACT  ', Number.isFinite(imp) ? imp + '%' + (imp >= 3 ? ' ⚠ HIGH' : '') : '—'], ['SOLVER FEE    ', feeUsd]], { box: true });
     if (imp >= 3) say(['HIGH PRICE IMPACT: YOU MAY GET MUCH LESS THAN MARKET VALUE. TRY A SMALLER AMOUNT.']);
     say(['TYPE SLIP 5 TO CHANGE SLIPPAGE.']);
     ask('confirm', 'EXECUTE? [Y/N]>');

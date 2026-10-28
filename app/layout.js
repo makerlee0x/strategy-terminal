@@ -2,11 +2,35 @@ import './globals.css';
 
 const title = 'STRATEGY COIN · Amplified MSTR';
 const description =
-  '$STRATEGY is paired with tokenized MSTR. Hold. Hold. Amplify.';
+  '$STRATEGY is paired with tokenized MSTR on Robinhood Chain. Track pool backing, holders, and live rates — amplified MSTR.';
 const ogAlt = 'STRATEGY COIN — MSTR in the pool for every 1M $STRATEGY';
+const SITE = 'https://www.strategycoin.io';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': SITE + '/#org',
+      name: 'STRATEGY COIN',
+      url: SITE + '/',
+      logo: SITE + '/strategy-icon.png',
+      sameAs: ['https://x.com/strategystock']
+    },
+    {
+      '@type': 'WebSite',
+      '@id': SITE + '/#website',
+      name: 'STRATEGY COIN',
+      url: SITE + '/',
+      description,
+      publisher: { '@id': SITE + '/#org' },
+      inLanguage: 'en-US'
+    }
+  ]
+};
 
 export const metadata = {
-  metadataBase: new URL('https://www.strategycoin.io'),
+  metadataBase: new URL(SITE),
   title: { default: title, template: '%s · STRATEGY COIN' },
   description,
   applicationName: 'STRATEGY COIN',
@@ -28,7 +52,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.strategycoin.io/',
+    url: SITE + '/',
     siteName: 'STRATEGY COIN',
     title,
     description,
@@ -60,6 +84,10 @@ export default function L({ children }) {
         <link
           href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik+Mono+One&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=VT323&display=swap"
           rel="stylesheet"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body>
