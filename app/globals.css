@@ -1,8 +1,9 @@
 /* Oxblood (A3) is the site look; the homepage hero is the red poster (B1, see .hero-red).
    --ink is the text/border color on the dark ground; --red fills take white text; --red-t is red for text on dark. */
 :root{--red:#d9232e;--red-t:#ff5a63;--bg:#1c0809;--panel:#3a1416;--cream:#1c0809;--paper:#3a1416;--ink:#f3e6dc;--mu:#c7aaa3;--rule:#f3e6dc24;--dk:#120405;--on-red:#ffffff}
-*{box-sizing:border-box}html{background:var(--bg)}
-body{margin:0;overflow-x:clip;color:var(--ink);font-family:'Space Mono',monospace;font-size:13px;background-color:var(--bg);background-image:radial-gradient(var(--panel) 1px,transparent 1px);background-size:18px 18px}
+*{box-sizing:border-box}html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;overflow-x:clip;color:var(--ink);font-family:'Space Mono',monospace;font-size:13px;background-color:var(--bg);background-image:radial-gradient(var(--panel) 1px,transparent 1px);background-size:18px 18px;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+input,select,textarea,button{font-size:16px} /* stop iOS zoom-on-focus for controls that inherit 13px */
 a{color:inherit}.d{font-family:'Bungee',sans-serif;font-weight:400;letter-spacing:0;text-transform:uppercase}
 nav{display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px;padding:18px 40px;max-width:1260px;margin:0 auto}
 nav .logo{margin-right:auto;display:flex;align-items:center;gap:10px;font-family:'Bungee',sans-serif;font-size:22px;text-decoration:none;text-transform:lowercase}
@@ -43,8 +44,8 @@ footer{border-top:2px solid var(--panel);padding:20px 40px 40px;display:flex;fle
 /* The tracker card is a post-sized image: it keeps its own colors. */
 .card{width:1200px;height:675px;background:var(--bg);color:var(--ink);position:relative;padding:44px 52px;overflow:hidden;box-shadow:8px 8px 0 var(--red)}
 button.btn{border:0;cursor:pointer;font-family:inherit}.cabtn{border:1px solid var(--ink);padding:10px 12px;background:transparent;color:var(--ink);cursor:pointer;font-family:inherit}.cabtn:hover{background:var(--red);color:var(--on-red);border-color:var(--red)}
-.mback{position:fixed;inset:0;background:#0a0203cc;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px}
-.mcard{background:var(--panel);color:var(--ink);box-shadow:8px 8px 0 var(--red);width:min(620px,100%);max-height:90vh;overflow:auto;outline:none}
+.mback{position:fixed;inset:0;background:#0a0203cc;z-index:100;display:flex;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));overscroll-behavior:contain}
+.mcard{background:var(--panel);color:var(--ink);box-shadow:8px 8px 0 var(--red);width:min(620px,100%);max-height:min(90vh,90dvh);overflow:auto;outline:none;-webkit-overflow-scrolling:touch}
 .mhead{display:flex;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--rule);background:var(--bg)}.mhead img{border-radius:6px}
 .mx{background:none;color:var(--ink);border:1px solid var(--ink);width:44px;height:44px;font-size:22px;cursor:pointer}.mx:hover,.mx:focus-visible{background:var(--red);color:var(--on-red)}
 .mbody{padding:16px}.mrow{display:flex;justify-content:space-between;border-bottom:1px solid var(--rule);padding:8px 0}
@@ -63,8 +64,9 @@ button.btn{border:0;cursor:pointer;font-family:inherit}.cabtn{border:1px solid v
 .linkbtn{background:none;border:0;border-bottom:1px solid var(--red-t);color:var(--red-t);font:inherit;font-size:11px;cursor:pointer;padding:2px 0}.linkbtn.on{font-weight:700}
 .slip{display:flex;gap:4px;align-items:center}.slip button,.chips button{border:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;font-size:11px;padding:4px 8px;cursor:pointer}.slip button.on{background:var(--red);color:var(--on-red);border-color:var(--red)}.slip input{width:64px;border:1px solid var(--ink);background:var(--bg);color:var(--ink);font:inherit;font-size:11px;padding:4px 6px}
 .chips{display:flex;gap:4px}.sw-card{border:1px solid var(--rule);background:var(--bg);padding:10px 12px;display:flex;flex-direction:column;gap:6px}
-.sw-amt{font-family:'Bungee',sans-serif;font-size:32px;color:var(--red-t);border:0;background:transparent;width:60%;outline:none}.sw-amt:focus{border-bottom:1px dashed var(--red-t)}
-.sw select,.tok{border:1px solid var(--ink);background:var(--ink);color:var(--bg);font:inherit;font-size:12px;padding:6px 10px;letter-spacing:.06em;max-width:168px}.sw-arrow{text-align:center;color:var(--red-t);font-size:18px;margin:-4px 0}
+.sw-amt{font-family:'Bungee',sans-serif;font-size:32px;color:var(--red-t);border:0;background:transparent;width:min(60%,100%);min-width:0;outline:none}.sw-amt:focus{border-bottom:1px dashed var(--red-t)}
+.sw select,.tok{border:1px solid var(--ink);background:var(--ink);color:var(--bg);font:inherit;font-size:16px;padding:8px 10px;letter-spacing:.06em;max-width:min(168px,46vw)}.sw-arrow{text-align:center;color:var(--red-t);font-size:18px;margin:-4px 0}
+.seg button,.slip button,.chips button,.sw-wallet,.sw-go,.buy-gas{min-height:44px;touch-action:manipulation}
 .sw-meta{font-size:12px}.sw-meta td{padding:6px 4px}.sw-meta td:last-child{text-align:right;font-weight:700}
 .sw-go{background:var(--red);color:var(--on-red);border:0;padding:14px;font:inherit;font-weight:700;text-transform:uppercase;letter-spacing:.14em;cursor:pointer}.sw-go:disabled{opacity:.55;cursor:not-allowed}
 .sw-status{font-size:11px;min-height:16px}.sw-status.error{color:var(--red-t)}.sw-status.info{color:var(--mu)}
@@ -119,9 +121,27 @@ button.btn{border:0;cursor:pointer;font-family:inherit}.cabtn{border:1px solid v
   .addrchip{max-width:100%;font-size:11px}
   footer{padding:20px 16px 96px;gap:14px}
 }
-/* Phones: a Buy bar pinned to the bottom of every page. */
+/* Phones: a Buy bar pinned to the bottom of every page (clears home indicator / fold hinge). */
 .buybar{display:none}
-@media(max-width:760px){.buybar{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:60;background:var(--red);color:var(--on-red);text-align:center;text-decoration:none;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em;padding:15px;box-shadow:4px 4px 0 var(--ink)}body{padding-bottom:76px}}
+@media(max-width:760px){
+  .buybar{display:block;position:fixed;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:60;background:var(--red);color:var(--on-red);text-align:center;text-decoration:none;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em;padding:15px;min-height:48px;box-shadow:4px 4px 0 var(--ink);touch-action:manipulation}
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  nav{padding-top:max(14px,env(safe-area-inset-top,0px))}
+  .sw-top{flex-direction:column;align-items:stretch}.sw-wallet{width:100%}
+  .seg{width:100%}.seg button{flex:1;padding:12px 8px}
+  .slip{flex-wrap:wrap;width:100%;justify-content:flex-end}
+  .sw-picker{grid-template-columns:1fr}
+}
+/* Dual-segment / foldable viewports (spanning displays). */
+@media (horizontal-viewport-segments: 2){
+  main{max-width:none;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+  .hero-red .in{max-width:none;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+  .mcard{width:min(620px,calc(100vw - 48px))}
+}
+@media (vertical-viewport-segments: 2){
+  .mback{align-items:flex-start;padding-top:max(16px,env(safe-area-inset-top,0px))}
+  .mcard{max-height:min(48dvh,90vh)}
+}
 /* Bento: ivory tiles on oxblood (the $STRATEGY and MSTR On-Chain pages). Red only as an accent. */
 .bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px}
 .s3{grid-column:span 3}.s4{grid-column:span 4}.s5{grid-column:span 5}.s6{grid-column:span 6}.s7{grid-column:span 7}.s8{grid-column:span 8}.s12{grid-column:span 12}.r2{grid-row:span 2}

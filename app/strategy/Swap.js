@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
-import {ZERO,ETH,MSTR,STRAT,ETH_L1,BUY_PAY_TOKENS,SELL_RECV_TOKENS,CHAIN_NAME,tokenKey,tokLabel,isStable,toUnits,fmtN,usd,call,balanceOf,fromUnits,connectInjected as cInj,connectWC as cWC,swapBody,feeLine,runSwap} from '../../lib/swap';
-const MOCK={receiveAmount:'53491.27',payAmount:'0.05',payAmountUsd:'124.61',receiveAmountUsd:'99.62',routeLabels:['Relay','Uniswap v4'],fees:{totalImpactPct:'4.20',interfaceFeeUsd:0.87}};
+import {ZERO,ETH,MSTR,STRAT,ETH_L1,BUY_PAY_TOKENS,SELL_RECV_TOKENS,CHAIN_NAME,tokenKey,tokLabel,isStable,toUnits,fmtN,usd,call,balanceOf,fromUnits,connectInjected as cInj,connectWC as cWC,swapBody,runSwap} from '../../lib/swap';
+const MOCK={receiveAmount:'53491.27',payAmount:'0.05',payAmountUsd:'124.61',receiveAmountUsd:'99.62',routeLabels:['Relay','Uniswap v4'],fees:{totalImpactPct:'4.20'}};
 const PRESETS={buyEth:['0.01','0.05','0.1','0.5'],buyUsd:['25','100','250','500'],sell:['1000','10000','100000','MAX'],bridge:['0.005','0.01','0.02','0.05']};
 const byKey=Object.fromEntries(BUY_PAY_TOKENS.map(t=>[tokenKey(t),t]));
 const sellByKey=Object.fromEntries(SELL_RECV_TOKENS.map(t=>[tokenKey(t),t]));
