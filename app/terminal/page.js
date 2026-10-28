@@ -8,6 +8,6 @@ export const metadata = {
   title: 'Terminal',
   description: 'C:\\$STRATEGY> interactive CRT. HOLD. HOLD. AMPLIFY.',
   alternates: { canonical: '/terminal' },
-  robots: { index: true, follow: true }
+  robots: { index: false, follow: true }
 };
 export default async function Page() { return <View init={await initial(TERMINAL)} />; }
