@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
-import {DEFAULT_FEE_BPS,ZERO,ETH,MSTR,STRAT,ETH_L1,BUY_PAY_TOKENS,SELL_RECV_TOKENS,CHAIN_NAME,tokenKey,tokLabel,isStable,toUnits,fmtN,usd,call,balanceOf,fromUnits,connectInjected as cInj,connectWC as cWC,swapBody,feeLine,runSwap} from '../../lib/swap';
-const MOCK={receiveAmount:'53491.27',payAmount:'0.05',payAmountUsd:'124.61',receiveAmountUsd:'99.62',routeLabels:['Relay','Uniswap v4'],fees:{totalImpactPct:'4.20',interfaceFeeBps:DEFAULT_FEE_BPS}};
+import {ZERO,ETH,MSTR,STRAT,ETH_L1,BUY_PAY_TOKENS,SELL_RECV_TOKENS,CHAIN_NAME,tokenKey,tokLabel,isStable,toUnits,fmtN,usd,call,balanceOf,fromUnits,connectInjected as cInj,connectWC as cWC,swapBody,runSwap} from '../../lib/swap';
+const MOCK={receiveAmount:'53491.27',payAmount:'0.05',payAmountUsd:'124.61',receiveAmountUsd:'99.62',routeLabels:['Relay','Uniswap v4'],fees:{totalImpactPct:'4.20'}};
 const PRESETS={buyEth:['0.01','0.05','0.1','0.5'],buyUsd:['25','100','250','500'],sell:['1000','10000','100000','MAX'],bridge:['0.005','0.01','0.02','0.05']};
 const byKey=Object.fromEntries(BUY_PAY_TOKENS.map(t=>[tokenKey(t),t]));
 const sellByKey=Object.fromEntries(SELL_RECV_TOKENS.map(t=>[tokenKey(t),t]));
@@ -61,8 +61,7 @@ export default function Swap({mock, initialMode='buy'}){
    <tr><td>Best rate</td><td>1 {payTok.symbol} = {fmtN(rate)} {recvTok.symbol}</td></tr>
    <tr><td>Min. received ({slip}%)</td><td>{fmtN(min)} {recvTok.symbol}</td></tr>
    <tr><td>Price impact</td><td>{quote.fees?.totalImpactPct??quote.fees?.swapImpactPct??'—'}%</td></tr>
-   <tr><td>Route</td><td>{(quote.routeLabels||['Relay']).join(' · ')}</td></tr>
-   <tr><td>Solver fee</td><td>{feeLine(quote)}</td></tr></tbody></table>}
+   <tr><td>Route</td><td>{(quote.routeLabels||['Relay']).join(' · ')}</td></tr></tbody></table>}
   {impact!=null&&impact>=3&&<div className="sw-warn" role="alert">{impact>=10?'⚠ Very high':'⚠ High'} price impact ({impact}%). You may receive much less than market value. Try a smaller amount.</div>}
   <button className="sw-go" disabled={mock||busy||!(acct&&quote&&amt)} onClick={execute}>{label}</button>
   <div className={'sw-status '+status[1]} role="status" aria-live="polite">{mock&&<span className="tag sample" style={{marginRight:8}}>SAMPLE</span>}{status[0]}</div>

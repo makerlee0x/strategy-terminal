@@ -2,7 +2,7 @@
 // BUY.EXE / SELL.EXE: buying and selling $STRATEGY inside the terminal, one prompt at a time.
 // Same engine as the swap window (lib/swap.js). Add ?mock=1 to the page for a demo run with no wallet.
 import { useRef, useState } from 'react';
-import { ETH, MSTR, STRAT, ZERO, toUnits, fromUnits, fmtN, usd, balanceOf, connectInjected, connectWC, getQuote, runSwap, DEFAULT_FEE_BPS } from '../../lib/swap';
+import { ETH, MSTR, STRAT, ZERO, toUnits, fromUnits, fmtN, usd, balanceOf, connectInjected, connectWC, getQuote, runSwap } from '../../lib/swap';
 const FOMO = 'https://fomo.family/coin?address=0x168661c52e5922288dfb2b3f323b6cf90eb21e18&chainId=4663&r=0xmakerlee&source=share_link';
 const LONG = 'https://app.long.xyz/tokens/0x168661c52e5922288dfb2b3f323b6cf90eb21e18';
 const TX = h => 'https://robinhoodchain.blockscout.com/tx/' + h;
@@ -67,10 +67,9 @@ export function useBuyExe(setLog) {
       if (mock()) { await sleep(600); s.quote = MOCK; } else s.quote = (await getQuote({ acct: s.acct, payTok: s.pay, recvTok: s.recv, w: s.w, slip: s.slip })).quote;
     } catch (e) { upd(id, ['QUOTE FAILED: ' + String(e.message || e).toUpperCase()]); return askAmount(); }
     const q = s.quote, imp = Number(q.fees?.totalImpactPct ?? q.fees?.swapImpactPct);
-    const feeUsd = q.fees?.interfaceFeeUsd != null ? usd(q.fees.interfaceFeeUsd) : q.payAmountUsd != null ? '~' + usd(q.payAmountUsd * (q.fees?.interfaceFeeBps ?? DEFAULT_FEE_BPS) / 1e4) : '—';
     upd(id, ['QUOTE · ' + (q.routeLabels || ['RELAY']).join(' · ').toUpperCase()]);
     say([['YOU PAY       ', s.amt + ' ' + sym(s.pay) + (q.payAmountUsd ? ' (≈' + usd(q.payAmountUsd) + ')' : '')], ['YOU GET       ', (s.recv === STRAT ? Math.floor(Number(q.receiveAmount)).toLocaleString('en-US') : fmtN(q.receiveAmount)) + ' ' + sym(s.recv)], ['MIN AFTER ' + s.slip + '% SLIPPAGE  ', Math.floor(Number(q.receiveAmount) * (1 - s.slip / 100)).toLocaleString('en-US')],
-      ['PRICE IMPACT  ', Number.isFinite(imp) ? imp + '%' + (imp >= 3 ? ' ⚠ HIGH' : '') : '—'], ['SOLVER FEE    ', feeUsd]], { box: true });
+      ['PRICE IMPACT  ', Number.isFinite(imp) ? imp + '%' + (imp >= 3 ? ' ⚠ HIGH' : '') : '—']], { box: true });
     if (imp >= 3) say(['HIGH PRICE IMPACT: YOU MAY GET MUCH LESS THAN MARKET VALUE. TRY A SMALLER AMOUNT.']);
     say(['TYPE SLIP 5 TO CHANGE SLIPPAGE.']);
     ask('confirm', 'EXECUTE? [Y/N]>');
