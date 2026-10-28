@@ -2,7 +2,7 @@
 // BUY.EXE / SELL.EXE: buying and selling $STRATEGY inside the terminal, one prompt at a time.
 // Same engine as the swap window (lib/swap.js). Add ?mock=1 to the page for a demo run with no wallet.
 import { useRef, useState } from 'react';
-import { ETH, MSTR, STRAT, ZERO, toUnits, fromUnits, fmtN, usd, balanceOf, connectInjected, connectWC, getQuote, runSwap } from '../../lib/swap';
+import { ETH, MSTR, STRAT, ZERO, toUnits, fromUnits, fmtN, usd, balanceOf, connectInjected, connectWC, getQuote, runSwap, feeLine } from '../../lib/swap';
 const FOMO = 'https://fomo.family/coin?address=0x168661c52e5922288dfb2b3f323b6cf90eb21e18&chainId=4663&r=0xmakerlee&source=share_link';
 const LONG = 'https://app.long.xyz/tokens/0x168661c52e5922288dfb2b3f323b6cf90eb21e18';
 const TX = h => 'https://robinhoodchain.blockscout.com/tx/' + h;
