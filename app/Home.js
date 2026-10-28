@@ -14,12 +14,14 @@ export default function Home({ init }) {
   return (<>
     <section className="hero-red"><div className="in">
       <div className="hero-mark"><Mark fill="#ffffff" />{per1M != null && <div className="sticker" aria-label="MSTR per 1M $STRATEGY"><b>{p1}</b><span>MSTR PER 1M COINS</span></div>}</div>
-      <p className="steps">step 1: hold MSTR<br />step 2: keep holding MSTR<br />step 3: hold the thing that holds MSTR</p>
-      <h1>HOLD.<br />HOLD.<br /><span>AMPLIFY.</span></h1>
-      <p className="lede">$STRATEGY is paired with tokenized MSTR. Every trade stacks MSTR for the Treasury.<br />That’s the strategy.</p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center' }}><a className="pillbtn" href="#buy" style={{ background: '#ffffff', color: '#b51d27' }}>BUY $STRATEGY</a><span className="pillbtn" style={{ background: 'var(--bg)', color: '#ffffff', cursor: 'default' }}>STAKE · SOON</span></div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 26 }}><CopyAddr label="$STRATEGY" addr={ADDR.STRATEGY} /><CopyAddr label="MSTR · ROBINHOOD" addr={ADDR.MSTR} /></div>
-      <p style={{ fontFamily: "'Space Mono', monospace", fontSize: 12, margin: '10px 0 0', color: '#ffe3e5' }}>Both live on Robinhood Chain. Add them to your wallet so you can see the pair.</p>
+      <div className="hero-copy">
+        <p className="steps">step 1: hold MSTR<br />step 2: keep holding MSTR<br />step 3: hold the thing that holds MSTR</p>
+        <h1>HOLD.<br />HOLD.<br /><span>AMPLIFY.</span></h1>
+        <p className="lede">$STRATEGY is paired with tokenized MSTR. Every trade stacks MSTR for the Treasury.<br />That’s the strategy.</p>
+        <div className="hero-ctas"><a className="pillbtn" href="#buy" style={{ background: '#ffffff', color: '#b51d27' }}>BUY $STRATEGY</a><span className="pillbtn" style={{ background: 'var(--bg)', color: '#ffffff', cursor: 'default' }}>STAKE · SOON</span></div>
+        <div className="hero-addrs"><CopyAddr label="$STRATEGY" addr={ADDR.STRATEGY} /><CopyAddr label="MSTR · ROBINHOOD" addr={ADDR.MSTR} /></div>
+        <p className="hero-note">Both live on Robinhood Chain. Add them to your wallet so you can see the pair.</p>
+      </div>
     </div></section>
     <div className="ticker" aria-label="$STRATEGY at a glance"><div><span>{tick}</span><span aria-hidden="true">{tick}</span></div></div>
     <Actions bare pools={(PO?.pools || []).slice(0, 10).map(p => ({ id: p.id, name: p.pair, dex: p.dex, liq: fmt(p.liquidityUsd), vol: fmt(p.volume24hUsd) }))} asOf={PO?.fetchedAt?.slice(0, 10) || ''} />
