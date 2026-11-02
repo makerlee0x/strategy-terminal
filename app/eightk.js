@@ -15,7 +15,7 @@ export function EightKBanner({ k }) {
       <span className="tag" style={{ marginLeft: 0 }}>SEC EDGAR</span></div>
     <h2 className="d" style={{ fontSize: 52, lineHeight: 1.02, margin: '18px 0 26px', border: 0, padding: 0, display: 'block', letterSpacing: 0 }}>{headline(k)}</h2>
     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch', gap: 14 }}>
-      <Step k="STRATEGY₿ INC. HOLDS" v={num(k.btcHeld) + ' BTC'} d={signed(k.change) + (k.prevAsOf ? ' vs ' + k.prevAsOf.replace(/, \d{4}$/, '') : '')} /><Arrow />
+      <Step k="STRATEGY₿ INC. HOLDS" v={num(k.btcHeld) + ' BTC'} d={signed(k.change) + (k.changeLabel ? ' · ' + k.changeLabel : '')} /><Arrow />
       <Step k="MSTR" v="AMPLIFIED BTC" d="1 token tracks 1 share" /><Arrow />
       <Step k="EVERY 1M $STRATEGY HOLDS" v={(k.per1M != null ? k.per1M.toFixed(2) : '—') + ' MSTR'} d="amplified MSTR" light /></div>
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center', marginTop: 24 }}>
