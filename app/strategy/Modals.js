@@ -12,9 +12,22 @@ export function CopyCA(){const [c,setC]=useState(false);return <button className
 function Modal({title,kicker,onClose,children}){const ref=useRef();useEffect(()=>{const k=e=>e.key==='Escape'&&onClose();document.addEventListener('keydown',k);const prev=document.activeElement;ref.current?.focus();document.body.style.overflow='hidden';return()=>{document.removeEventListener('keydown',k);document.body.style.overflow='';prev?.focus?.()}},[onClose]);
 return <div className="mback" onClick={onClose}><div className="mcard" role="dialog" aria-modal="true" aria-labelledby="mtitle" tabIndex={-1} ref={ref} onClick={e=>e.stopPropagation()}>
 <div className="mstampx" aria-hidden="true">ROBINHOOD CHAIN</div><div className="mhead"><img src="/strategy-icon.png" alt="" width="34" height="34"/><div style={{flex:1}}><div className="k">{kicker}</div><div id="mtitle" className="d" style={{fontSize:24}}>{title}</div></div><button className="mx" onClick={onClose} aria-label="Close">×</button></div><div className="mbody">{children}</div></div></div>}
-function Buy({toSwap,toGas}){return <><p className="sub" style={{marginTop:0}}>Pick a path. Best rates route through Relay + Uniswap on Robinhood Chain.</p>
-{[['01','Swap here','Best available rate · ETH, USDG, USDC + more → $STRATEGY',null,toSwap,'Live quote'],['02','Buy on FOMO','fomo.family',FOMO],['03','Buy on LONG','app.long.xyz',LONG]].map(([n,a,b,href,fn,hint])=>{const inner=<><span className="stamp" style={{fontSize:30,margin:0}}>{n}</span><span style={{flex:1}}><b className="d" style={{fontSize:18}}>{a}</b><br/><span className="k">{b}</span></span>{hint&&<span className="k mhint">{hint}</span>}<span aria-hidden="true">→</span></>;return href?<a key={n} className="mopt" href={href} target="_blank" rel="noopener">{inner}</a>:<button key={n} className={'mopt'+(n==='01'?' hot':'')} onClick={fn}>{inner}</button>})}
-<div className="mopt off" aria-disabled="true"><span className="stamp" style={{fontSize:30,margin:0}}>04</span><span style={{flex:1}}><b className="d" style={{fontSize:18}}>Leverage</b><br/><span className="k">Coming soon</span></span></div>
+function Buy({toSwap,toGas}){return <>
+<p className="sub" style={{marginTop:0}}>Best rates route through Relay + Uniswap on Robinhood Chain.</p>
+<button type="button" className="mopt hot" onClick={toSwap}>
+  <span style={{flex:1}}><b className="d" style={{fontSize:18}}>Swap here</b><br/><span className="k">Best available rate · ETH, USDG, USDC + more → $STRATEGY</span></span>
+  <span className="k mhint">Live quote</span><span aria-hidden="true">→</span>
+</button>
+<div className="buy-venues">
+  <div className="buy-venues-label k">Also on</div>
+  {[['Buy on FOMO','fomo.family',FOMO],['Buy on LONG','app.long.xyz',LONG]].map(([a,b,href])=>(
+    <a key={a} className="mopt" href={href} target="_blank" rel="noopener noreferrer">
+      <span style={{flex:1}}><b className="d" style={{fontSize:18}}>{a}</b><br/><span className="k">{b}</span></span>
+      <span aria-hidden="true">↗</span>
+    </a>
+  ))}
+</div>
+<p className="buy-soon k">Leverage · coming soon</p>
 <div className="buy-foot">
   <span className="k" style={{textTransform:'none',letterSpacing:0,lineHeight:1.4}}>Need a little ETH for Robinhood gas?</span>
   <button type="button" className="buy-gas" onClick={toGas}>Get gas</button>
