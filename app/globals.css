@@ -1,9 +1,11 @@
 /* Oxblood (A3) is the site look; the homepage hero is the red poster (B1, see .hero-red).
    --ink is the text/border color on the dark ground; --red fills take white text; --red-t is red for text on dark. */
 :root{--red:#d9232e;--red-t:#ff5a63;--bg:#1c0809;--panel:#3a1416;--cream:#1c0809;--paper:#3a1416;--ink:#f3e6dc;--mu:#c7aaa3;--rule:#f3e6dc24;--dk:#120405;--on-red:#ffffff}
-*{box-sizing:border-box}html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{margin:0;overflow-x:clip;color:var(--ink);font-family:'Space Mono',monospace;font-size:13px;background-color:var(--bg);background-image:radial-gradient(var(--panel) 1px,transparent 1px);background-size:18px 18px;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+*{box-sizing:border-box}
+html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%;height:100%;overflow-x:clip}
+body{margin:0;overflow-x:clip;color:var(--ink);font-family:'Space Mono',monospace;font-size:13px;background-color:var(--bg);background-image:radial-gradient(var(--panel) 1px,transparent 1px);background-size:18px 18px;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);min-height:100%;min-height:100dvh;min-height:-webkit-fill-available}
 input,select,textarea,button{font-size:16px} /* stop iOS zoom-on-focus for controls that inherit 13px */
+a,button,.pillbtn,.buybar,.mopt{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 a{color:inherit}.d{font-family:'Bungee',sans-serif;font-weight:400;letter-spacing:0;text-transform:uppercase}
 nav{display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px;padding:18px 40px;max-width:1260px;margin:0 auto}
 nav .logo{margin-right:auto;display:flex;align-items:center;gap:10px;font-family:'Bungee',sans-serif;font-size:22px;text-decoration:none;text-transform:lowercase}
@@ -108,36 +110,58 @@ button.btn{border:0;cursor:pointer;font-family:inherit}.cabtn{border:1px solid v
 .tilt{background:var(--ink);color:var(--bg);width:100%;max-width:360px;padding:24px;transform:rotate(2.5deg);box-shadow:10px 10px 0 var(--red)}
 @media(max-width:760px){
   .g2,.g3,.g4,.cells,.redblock,.hero-chain{grid-template-columns:1fr!important}h1{font-size:44px!important}
-  main{padding:20px 16px}nav{padding:14px 16px;gap:8px 14px}
+  main{padding:20px max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px))}
+  nav{padding:max(14px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px));gap:8px 12px}
   .logo img{height:28px;width:auto;max-width:min(180px,52vw)}
-  nav .l,.navband .buy{font-size:12px;padding:8px 10px}
+  nav .l,.navband .buy{font-size:12px;padding:8px 10px;min-height:44px;display:inline-flex;align-items:center}
+  nav a.buy{margin-left:auto}
   .panel table{display:block;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}.addr{white-space:nowrap}
   .big{font-size:40px}.stamp{font-size:30px}.g4>div{border-right:0;border-bottom:1px solid var(--rule)}.hero-chain>div+div{border-left:0;border-top:1px solid var(--rule)}
   .tokgrid{grid-template-columns:1fr}.hb{grid-template-columns:96px 1fr 70px}.goal{grid-template-columns:44px 1fr}
   .newsrow{flex-wrap:wrap}.newsrow>span{min-width:0;overflow-wrap:anywhere}.newsrow>span.k{white-space:normal!important;flex-basis:100%;padding-left:36px}
   .cardwrap{overflow-x:auto}
-  .hero-red{margin-top:-20px;padding-top:28px;padding-bottom:48px}.hero-red h1{font-size:clamp(40px,14vw,54px)!important;line-height:.95}.hero-red .lede{font-size:16px}.sticker{position:static;width:170px;height:170px;margin:0 0 24px auto}.sticker b{font-size:38px}
+  .hero-red{margin-top:-20px;padding:28px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px))}
+  .hero-red h1{font-size:clamp(40px,14vw,54px)!important;line-height:.95}.hero-red .lede{font-size:16px}.sticker{position:static;width:170px;height:170px;margin:0 0 24px auto}.sticker b{font-size:38px}
   .sec-h{font-size:30px}
-  .addrchip{max-width:100%;font-size:11px}
-  footer{padding:20px 16px 96px;gap:14px}
+  .addrchip{max-width:100%;font-size:11px;flex-wrap:wrap}
+  .hero-ctas .pillbtn{width:100%;text-align:center;justify-content:center}
+  .sw-amt{font-size:clamp(22px,8vw,32px);width:min(58%,100%)}
+  .chips{flex-wrap:wrap}
+  .sw-meta{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .sw-meta td{white-space:nowrap}
+  footer{padding:20px max(16px,env(safe-area-inset-right,0px)) calc(96px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));gap:14px}
 }
-/* Phones: a Buy bar pinned to the bottom of every page (clears home indicator / fold hinge). */
+/* Phones + wallet in-app browsers: sticky Buy clears home indicator AND wallet chrome. */
 .buybar{display:none}
 @media(max-width:760px){
-  .buybar{display:block;position:fixed;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:60;background:var(--red);color:var(--on-red);text-align:center;text-decoration:none;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em;padding:15px;min-height:48px;box-shadow:4px 4px 0 var(--ink);touch-action:manipulation}
-  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  .buybar{display:block;position:fixed;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:max(16px,calc(env(safe-area-inset-bottom,0px) + 8px));z-index:60;background:var(--red);color:var(--on-red);text-align:center;text-decoration:none;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em;padding:15px;min-height:48px;box-shadow:4px 4px 0 var(--ink);touch-action:manipulation}
+  body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
   nav{padding-top:max(14px,env(safe-area-inset-top,0px))}
   .sw-top{flex-direction:column;align-items:stretch}.sw-wallet{width:100%}
   .seg{width:100%}.seg button{flex:1;padding:12px 8px}
   .slip{flex-wrap:wrap;width:100%;justify-content:flex-end}
+  .slip input{font-size:16px;min-height:44px}
   .sw-picker{grid-template-columns:1fr}
+  .mback{align-items:flex-start;padding-top:max(12px,env(safe-area-inset-top,0px));padding-bottom:max(12px,env(safe-area-inset-bottom,0px))}
+  .mcard{width:100%;max-width:100%;margin:0;max-height:min(92dvh,calc(100svh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px));overflow:hidden}
   .mcard .mhead{flex:0 0 auto}
-  .mcard .mbody{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1 1 auto;min-height:0}
+  .mcard .mbody{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1 1 auto;min-height:0;overscroll-behavior:contain}
+  /* Hide sticky Buy while hero is visible (HeroBuybar.js) — wallet browsers included. */
+  body.hero-inview .buybar{display:none!important}
+  body.hero-inview{padding-bottom:env(safe-area-inset-bottom,0px)}
 }
-/* Duo Cover (~466×678): sticky Buy covers HOLD/AMPLIFY — hide on home, keep nav Buy. */
+/* Duo Cover fallback if JS hasn't toggled hero-inview yet. */
 @media(max-width:520px) and (max-height:740px){
   body:has(.hero-red) .buybar{display:none!important}
   body:has(.hero-red){padding-bottom:env(safe-area-inset-bottom,0px)}
+}
+/* Phablet / small tablet: keep grids readable before full desktop. */
+@media(min-width:761px) and (max-width:1024px){
+  .g3,.g4,.cells{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .g4>div:nth-child(2n){border-right:0}
+  main{padding:28px 24px}
+  nav{padding:16px 24px}
+  .hero-red h1{font-size:clamp(64px,9vw,96px)}
 }
 .hero-copy{position:relative;z-index:2;min-width:0}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center}

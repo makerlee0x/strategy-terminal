@@ -1,6 +1,7 @@
 'use client';
 // Landing page: the hybrid mockup (B1 red poster hero, A3 oxblood body). Detailed coin data lives on /strategy.
 import { fmt, num } from './data'; import ShareButton from './sharebtn'; import { useLive } from '../lib/useLive'; import { HOME } from './feeds'; import Actions, { CopyAddr, ADDR } from './strategy/Modals'; import ShareOfSupply from './supply'; import { EightKBanner } from './eightk'; import { eightK, isFresh } from '../lib/eightk.mjs'; import { useEffect, useState } from 'react'; import { Mark } from './mark';
+import HeroBuybar from './HeroBuybar';
 export default function Home({ init }) {
   const [SM, PB, F8, T, PO, RH] = useLive(HOME, undefined, init);
   const [force8k, setForce8k] = useState(false); useEffect(() => setForce8k(new URLSearchParams(location.search).get('8k') === '1'), []);
@@ -12,6 +13,7 @@ export default function Home({ init }) {
   const post = `Every 1M $STRATEGY sits on ${p1} MSTR in the pool. Amplified MSTR.`;
   const tile = (h, t, s, hot) => <a href={h} style={{ textDecoration: 'none', padding: 22, background: hot ? 'var(--red)' : 'var(--panel)', color: hot ? 'var(--on-red)' : 'var(--ink)', boxShadow: hot ? '5px 5px 0 var(--ink)' : '5px 5px 0 var(--red)' }}><div className="d" style={{ fontSize: 22 }}>{t}</div><div style={{ fontSize: 12, marginTop: 6 }}>{s}</div></a>;
   return (<>
+    <HeroBuybar />
     <section className="hero-red"><div className="in">
       <div className="hero-mark"><Mark fill="#ffffff" />{per1M != null && <div className="sticker" aria-label="MSTR per 1M $STRATEGY"><b>{p1}</b><span>MSTR PER 1M COINS</span></div>}</div>
       <div className="hero-copy">
