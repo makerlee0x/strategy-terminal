@@ -163,6 +163,37 @@ button.btn{border:0;cursor:pointer;font-family:inherit}.cabtn{border:1px solid v
   nav{padding:16px 24px}
   .hero-red h1{font-size:clamp(64px,9vw,96px)}
 }
+/* Android / Material: larger hit targets on coarse pointers (S26 Ultra, Pixel, etc.). */
+@media (hover:none) and (pointer:coarse){
+  nav a.l,nav a.buy,.pillbtn,.buybar,.mopt,.sw-go,.seg button,.chips button,.slip button,.buy-gas,.sw-wallet,.addrchip,.sharebtn{
+    min-height:48px
+  }
+  .chips button,.slip button{padding:8px 12px}
+  .mx{width:48px;height:48px}
+}
+/* Android Ultra-class tall phones (Galaxy S26 Ultra ~412×915+, font-boost ~384×832).
+   Use the extra height — bigger type/mark, punch-hole + gesture-nav safe areas. */
+@media (max-width:500px) and (min-height:800px) and (orientation:portrait){
+  nav{padding-top:max(16px,env(safe-area-inset-top,0px))}
+  .hero-red{padding:32px max(18px,env(safe-area-inset-right,0px)) 72px max(18px,env(safe-area-inset-left,0px));min-height:calc(100dvh - 72px - env(safe-area-inset-top,0px))}
+  .hero-red .steps{font-size:clamp(15px,3.6vw,18px);line-height:1.55}
+  .hero-red h1{font-size:clamp(48px,13.5vw,68px)!important;margin-bottom:22px}
+  .hero-red .lede{font-size:clamp(15px,3.8vw,18px);max-width:36ch}
+  .hero-mark{width:min(74%,300px);margin:10px 0 22px auto}
+  .hero-mark .sticker{width:112px;height:112px;right:-6px;top:-28px}
+  .hero-mark .sticker b{font-size:26px!important}
+  .hero-ctas{gap:12px}
+  .buybar{bottom:max(20px,calc(env(safe-area-inset-bottom,0px) + 12px));min-height:52px;padding:16px}
+  body{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  body.hero-inview{padding-bottom:env(safe-area-inset-bottom,0px)}
+  .mcard{max-height:min(90dvh,calc(100svh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 24px))}
+}
+/* Ultra landscape (~915×412): reuse short-landscape split; nudge margins for gesture edges. */
+@media (orientation:landscape) and (min-width:800px) and (max-height:500px){
+  nav{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+  .hero-red{padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+  .mback{padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+}
 .hero-copy{position:relative;z-index:2;min-width:0}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .hero-addrs{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}

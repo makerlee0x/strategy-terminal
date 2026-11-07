@@ -75,7 +75,11 @@ export const viewport = {
   initialScale: 1,
   viewportFit: 'cover',
   interactiveWidget: 'resizes-content',
-  themeColor: '#d9232e'
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#d9232e' },
+    { media: '(prefers-color-scheme: dark)', color: '#1c0809' },
+    { color: '#d9232e' }
+  ]
 };
 
 export default function L({ children }) {
