@@ -49,6 +49,7 @@ export default function Swap({mock, initialMode='buy'}){
   {lowGas&&<div className="sw-hint" role="status"><span>Low ETH for gas on Robinhood Chain{gasEth!=null?' · '+fmtN(gasEth)+' ETH':''}.</span><button type="button" className="linkbtn" onClick={()=>setTab('bridge')}>Get gas →</button></div>}
   <div className="sw-tool"><span className="k">{mode==='bridge'?'ETH L1 → ETH on Robinhood':mode==='sell'?'Best rate out':'Best rate in'}</span>
   <div className="slip"><span className="k">Slippage</span>{[2,10,15].map(s=><button key={s} className={slip===s&&!custom?'on':''} onClick={()=>{setSlip(s);setCustom('')}}>{s}%</button>)}<input aria-label="Custom slippage %" placeholder="custom" value={custom} inputMode="decimal" onChange={e=>{setCustom(e.target.value);const n=Number(e.target.value);if(n>0&&n<50)setSlip(n)}}/></div></div>
+  <div className="sw-pair">
   <div className="sw-card"><div className="sw-row"><span className="k">You pay · {CHAIN_NAME[payTok.chainId]||('Chain '+payTok.chainId)}</span><span className="k">Bal {mock?'1.2400':bal!=null?fmtN(fromUnits(bal,payTok.decimals)):'—'} {(bal!=null||mock)&&<button className="linkbtn" onClick={()=>{if(mock){setAmt(mode==='bridge'?'0.01':isStable(payTok)?'100':'0.05');return}let b=bal;if(payTok.address===ZERO){const gas=150000000000000n;b=b>gas?b-gas:0n}setAmt(fromUnits(b,payTok.decimals))}}>MAX</button>}</span></div>
    <div className="sw-row"><input className="sw-amt" aria-label="Amount" inputMode="decimal" placeholder="0.0" value={amt} onChange={e=>setAmt(e.target.value.replace(/[^0-9.]/g,''))}/>
    {mode==='buy'?<select aria-label="Pay token" value={tokenKey(pay)} onChange={e=>{const t=byKey[e.target.value];if(t){setPay(t);setAmt('');setQuote(null)}}}>{Object.entries(payGroups).map(([g,toks])=><optgroup key={g} label={g}>{toks.map(t=><option key={tokenKey(t)} value={tokenKey(t)}>{tokLabel(t)}</option>)}</optgroup>)}</select>:mode==='bridge'?<span className="tok">ETH</span>:<span className="tok">{payTok.symbol}</span>}</div>
@@ -57,6 +58,7 @@ export default function Swap({mock, initialMode='buy'}){
   <div className="sw-card"><div className="sw-row"><span className="k">You receive</span><span className="k">Robinhood Chain</span></div>
    <div className="sw-row"><span className="stamp" style={{fontSize:34,margin:0}}>{quote?fmtN(quote.receiveAmount):'—'}</span>{mode==='sell'?<select aria-label="Receive token" value={tokenKey(pay)} onChange={e=>{const t=sellByKey[e.target.value];if(t)setPay(t)}}>{SELL_RECV_TOKENS.map(t=><option key={tokenKey(t)} value={tokenKey(t)}>{t.symbol}</option>)}</select>:<span className="tok">{recvTok.symbol}</span>}</div>
    <div className="sw-row"><span className="k">{quote?'~'+usd(quote.receiveAmountUsd):'—'}</span><span className="k">{payTok.symbol} → {recvTok.symbol}</span></div></div>
+  </div>
   {quote&&<table className="sw-meta"><tbody>
    <tr><td>Best rate</td><td>1 {payTok.symbol} = {fmtN(rate)} {recvTok.symbol}</td></tr>
    <tr><td>Min. received ({slip}%)</td><td>{fmtN(min)} {recvTok.symbol}</td></tr>
